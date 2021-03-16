@@ -80,4 +80,51 @@ package com.programmerare.sweden_crs_transformations_4jvm;
             private CrsProjection(final int epsg) {
                 this.epsg = epsg;
             }
+
+            private final static int epsgForSweref99tm = 3006;
+
+            //private final static int epsgLowerValueForSwerefLocal = 3007; // the NATIONAL sweref99TM has value 3006 as in the above constant
+            //private final static int epsgUpperValueForSwerefLocal = 3018;
+            private final static int epsgLowerValueForSweref = epsgForSweref99tm;
+            private final static int epsgUpperValueForSweref = 3018;
+
+            private final static int epsgLowerValueForRT90 = 3019;
+            private final static int epsgUpperValueForRT90 = 3024;
+
+            /// <summary>
+            /// The EPSG number for the enum instance representing a coordinate reference system.
+            /// The implementation is trivial but it is a convenience method that provides semantic 
+            /// through the method name i.e. what the enum value represents 
+            /// and it also lets the client code avoid to do the casting.
+            /// </summary>
+            /// <returns>
+            /// An EPSG number.
+            /// https://en.wikipedia.org/wiki/EPSG_Geodetic_Parameter_Dataset
+            /// </returns>
+            public int GetEpsgNumber() {
+                // the EPSG numbers have been used as the values in this enum
+                return epsg;
+            }
+
+            /// <summary>
+            /// True if the coordinate reference system is WGS84.
+            /// </summary>
+            public boolean IsWgs84() {
+                return epsg == CrsProjection.wgs84.epsg;
+            }
+
+            /// <summary>
+            /// True if the coordinate reference system is a version of SWEREF99.
+            /// </summary>
+            public boolean IsSweref() {
+                return epsgLowerValueForSweref <= epsg && epsg <= epsgUpperValueForSweref;
+            }
+
+            /// <summary>
+            /// True if the coordinate reference system is a version of RT90.
+            /// </summary>
+            public boolean IsRT90() {
+                return epsgLowerValueForRT90 <= epsg && epsg <= epsgUpperValueForRT90;
+            }
+
     }
