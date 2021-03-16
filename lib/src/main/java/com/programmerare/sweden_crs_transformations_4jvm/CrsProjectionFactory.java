@@ -1,4 +1,4 @@
-﻿/*
+/*
 * Copyright (c) Tomas Johansson , http://www.programmerare.com
 * The code in this library is licensed with MIT.
 * The library is based on the library 'MightyLittleGeodesy' (https://github.com/bjornsallarp/MightyLittleGeodesy/) 
@@ -8,19 +8,17 @@
 * For more information see the webpage below.
 * https://github.com/TomasJohansson/sweden_crs_transformations_4net
 */
+package com.programmerare.sweden_crs_transformations_4jvm;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
+import java.util.Arrays;
+import java.util.List;
 
-namespace SwedenCrsTransformations {
-
-    /// <summary>
+/// <summary>
     /// Class with methods for getting all projections, and for getting one projection by its EPSG number.
     /// (since such custom methods can not be located within the CrsProjection enum type itself)
     /// </summary>
     /// See also <see cref="CrsProjection"/>
-    public static class CrsProjectionFactory {
+    public class CrsProjectionFactory {
     
         /// <summary>
         /// Factory method creating an enum 'CrsProjection' by its number (EPSG) value.
@@ -33,20 +31,20 @@ namespace SwedenCrsTransformations {
         /// </param>
         /// See also <see cref="CrsProjection"/>        
         public static CrsProjection GetCrsProjectionByEpsgNumber(int epsg) {
-            var values = GetAllCrsProjections();
-            foreach(CrsProjection value in values) {
+            List<CrsProjection> values = GetAllCrsProjections();
+            for(CrsProjection value : values) {
                 if(value.GetEpsgNumber() == epsg) {
                     return value;
                 }
             }
-            throw new ArgumentException("Could not find CrsProjection for EPSG " + epsg);
+            throw new IllegalArgumentException("Could not find CrsProjection for EPSG " + epsg);
         }
 
         /// <summary>
         /// Convenience method for retrieving all the projections in a List.
         /// </summary>
-        public static IList<CrsProjection> GetAllCrsProjections() {
-            return ((CrsProjection[])Enum.GetValues(typeof(CrsProjection))).ToList();
+        public static List<CrsProjection> GetAllCrsProjections() {
+            return Arrays.asList(CrsProjection.values());
+            //return ((CrsProjection[])Enum.GetValues(typeof(CrsProjection))).ToList();
         }
     }
-}

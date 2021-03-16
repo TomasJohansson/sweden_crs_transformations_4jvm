@@ -1,90 +1,95 @@
-﻿using NUnit.Framework;
-using SwedenCrsTransformations;
-using System.Collections.Generic;
-using static SwedenCrsTransformationsTests.CrsProjectionFactoryTest; // to be able to use constants such as epsgNumberForSweref99tm and epsgNumberForWgs84
-using static SwedenCrsTransformations.CrsProjection;
-namespace SwedenCrsTransformationsTests {
+package com.programmerare.sweden_crs_transformations_4jvm;
+
+import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.numberOfSweref99projections;
+import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.numberOfWgs84Projections;
+import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.numberOfRT90projections;
+import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.epsgNumberForWgs84;
+import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.epsgNumberForSweref99tm;
+import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjection.*;
+import org.junit.Before;
+import org.junit.Test;
+import java.util.Arrays;
+import java.util.HashSet;
+import static org.junit.Assert.*;
     
-    [TestFixture]
     public class CrsProjectionExtensionsTest {
 
         private HashSet<CrsProjection> _wgs84Projections;
         private HashSet<CrsProjection> _sweref99Projections;
         private HashSet<CrsProjection> _rt90Projections;
 
-        [SetUp]
+        @Before
         public void SetUp() {
-            _wgs84Projections = new HashSet<CrsProjection>{ wgs84 };
-            _sweref99Projections = new HashSet<CrsProjection>{ 
+            _wgs84Projections = new HashSet<CrsProjection>(Arrays.asList(CrsProjection.wgs84));
+            _sweref99Projections = new HashSet<CrsProjection>(Arrays.asList( 
                 sweref_99_12_00, sweref_99_13_30, sweref_99_14_15,
                 sweref_99_15_00, sweref_99_15_45, sweref_99_16_30,
                 sweref_99_17_15, sweref_99_18_00, sweref_99_18_45,
                 sweref_99_20_15, sweref_99_21_45, sweref_99_23_15, sweref_99_tm
-            };
-            _rt90Projections = new HashSet<CrsProjection>{ 
+            ));
+            _rt90Projections = new HashSet<CrsProjection>(Arrays.asList( 
                 rt90_0_0_gon_v, rt90_2_5_gon_o, rt90_2_5_gon_v,
                 rt90_5_0_gon_o, rt90_5_0_gon_v, rt90_7_5_gon_v
-            };
+            ));
         }
 
-        [Test]
+        @Test
         public void GetEpsgNumber() {
-            Assert.AreEqual(
+            assertEquals(
                 epsgNumberForSweref99tm, // constant defined in CrsProjectionFactoryTest
                 CrsProjection.sweref_99_tm.GetEpsgNumber()
             );
 
-            Assert.AreEqual(
+            assertEquals(
                 epsgNumberForWgs84, // constant defined in CrsProjectionFactoryTest
                 CrsProjection.wgs84.GetEpsgNumber()
             );
         }
 
 
-        [Test]
+        @Test
         public void isWgs84() {
-            Assert.AreEqual(numberOfWgs84Projections, _wgs84Projections.Count);
+            assertEquals(numberOfWgs84Projections, _wgs84Projections.size());
 
-            foreach(var item in _wgs84Projections) {
-                Assert.IsTrue(item.IsWgs84());
+            for(CrsProjection item : _wgs84Projections) {
+                assertTrue(item.IsWgs84());
             }
-            foreach(var item in _sweref99Projections) {
-                Assert.IsFalse(item.IsWgs84());
+            for(CrsProjection item : _sweref99Projections) {
+                assertFalse(item.IsWgs84());
             }
-            foreach(var item in _rt90Projections) {
-                Assert.IsFalse(item.IsWgs84());
+            for(CrsProjection item : _rt90Projections) {
+                assertFalse(item.IsWgs84());
             }
         }
 
-        [Test]
+        @Test
         public void isSweref() {
-            Assert.AreEqual(numberOfSweref99projections, _sweref99Projections.Count);
+            assertEquals(numberOfSweref99projections, _sweref99Projections.size());
 
-            foreach(var item in _wgs84Projections) {
-                Assert.IsFalse(item.IsSweref());
+            for(CrsProjection item : _wgs84Projections) {
+                assertFalse(item.IsSweref());
             }
-            foreach(var item in _sweref99Projections) {
-                Assert.IsTrue(item.IsSweref());
+            for(CrsProjection item : _sweref99Projections) {
+                assertTrue(item.IsSweref());
             }
-            foreach(var item in _rt90Projections) {
-                Assert.IsFalse(item.IsSweref());
+            for(CrsProjection item : _rt90Projections) {
+                assertFalse(item.IsSweref());
             }
         }
 
-        [Test]
+        @Test
         public void isRT90() {
-            Assert.AreEqual(numberOfRT90projections, _rt90Projections.Count);
+            assertEquals(numberOfRT90projections, _rt90Projections.size());
 
-            foreach(var item in _wgs84Projections) {
-                Assert.IsFalse(item.IsRT90());
+            for(CrsProjection item : _wgs84Projections) {
+                assertFalse(item.IsRT90());
             }
-            foreach(var item in _sweref99Projections) {
-                Assert.IsFalse(item.IsRT90());
+            for(CrsProjection item : _sweref99Projections) {
+                assertFalse(item.IsRT90());
             }
-            foreach(var item in _rt90Projections) {
-                Assert.IsTrue(item.IsRT90());
+            for(CrsProjection item : _rt90Projections) {
+                assertTrue(item.IsRT90());
             }
         }
 
     }
-}
