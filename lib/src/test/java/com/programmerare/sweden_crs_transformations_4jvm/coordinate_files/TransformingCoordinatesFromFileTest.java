@@ -1,32 +1,31 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using NUnit.Framework;
-using System.IO;
-using SwedenCrsTransformations;
+package com.programmerare.sweden_crs_transformations_4jvm.coordinate_files;
 
-namespace SwedenCrsTransformationsTests.CoordinateFiles {
+import com.google.common.io.Resources;
+import com.programmerare.sweden_crs_transformations_4jvm.CrsCoordinate;
+import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
+import org.junit.Test;
+
+import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static org.junit.Assert.*;
     
-    [TestFixture]
     public class TransformingCoordinatesFromFileTest {
 
-        internal const string columnSeparator = "|";
+        final static String columnSeparator = "\\|";
         
         // the below file "swedish_crs_transformations.csv" was copied from: https://github.com/TomasJohansson/crsTransformations/blob/a1da6c74daf040a521beb32f9f395124ffe76aa6/crs-transformation-adapter-test/src/test/resources/generated/swedish_crs_coordinates.csv
         // and it was generated with a method "createFileWithTransformationResultsForCoordinatesInSweden()" at https://github.com/TomasJohansson/crsTransformations/blob/a1da6c74daf040a521beb32f9f395124ffe76aa6/crs-transformation-adapter-test/src/test/java/com/programmerare/com/programmerare/testData/CoordinateTestDataGeneratedFromEpsgDatabaseTest.java
-        private const string relativePathForFileWith_swedish_crs_transformations = "CoordinateFiles/data/swedish_crs_coordinates.csv";
-        // the project file should use "CopyToOutputDirectory" for the above file
+        private final static String relativePathForFileWith_swedish_crs_transformations = "coordinate_files/swedish_crs_coordinates.csv";
+        // the above file should be located within 'test/resources' i.e. at the path ".../test/resources/coordinate_files/swedish_crs_coordinates.csv"        
 
-
-        [Test]
+        @Test
         public void AssertThatTransformationsDoNotDifferTooMuchFromExpectedResultInFile() {
-            string directory = GetPathToOutputDirectoryWhereTheDataFileShouldBeCopiedToAutomatically();
-            string absolutePathToFile = Path.Combine(directory, relativePathForFileWith_swedish_crs_transformations).Replace('/', Path.DirectorySeparatorChar);
-            FileInfo file = new FileInfo(absolutePathToFile);
-            Assert.IsTrue(file.Exists, "Try the build action 'CopyToOutputDirectory' ! . The file could not be found: " + file.FullName);
-
-            IList<string> problemTransformationResults = new List<string>();
-            IList<string> lines = File.ReadAllLines(file.FullName);
+            List<String> problemTransformationResults = new ArrayList<String>();
+            List<String> lines = this.readAllLinesFromResourceFile(relativePathForFileWith_swedish_crs_transformations);
             // The first two lines of the input file (the header row, and a data row):
                 // EPSG 4326 (WGS84)Longitude for WGS84 (EPSG 4326)|Latitude for WGS84 (EPSG 4326)|EPSG 3006|X for EPSG 3006|Y for EPSG 3006|EPSG 3007-3024|X for EPSG 3007-3024|Y for EPSG 3007-3024|Implementation count for EPSG 3006 transformation|Implementation count for EPSG 3007-3024 transformation
                 // 4326|12.146151472138385|58.46573396912418|3006|333538.2957000149|6484098.2550872|3007|158529.85136620898|6483166.205771873|6|6
@@ -40,28 +39,30 @@ namespace SwedenCrsTransformationsTests.CoordinateFiles {
             // and verifies the expected result according to the file, and asserts with an error if the difference is too big.
             // Note that the expected coordinates have been calculated in another project, by using a median value for 6 different implementations.
             // (and the number 6 is actually what the last columns means i.e. how many implementations were used to create the data file)
-            IList<Coordinates> listOfCoordinates = lines.Select(line => new Coordinates(line)).Skip(1).ToList();
-            Assert.AreEqual(18, listOfCoordinates.Count);
+            List<Coordinates> listOfCoordinates = lines.stream() //line => new Coordinates(line)).Skip(1).ToList();
+                .skip(1)
+                .map(line -> new Coordinates(line))
+                .collect(Collectors.toList());
+            assertEquals(18, listOfCoordinates.size());
             int numberOfTransformations = 0;
-            foreach(var listOfCoordinatesWhichRepresentTheSameLocation in listOfCoordinates) {
-                IList<CrsCoordinate> coordinates = listOfCoordinatesWhichRepresentTheSameLocation.coordinateList;
-                for(int i=0; i<coordinates.Count-1; i++) {
-                    for(int j=i+1; j<coordinates.Count; j++) {
-                        Transform(coordinates[i], coordinates[j], problemTransformationResults);
-                        Transform(coordinates[j], coordinates[i], problemTransformationResults);
+            for (Coordinates listOfCoordinatesWhichRepresentTheSameLocation : listOfCoordinates) {
+                List<CrsCoordinate> coordinates = listOfCoordinatesWhichRepresentTheSameLocation.coordinateList;
+                for(int i=0; i<coordinates.size()-1; i++) {
+                    for(int j=i+1; j<coordinates.size(); j++) {
+                        Transform(coordinates.get(i), coordinates.get(j), problemTransformationResults);
+                        Transform(coordinates.get(j), coordinates.get(i), problemTransformationResults);
                         numberOfTransformations += 2;
                     }
                 }
-
             }
-            if (problemTransformationResults.Count > 0) {
-                foreach (string s in problemTransformationResults) {
-                    Console.WriteLine(s);
+            if (problemTransformationResults.size() > 0) {
+                for (String s : problemTransformationResults) {
+                    System.out.println(s);
                 }
             }
-            Assert.AreEqual(0, problemTransformationResults.Count, "For further details see the Console output");
+            assertEquals("For further details see the Console output",0, problemTransformationResults.size());
             
-            const int expectedNumberOfTransformations = 108; // for an explanation, see the lines below:
+            final int expectedNumberOfTransformations = 108; // for an explanation, see the lines below:
             // Each line in the input file "swedish_crs_coordinates.csv" has three coordinates (and let's below call then A B C)
             // and then for each line we should have done six number of transformations:
             // A ==> B
@@ -70,63 +71,69 @@ namespace SwedenCrsTransformationsTests.CoordinateFiles {
             // (and three more in the opposite directions)
             // And there are 18 local CRS for sweden (i.e number of data rows in the file)
             // Thus the total number of transformations should be 18 * 6 = 108
-            Assert.AreEqual(expectedNumberOfTransformations, numberOfTransformations);
+            assertEquals(expectedNumberOfTransformations, numberOfTransformations);
         }
-
-
 
         private void Transform(
             CrsCoordinate sourceCoordinate,
             CrsCoordinate targetCoordinateExpected,
-            IList<string> problemTransformationResults
+            List<String> problemTransformationResults
         ) {
-            CrsProjection targetCrs = targetCoordinateExpected.CrsProjection;
+            CrsProjection targetCrs = targetCoordinateExpected.getCrsProjection();
             CrsCoordinate targetCoordinate = sourceCoordinate.Transform(targetCrs);
-            bool isTargetEpsgWgs84 = targetCrs.IsWgs84();
+            boolean isTargetEpsgWgs84 = targetCrs.IsWgs84();
             // double maxDifference = isTargetEpsgWgs84 ? 0.000002 : 0.2;   // fails, Epsg 3022 ==> 4326 , diffLongitude 2.39811809521484E-06
             // double maxDifference = isTargetEpsgWgs84 ? 0.000003 : 0.1;     // fails, Epsg 4326 ==> 3022 , diffLongitude 0.117090131156147
             double maxDifference = isTargetEpsgWgs84 ? 0.000003 : 0.2; // the other (i.e. non-WGS84) are using meter as unit, so 0.2 is just two decimeters difference
-            double diffLongitude = Math.Abs((targetCoordinate.LongitudeX - targetCoordinateExpected.LongitudeX));
-            double diffLatitude = Math.Abs((targetCoordinate.LatitudeY - targetCoordinateExpected.LatitudeY));
+            double diffLongitude = Math.abs((targetCoordinate.getLongitudeX() - targetCoordinateExpected.getLongitudeX()));
+            double diffLatitude = Math.abs((targetCoordinate.getLatitudeY() - targetCoordinateExpected.getLatitudeY()));
 
             if (diffLongitude > maxDifference || diffLatitude > maxDifference) {
-                string problem = string.Format(
+                String problem = String.format(
                     "Projection {0} ==> {1} , diffLongitude {2}  , diffLatitude {3}"
                     + "sourceCoordinate xLongitude/yLatitude: {4}/{5}" 
                     + "targetCoordinate xLongitude/yLatitude: {6}/{7}" 
                     + "targetCoordinateExpected xLongitude/yLatitude: {8}/{9}",
-                    sourceCoordinate.CrsProjection, targetCoordinateExpected.CrsProjection,
+                    sourceCoordinate.getCrsProjection(), targetCoordinateExpected.getCrsProjection(),
                     diffLongitude, diffLatitude,
-                    sourceCoordinate.LongitudeX, sourceCoordinate.LatitudeY,
-                    targetCoordinate.LongitudeX, targetCoordinate.LatitudeY,
-                    targetCoordinateExpected.LongitudeX, targetCoordinateExpected.LatitudeY
+                    sourceCoordinate.getLongitudeX(), sourceCoordinate.getLatitudeY(),
+                    targetCoordinate.getLongitudeX(), targetCoordinate.getLatitudeY(),
+                    targetCoordinateExpected.getLongitudeX(), targetCoordinateExpected.getLatitudeY()
                 );
-                problemTransformationResults.Add(problem);
+                problemTransformationResults.add(problem);
             }
         }
 
-        private string GetPathToOutputDirectoryWhereTheDataFileShouldBeCopiedToAutomatically() {
-            string pathToOutputDirectory= Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            // e.g. a path ending with something like this: "... SwedenCrsTransformationsTests\bin\Debug\netcoreapp2.1"
-            return pathToOutputDirectory;
+        // example of the path parameter for the below method:
+        //      "coordinate_files/swedish_crs_coordinates.csv"
+        // Then that file must exist within "test/resources" i.e. the file
+        // must then exist at the following path:
+        //      ".../test/resources/coordinate_files/swedish_crs_coordinates.csv"
+        private List<String> readAllLinesFromResourceFile(String pathForResourceFile) {
+            try {
+                URL url = Resources.getResource(pathForResourceFile);
+                return Resources.readLines(url, Charset.forName("UTF-8"));                
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
    }
 
-    internal class Coordinates {
-        internal readonly List<CrsCoordinate> coordinateList;
-        internal Coordinates(
-            string lineFromFile
+    class Coordinates {
+        final List<CrsCoordinate> coordinateList;
+        Coordinates(
+            String lineFromFile
         ) {
-            var array = lineFromFile.Split(TransformingCoordinatesFromFileTest.columnSeparator);
-            coordinateList = new List<CrsCoordinate> {
+            String[] array = lineFromFile.split(TransformingCoordinatesFromFileTest.columnSeparator);
+            coordinateList = Arrays.asList(
                 // Note that the order of the parameters in the input file (with its lines being used here)
                 // are in the order x/Longitude first, but the create method below takes the y/Latitude first
                 // (and therefore the parameters are not in the sequential order regarding the array indexes)
-                CrsCoordinate.CreateCoordinate(int.Parse(array[0]), double.Parse(array[2]), double.Parse(array[1])),
-                CrsCoordinate.CreateCoordinate(int.Parse(array[3]), double.Parse(array[5]), double.Parse(array[4])),
-                CrsCoordinate.CreateCoordinate(int.Parse(array[6]), double.Parse(array[8]), double.Parse(array[7]))
-            };
+                CrsCoordinate.CreateCoordinate(Integer.parseInt(array[0]), Double.parseDouble(array[2]), Double.parseDouble(array[1])),
+                CrsCoordinate.CreateCoordinate(Integer.parseInt(array[3]), Double.parseDouble(array[5]), Double.parseDouble(array[4])),
+                CrsCoordinate.CreateCoordinate(Integer.parseInt(array[6]), Double.parseDouble(array[8]), Double.parseDouble(array[7]))
+            );
         }
+
     }
 
-}
