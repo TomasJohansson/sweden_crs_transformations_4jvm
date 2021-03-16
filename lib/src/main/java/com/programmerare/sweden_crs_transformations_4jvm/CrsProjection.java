@@ -8,8 +8,8 @@
 * For more information see the webpage below.
 * https://github.com/TomasJohansson/sweden_crs_transformations_4net
 */
+package com.programmerare.sweden_crs_transformations_4jvm;
 
-namespace SwedenCrsTransformations {
 
     /// <summary>
     /// Crs = Coordinate reference system.
@@ -35,7 +35,7 @@ namespace SwedenCrsTransformations {
             /// https://spatialreference.org/ref/epsg/4326/
             /// https://en.wikipedia.org/wiki/World_Geodetic_System#A_new_World_Geodetic_System:_WGS_84
             /// </summary>
-            wgs84 = 4326,
+            wgs84(4326),
 
             /// <summary>
             /// "SWEREF 99 TM" (with EPSG code 3006) is the new national projection.
@@ -44,36 +44,40 @@ namespace SwedenCrsTransformations {
             /// https://epsg.io/3006
             /// https://spatialreference.org/ref/epsg/3006/
             /// </summary>
-            sweref_99_tm = 3006, // national sweref99 CRS
+            sweref_99_tm(3006), // national sweref99 CRS
 
             // local sweref99 systems (the new swedish national system):
-            sweref_99_12_00 = 3007,
-            sweref_99_13_30 = 3008,
-            sweref_99_15_00 = 3009,
-            sweref_99_16_30 = 3010,
-            sweref_99_18_00 = 3011,
-            sweref_99_14_15 = 3012,
-            sweref_99_15_45 = 3013,
-            sweref_99_17_15 = 3014,
-            sweref_99_18_45 = 3015,
-            sweref_99_20_15 = 3016,
-            sweref_99_21_45 = 3017,
-            sweref_99_23_15 = 3018,
+            sweref_99_12_00(3007),
+            sweref_99_13_30(3008),
+            sweref_99_15_00(3009),
+            sweref_99_16_30(3010),
+            sweref_99_18_00(3011),
+            sweref_99_14_15(3012),
+            sweref_99_15_45(3013),
+            sweref_99_17_15(3014),
+            sweref_99_18_45(3015),
+            sweref_99_20_15(3016),
+            sweref_99_21_45(3017),
+            sweref_99_23_15(3018),
 
             
             // local RT90 systems (the old swedish national system):
-            rt90_7_5_gon_v = 3019,
-            rt90_5_0_gon_v = 3020,
+            rt90_7_5_gon_v(3019),
+            rt90_5_0_gon_v(3020),
  
             /// <summary>
             /// https://epsg.org/crs_3021/RT90-2-5-gon-V.html
             /// https://epsg.io/3021
             /// https://spatialreference.org/ref/epsg/3021/
             /// </summary>
-            rt90_2_5_gon_v = 3021,
+            rt90_2_5_gon_v(3021),
 
-            rt90_0_0_gon_v = 3022,
-            rt90_2_5_gon_o = 3023,
-            rt90_5_0_gon_o = 3024
+            rt90_0_0_gon_v(3022),
+            rt90_2_5_gon_o(3023),
+            rt90_5_0_gon_o(3024);
+
+            private final int epsg;
+            private CrsProjection(final int epsg) {
+                this.epsg = epsg;
+            }
     }
-}

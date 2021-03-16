@@ -16,6 +16,7 @@ namespace SwedenCrsTransformations {
     /// See also <see cref="CrsProjection"/>
     /// </summary>
     public static class CrsProjectionExtensions {
+        // TODO move the code in this C#.NET extension class into the Java enum itself 
 
         private const int epsgForSweref99tm = 3006;
 
