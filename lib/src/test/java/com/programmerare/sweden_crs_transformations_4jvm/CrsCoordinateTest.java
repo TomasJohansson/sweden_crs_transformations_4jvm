@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using SwedenCrsTransformations;
 using System;
 using System.Collections.Generic;
