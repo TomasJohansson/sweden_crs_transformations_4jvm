@@ -1,26 +1,33 @@
-using NUnit.Framework;
-using SwedenCrsTransformations;
-using System;
-using System.Collections.Generic;
-using static SwedenCrsTransformationsTests.CrsProjectionFactoryTest; // to be able to use constants such as epsgNumberForSweref99tm
+package com.programmerare.sweden_crs_transformations_4jvm;
 
-namespace SwedenCrsTransformationsTests {
-    
-    [TestFixture]
+import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.numberOfSweref99projections;
+import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.numberOfWgs84Projections;
+import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.numberOfRT90projections;
+import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.epsgNumberForWgs84;
+import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.epsgNumberForSweref99tm;
+import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjection.*;
+import org.junit.Before;
+import org.junit.Test;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+
+import static org.junit.Assert.*;
+
     public class CrsCoordinateTest {
 
         // https://kartor.eniro.se/m/XRCfh
             //WGS84 decimal (lat, lon)      59.330231, 18.059196
             //RT90 (nord, öst)              6580994, 1628294
             //SWEREF99 TM (nord, öst)       6580822, 674032
-        private const double stockholmCentralStation_WGS84_latitude = 59.330231;
-        private const double stockholmCentralStation_WGS84_longitude = 18.059196;
-        private const double stockholmCentralStation_RT90_northing = 6580994;
-        private const double stockholmCentralStation_RT90_easting = 1628294;
-        private const double stockholmCentralStation_SWEREF99TM_northing = 6580822;
-        private const double stockholmCentralStation_SWEREF99TM_easting = 674032;
+        private final static double stockholmCentralStation_WGS84_latitude = 59.330231;
+        private final static double stockholmCentralStation_WGS84_longitude = 18.059196;
+        private final static double stockholmCentralStation_RT90_northing = 6580994;
+        private final static double stockholmCentralStation_RT90_easting = 1628294;
+        private final static double stockholmCentralStation_SWEREF99TM_northing = 6580822;
+        private final static double stockholmCentralStation_SWEREF99TM_easting = 674032;
 
-        [Test]
+        @Test
         public void Transform() {
             CrsCoordinate stockholmWGS84 = CrsCoordinate.CreateCoordinate(
                 CrsProjection.wgs84,
@@ -79,48 +86,50 @@ namespace SwedenCrsTransformationsTests {
         }
 
         private void AssertEqual(CrsCoordinate crsCoordinate_1, CrsCoordinate crsCoordinate_2)  {
-            string messageToDisplayIfAssertionFails = "crsCoordinate_1: " + crsCoordinate_1 + " , crsCoordinate_2 : " + crsCoordinate_2;
-            Assert.AreEqual(crsCoordinate_1.CrsProjection, crsCoordinate_2.CrsProjection, messageToDisplayIfAssertionFails);
-            double maxDifference = crsCoordinate_1.CrsProjection.IsWgs84() ? 0.000007 : 0.5; // the other (i.e. non-WGS84) value is using meter as unit, so 0.5 is just five decimeters difference
-            double diffLongitude = Math.Abs((crsCoordinate_1.LongitudeX - crsCoordinate_2.LongitudeX));
-            double diffLatitude = Math.Abs((crsCoordinate_1.LatitudeY - crsCoordinate_2.LatitudeY));            
-            Assert.IsTrue(diffLongitude < maxDifference, messageToDisplayIfAssertionFails);
-            Assert.IsTrue(diffLatitude < maxDifference, messageToDisplayIfAssertionFails);
+            String messageToDisplayIfAssertionFails = "crsCoordinate_1: " + crsCoordinate_1 + " , crsCoordinate_2 : " + crsCoordinate_2;
+            assertEquals(messageToDisplayIfAssertionFails, crsCoordinate_1.getCrsProjection(), crsCoordinate_2.getCrsProjection());
+            double maxDifference = crsCoordinate_1.getCrsProjection().IsWgs84() ? 0.000007 : 0.5; // the other (i.e. non-WGS84) value is using meter as unit, so 0.5 is just five decimeters difference
+            double diffLongitude = Math.abs((crsCoordinate_1.getLongitudeX() - crsCoordinate_2.getLongitudeX()));
+            double diffLatitude = Math.abs((crsCoordinate_1.getLatitudeY() - crsCoordinate_2.getLatitudeY()));
+            assertTrue(messageToDisplayIfAssertionFails, diffLongitude < maxDifference);
+            assertTrue(messageToDisplayIfAssertionFails, diffLatitude < maxDifference);
         }
 
-        
-        [Test]
+
+        @Test
         public void CreateCoordinateByEpsgNumber() {
-            const double x = 20.0;
-            const double y = 60.0;
+            final double x = 20.0;
+            final double y = 60.0;
             CrsCoordinate crsCoordinate = CrsCoordinate.CreateCoordinate(epsgNumberForSweref99tm, y, x);
-            Assert.AreEqual(epsgNumberForSweref99tm, crsCoordinate.CrsProjection.GetEpsgNumber());
-            Assert.AreEqual(x, crsCoordinate.LongitudeX);
-            Assert.AreEqual(y, crsCoordinate.LatitudeY);
+            assertEquals(epsgNumberForSweref99tm, crsCoordinate.getCrsProjection().GetEpsgNumber());
+            final double delta = 0.000001;
+            assertEquals(x, crsCoordinate.getLongitudeX(), delta);
+            assertEquals(y, crsCoordinate.getLatitudeY(), delta);
         }
 
-        [Test]
+        @Test
         public void CreateCoordinate() {
-            const double x = 22.5;
-            const double y = 62.5;
+            final double x = 22.5;
+            final double y = 62.5;
             CrsCoordinate crsCoordinate = CrsCoordinate.CreateCoordinate(CrsProjection.sweref_99_tm, y, x);
-            Assert.AreEqual(epsgNumberForSweref99tm, crsCoordinate.CrsProjection.GetEpsgNumber());
-            Assert.AreEqual(CrsProjection.sweref_99_tm, crsCoordinate.CrsProjection);
-            Assert.AreEqual(x, crsCoordinate.LongitudeX);
-            Assert.AreEqual(y, crsCoordinate.LatitudeY);
+            assertEquals(epsgNumberForSweref99tm, crsCoordinate.getCrsProjection().GetEpsgNumber());
+            assertEquals(CrsProjection.sweref_99_tm, crsCoordinate.getCrsProjection());
+            final double delta = 0.000001;
+            assertEquals(x, crsCoordinate.getLongitudeX(), delta);
+            assertEquals(y, crsCoordinate.getLatitudeY(), delta);
         }
 
 
-        [Test]
+        @Test
         public void EqualityTest() {
             CrsCoordinate coordinateInstance_1 = CrsCoordinate.CreateCoordinate(CrsProjection.wgs84, stockholmCentralStation_WGS84_longitude, stockholmCentralStation_WGS84_latitude);
             CrsCoordinate coordinateInstance_2 = CrsCoordinate.CreateCoordinate(CrsProjection.wgs84, stockholmCentralStation_WGS84_longitude, stockholmCentralStation_WGS84_latitude);
-            Assert.AreEqual(coordinateInstance_1, coordinateInstance_2);
-            Assert.AreEqual(coordinateInstance_1.GetHashCode(), coordinateInstance_2.GetHashCode());
-            Assert.IsTrue(coordinateInstance_1 == coordinateInstance_2);
-            Assert.IsTrue(coordinateInstance_2 == coordinateInstance_1);
-            Assert.IsTrue(coordinateInstance_1.Equals(coordinateInstance_2));
-            Assert.IsTrue(coordinateInstance_2.Equals(coordinateInstance_1));
+            assertEquals(coordinateInstance_1, coordinateInstance_2);
+            assertEquals(coordinateInstance_1.hashCode(), coordinateInstance_2.hashCode());
+            assertTrue(coordinateInstance_1 == coordinateInstance_2);
+            assertTrue(coordinateInstance_2 == coordinateInstance_1);
+            assertTrue(coordinateInstance_1.equals(coordinateInstance_2));
+            assertTrue(coordinateInstance_2.equals(coordinateInstance_1));
 
 
             double delta = 0.000000000000001; // see comments further below regarding the value of "delta"
@@ -129,12 +138,12 @@ namespace SwedenCrsTransformationsTests {
                 stockholmCentralStation_WGS84_longitude + delta,
                 stockholmCentralStation_WGS84_latitude + delta
             );
-            Assert.AreEqual(coordinateInstance_1, coordinateInstance_3);
-            Assert.AreEqual(coordinateInstance_1.GetHashCode(), coordinateInstance_3.GetHashCode());
-            Assert.IsTrue(coordinateInstance_1 == coordinateInstance_3); // method "operator =="
-            Assert.IsTrue(coordinateInstance_3 == coordinateInstance_1);
-            Assert.IsTrue(coordinateInstance_1.Equals(coordinateInstance_3));
-            Assert.IsTrue(coordinateInstance_3.Equals(coordinateInstance_1));
+            assertEquals(coordinateInstance_1, coordinateInstance_3);
+            assertEquals(coordinateInstance_1.hashCode(), coordinateInstance_3.hashCode());
+            assertTrue(coordinateInstance_1 == coordinateInstance_3); // method "operator =="
+            assertTrue(coordinateInstance_3 == coordinateInstance_1);
+            assertTrue(coordinateInstance_1.equals(coordinateInstance_3));
+            assertTrue(coordinateInstance_3.equals(coordinateInstance_1));
 
             // Regarding the chosen value for "delta" (which is added to the lon/lat values, to create a slightly different value) above and below,
             // it is because of experimentation this "breakpoint" value has been determined, i.e. the above value still resulted in equality 
@@ -150,46 +159,48 @@ namespace SwedenCrsTransformationsTests {
                 stockholmCentralStation_WGS84_latitude + delta
             );
             // Note that below are the Are*NOT*Equal assertions made instead of AreEqual as further above when a smaller delta value was used
-            Assert.AreNotEqual(coordinateInstance_1, coordinateInstance_4);
-            Assert.AreNotEqual(coordinateInstance_1.GetHashCode(), coordinateInstance_4.GetHashCode());
-            Assert.IsTrue(coordinateInstance_1 != coordinateInstance_4); // Note that the method "operator !=" becomes used here
-            Assert.IsTrue(coordinateInstance_4 != coordinateInstance_1);
-            Assert.IsFalse(coordinateInstance_1.Equals(coordinateInstance_4));
-            Assert.IsFalse(coordinateInstance_4.Equals(coordinateInstance_1));
+            assertNotEquals(coordinateInstance_1, coordinateInstance_4);
+            assertNotEquals(coordinateInstance_1.hashCode(), coordinateInstance_4.hashCode());
+            assertTrue(coordinateInstance_1 != coordinateInstance_4); // Note that the method "operator !=" becomes used here
+            assertTrue(coordinateInstance_4 != coordinateInstance_1);
+            assertFalse(coordinateInstance_1.equals(coordinateInstance_4));
+            assertFalse(coordinateInstance_4.equals(coordinateInstance_1));
         }
 
 
-        [Test]
+        @Test
         public void ToStringTest() {
             CrsCoordinate coordinate = CrsCoordinate.CreateCoordinate(CrsProjection.sweref_99_18_00, 6579457.649, 153369.673);
-            Assert.AreEqual(
+            assertEquals(
                 "CrsCoordinate [ Y: 6579457.649 , X: 153369.673 , CRS: SWEREF_99_18_00 ]",
-                coordinate.ToString()
+                coordinate.toString()
             );
             CrsCoordinate coordinate2 = CrsCoordinate.CreateCoordinate(CrsProjection.wgs84, 59.330231, 18.059196);
-            const string expectedDefaultToStringResultForCoordinate2 = "CrsCoordinate [ Latitude: 59.330231 , Longitude: 18.059196 , CRS: WGS84 ]";
-            Assert.AreEqual(
+            final String expectedDefaultToStringResultForCoordinate2 = "CrsCoordinate [ Latitude: 59.330231 , Longitude: 18.059196 , CRS: WGS84 ]";
+            assertEquals(
                 expectedDefaultToStringResultForCoordinate2 ,
-                coordinate2.ToString()
+                coordinate2.toString()
             );
             // now testing the same coordinate as above but with a custom 'ToString' implementation
-            CrsCoordinate.SetToStringImplementation(myCustomToStringMethod);
-            Assert.AreEqual(
-                "18.059196 , 59.330231",
-                coordinate2.ToString()
-            );
-            CrsCoordinate.SetToStringImplementationDefault(); // restores the default 'ToString' implementation
-            Assert.AreEqual(
-                expectedDefaultToStringResultForCoordinate2 ,
-                coordinate2.ToString()
-            );
+            // TODO JVM implementation of the code below
+//            CrsCoordinate.SetToStringImplementation(myCustomToStringMethod);
+//            assertEquals(
+//                "18.059196 , 59.330231",
+//                coordinate2.toString()
+//            );
+//            CrsCoordinate.SetToStringImplementationDefault(); // restores the default 'ToString' implementation
+//            assertEquals(
+//                expectedDefaultToStringResultForCoordinate2 ,
+//                coordinate2.toString()
+//            );
         }
 
-        private string myCustomToStringMethod(CrsCoordinate coordinate) {
-            return string.Format(
+        private String myCustomToStringMethod(CrsCoordinate coordinate) {
+            // TODO implement and test
+            return String.format(
                 "{0} , {1}",
-                    coordinate.LongitudeX,
-                    coordinate.LatitudeY
+                    coordinate.getLongitudeX(),
+                    coordinate.getLatitudeY()
             );
         }
 
@@ -205,17 +216,17 @@ namespace SwedenCrsTransformationsTests {
             );
 
             CrsCoordinate stockholmSweref99tm = stockholmWGS84.Transform(CrsProjection.sweref_99_tm);
-            Console.WriteLine("stockholmSweref99tm X: " + stockholmSweref99tm.LongitudeX);
-            Console.WriteLine("stockholmSweref99tm Y: " + stockholmSweref99tm.LatitudeY);
-            Console.WriteLine("stockholmSweref99tm 'ToString': " + stockholmSweref99tm.ToString());
+            System.out.println("stockholmSweref99tm X: " + stockholmSweref99tm.getLongitudeX());
+            System.out.println("stockholmSweref99tm Y: " + stockholmSweref99tm.getLatitudeY());
+            System.out.println("stockholmSweref99tm 'ToString': " + stockholmSweref99tm.toString());
             // Output from the above:
             //stockholmSweref99tm X: 674032.357
             //stockholmSweref99tm Y: 6580821.991
             //stockholmSweref99tm 'ToString': CrsCoordinate [ Y: 6580821.991 , X: 674032.357 , CRS: SWEREF_99_TM ]
 
-            IList<CrsProjection> allProjections = CrsProjectionFactory.GetAllCrsProjections();
-            foreach(var crsProjection in allProjections) {
-                Console.WriteLine(stockholmWGS84.Transform(crsProjection));
+            List<CrsProjection> allProjections = CrsProjectionFactory.GetAllCrsProjections();
+            for(CrsProjection crsProjection : allProjections) {
+                System.out.println(stockholmWGS84.Transform(crsProjection));
             }
             // Output from the above loop:
             //CrsCoordinate [ Y: 6580821.991 , X: 674032.357 , CRS: SWEREF_99_TM ]
@@ -240,4 +251,3 @@ namespace SwedenCrsTransformationsTests {
             //CrsCoordinate [ Latitude: 59.330231 , Longitude: 18.059196 , CRS: WGS84 ]
         }
     }
-}

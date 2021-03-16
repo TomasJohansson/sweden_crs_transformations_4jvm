@@ -8,32 +8,41 @@
 * For more information see the webpage below.
 * https://github.com/TomasJohansson/sweden_crs_transformations_4net
 */
+package com.programmerare.sweden_crs_transformations_4jvm;
 
-using SwedenCrsTransformations.Transformation;
-using System;
-using System.Collections.Generic;
-
-namespace SwedenCrsTransformations {
+//using SwedenCrsTransformations.Transformation;
+//using System;
+//using System.Collections.Generic;
 
     /// <summary>
     /// Coordinate, defined by the three parameters for the factory methods.
     /// </summary>
-    public class CrsCoordinate : IEquatable<CrsCoordinate> {
+    public class CrsCoordinate {
+        
+        private final CrsProjection crsProjection;
+        private final double yLatitude;
+        private final double xLongitude;
 
         /// <summary>
         /// The coordinate reference system that defines the location together with the other two properties (LongitudeX and LatitudeY).
         /// </summary>
-        public CrsProjection CrsProjection { get; private set; }
+        public CrsProjection getCrsProjection() {
+            return crsProjection;
+        }
         
         /// <summary>
         /// The coordinate value representing the longitude or X or Easting.
         /// </summary>    
-        public double LongitudeX { get; private set; }
+        public double getLongitudeX() {
+            return xLongitude;
+        }
 
         /// <summary>
         /// The coordinate value representing the latitude or Y or Northing.
         /// </summary>
-        public double LatitudeY { get; private set; }
+        public double getLatitudeY() {
+            return yLatitude;
+        }
 
         /// <summary>
         /// Private constructor. Client code must instead use the public factory methods.
@@ -43,9 +52,9 @@ namespace SwedenCrsTransformations {
             double yLatitude,
             double xLongitude
         ) {
-            this.CrsProjection = crsProjection;
-            this.LatitudeY = yLatitude;
-            this.LongitudeX = xLongitude;
+            this.crsProjection = crsProjection;
+            this.yLatitude = yLatitude;
+            this.xLongitude = xLongitude;
         }
 
         /// <summary>
@@ -97,32 +106,32 @@ namespace SwedenCrsTransformations {
 
         // ----------------------------------------------------------------------------------------------------------------------
         // These five methods below was generated with Visual Studio 2019
-        public override bool Equals(object obj) {
-            return Equals(obj as CrsCoordinate);
-        }
-
-        public bool Equals(CrsCoordinate other) {
-            return other != null &&
-                   CrsProjection == other.CrsProjection &&
-                   LongitudeX == other.LongitudeX &&
-                   LatitudeY == other.LatitudeY;
-        }
-
-        public override int GetHashCode() {
-            int hashCode = 1147467376;
-            hashCode = hashCode * -1521134295 + CrsProjection.GetHashCode();
-            hashCode = hashCode * -1521134295 + LongitudeX.GetHashCode();
-            hashCode = hashCode * -1521134295 + LatitudeY.GetHashCode();
-            return hashCode;
-        }
-
-        public static bool operator ==(CrsCoordinate left, CrsCoordinate right) {
-            return EqualityComparer<CrsCoordinate>.Default.Equals(left, right);
-        }
-
-        public static bool operator !=(CrsCoordinate left, CrsCoordinate right) {
-            return !(left == right);
-        }
+//        public override bool Equals(object obj) {
+//            return Equals(obj as CrsCoordinate);
+//        }
+//
+//        public bool Equals(CrsCoordinate other) {
+//            return other != null &&
+//                   CrsProjection == other.CrsProjection &&
+//                   LongitudeX == other.LongitudeX &&
+//                   LatitudeY == other.LatitudeY;
+//        }
+//
+//        public override int GetHashCode() {
+//            int hashCode = 1147467376;
+//            hashCode = hashCode * -1521134295 + CrsProjection.GetHashCode();
+//            hashCode = hashCode * -1521134295 + LongitudeX.GetHashCode();
+//            hashCode = hashCode * -1521134295 + LatitudeY.GetHashCode();
+//            return hashCode;
+//        }
+//
+//        public static bool operator ==(CrsCoordinate left, CrsCoordinate right) {
+//            return EqualityComparer<CrsCoordinate>.Default.Equals(left, right);
+//        }
+//
+//        public static bool operator !=(CrsCoordinate left, CrsCoordinate right) {
+//            return !(left == right);
+//        }
 
         // These five methods above was generated with Visual Studio 2019
         // ----------------------------------------------------------------------------------------------------------------------
@@ -132,40 +141,48 @@ namespace SwedenCrsTransformations {
         /// "CrsCoordinate [ X: 153369.673 , Y: 6579457.649 , CRS: SWEREF_99_18_00 ]"
         /// "CrsCoordinate [ Longitude: 18.059196 , Latitude: 59.330231 , CRS: WGS84 ]"
         /// </summary>
-        public override string ToString() {
-            return _toStringImplementation(this);
+        @Override
+        public String toString() {
+            return "TODO";//_toStringImplementation(this);
         }
 
-        private static Func<CrsCoordinate, string> _toStringImplementation = defaultToStringImplementation;
-        
-        private static string defaultToStringImplementation(CrsCoordinate coordinate) {
-            string crs = coordinate.CrsProjection.ToString().ToUpper();
-            bool isWgs84 =  coordinate.CrsProjection.IsWgs84();
-            string yOrLatitude = isWgs84 ? "Latitude" : "Y";
-            string xOrLongitude = isWgs84 ? "Longitude" : "X";
-            return string.Format(
-                "{0} [ {1}: {2} , {3}: {4} , CRS: {5} ]",
-                    nameof(CrsCoordinate),  // 0
-                    yOrLatitude,            // 1
-                    coordinate.LatitudeY,   // 2
-                    xOrLongitude,           // 3
-                    coordinate.LongitudeX,  // 4
-                    crs                     // 5
-            );
-        }
+//        private static Func<CrsCoordinate, string> _toStringImplementation = defaultToStringImplementation;
+//        
+//        private static string defaultToStringImplementation(CrsCoordinate coordinate) {
+//            string crs = coordinate.CrsProjection.ToString().ToUpper();
+//            bool isWgs84 =  coordinate.CrsProjection.IsWgs84();
+//            string yOrLatitude = isWgs84 ? "Latitude" : "Y";
+//            string xOrLongitude = isWgs84 ? "Longitude" : "X";
+//            return string.Format(
+//                "{0} [ {1}: {2} , {3}: {4} , CRS: {5} ]",
+//                    nameof(CrsCoordinate),  // 0
+//                    yOrLatitude,            // 1
+//                    coordinate.LatitudeY,   // 2
+//                    xOrLongitude,           // 3
+//                    coordinate.LongitudeX,  // 4
+//                    crs                     // 5
+//            );
+//        }
+//
+//        /// <summary>
+//        /// Sets a custom method to be used for rendering an instance when the 'ToString' method is used.
+//        /// </summary>
+//        public static void SetToStringImplementation(Func<CrsCoordinate, string> toStringImplementation) {
+//            _toStringImplementation = toStringImplementation;
+//        }
+//
+//        /// <summary>
+//        /// Sets the default method to be used for rendering an instance when the 'ToString' method is used.
+//        /// </summary>
+//        public static void SetToStringImplementationDefault() { 
+//            _toStringImplementation = defaultToStringImplementation;
+//        }
+    }
 
-        /// <summary>
-        /// Sets a custom method to be used for rendering an instance when the 'ToString' method is used.
-        /// </summary>
-        public static void SetToStringImplementation(Func<CrsCoordinate, string> toStringImplementation) {
-            _toStringImplementation = toStringImplementation;
-        }
-
-        /// <summary>
-        /// Sets the default method to be used for rendering an instance when the 'ToString' method is used.
-        /// </summary>
-        public static void SetToStringImplementationDefault() { 
-            _toStringImplementation = defaultToStringImplementation;
-        }
+// TODO replace the method stub implementation with the implementation from C#.NET 
+// which should become implemented as Java or Scala
+class Transformer {
+    public static CrsCoordinate Transform(CrsCoordinate crsCoordinate, CrsProjection targetCrsProjection)  {
+        return null;
     }
 }
