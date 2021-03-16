@@ -8,21 +8,24 @@
 * For more information see the webpage below.
 * https://github.com/TomasJohansson/sweden_crs_transformations_4net
 */
+package com.programmerare.sweden_crs_transformations_4jvm.transformation;
 
-using MightyLittleGeodesy.Classes;
+import com.programmerare.sweden_crs_transformations_4jvm.CrsCoordinate;
+import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
+import com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy.GaussKreuger;
+import com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy.LatLon;
 
-namespace SwedenCrsTransformations.Transformation {
-    internal class TransformStrategy_from_WGS84_to_SWEREF99_or_RT90 : TransformStrategy {
+
+    class TransformStrategy_from_WGS84_to_SWEREF99_or_RT90 implements TransformStrategy {
         // Precondition: sourceCoordinate must be CRS WGS84
+        @Override            
         public CrsCoordinate Transform(
             CrsCoordinate sourceCoordinate,
             CrsProjection targetCrsProjection
         ) {
-            var gkProjection = new GaussKreuger();
+            GaussKreuger gkProjection = new GaussKreuger();
             gkProjection.swedish_params(targetCrsProjection);
-            LatLon latLon = gkProjection.geodetic_to_grid(sourceCoordinate.LatitudeY, sourceCoordinate.LongitudeX);
+            LatLon latLon = gkProjection.geodetic_to_grid(sourceCoordinate.getLatitudeY(), sourceCoordinate.getLongitudeX());
             return CrsCoordinate.CreateCoordinate(targetCrsProjection, latLon.LatitudeY, latLon.LongitudeX);
         }
     }
-
-}

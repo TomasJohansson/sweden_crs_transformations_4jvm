@@ -12,7 +12,7 @@ package com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy;
 
 // This class was not part of the original 'MightyLittleGeodesy'
 // but the class 'GaussKreuger' has later been changed to return this 'LatLon' instead of array 'double[]'
-class LatLon {
+public class LatLon {
     public final double LongitudeX;
     public final double LatitudeY;
     public LatLon(double yLatitude, double xLongitude) {

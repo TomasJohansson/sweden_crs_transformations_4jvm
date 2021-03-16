@@ -179,8 +179,8 @@ package com.programmerare.sweden_crs_transformations_4jvm;
 //        }
     }
 
-// TODO replace the method stub implementation with the implementation from C#.NET 
-// which should become implemented as Java or Scala
+// TODO replace the method stub implementation with the implementation from C#.NET   
+// which should become implemented as Java or Scala  
 class Transformer {
     public static CrsCoordinate Transform(CrsCoordinate crsCoordinate, CrsProjection targetCrsProjection)  {
         return null;

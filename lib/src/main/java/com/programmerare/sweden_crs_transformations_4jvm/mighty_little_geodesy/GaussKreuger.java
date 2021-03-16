@@ -80,7 +80,7 @@ import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjection.*;
      * Some modifications in this file were made 2021 by Tomas Johansson.
      * For details about changes, you should be able to use the github repository to see the git history where you found this source code file.
      */
-class GaussKreuger
+public class GaussKreuger
 {
     double axis; // Semi-major axis of the ellipsoid.
     double flattening; // Flattening of the ellipsoid.
