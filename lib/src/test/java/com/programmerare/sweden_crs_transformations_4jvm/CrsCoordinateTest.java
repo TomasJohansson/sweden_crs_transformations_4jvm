@@ -28,7 +28,7 @@ import static org.junit.Assert.*;
         private final static double stockholmCentralStation_SWEREF99TM_easting = 674032;
 
         @Test
-        public void Transform() {
+        public void Transform() { 
             CrsCoordinate stockholmWGS84 = CrsCoordinate.CreateCoordinate(
                 CrsProjection.wgs84,
                 stockholmCentralStation_WGS84_latitude,

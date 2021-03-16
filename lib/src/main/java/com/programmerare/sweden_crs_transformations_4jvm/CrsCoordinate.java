@@ -14,7 +14,9 @@ package com.programmerare.sweden_crs_transformations_4jvm;
 //using System;
 //using System.Collections.Generic;
 
-    /// <summary>
+import com.programmerare.sweden_crs_transformations_4jvm.transformation.Transformer;
+
+/// <summary>
     /// Coordinate, defined by the three parameters for the factory methods.
     /// </summary>
     public class CrsCoordinate {
@@ -62,7 +64,7 @@ package com.programmerare.sweden_crs_transformations_4jvm;
         /// </summary>
         /// <param name="targetCrsProjection">the coordinate reference system that you want to transform to</param>        
         public CrsCoordinate Transform(CrsProjection targetCrsProjection) {
-            return Transformer.Transform(this, targetCrsProjection);
+            return Transformer.Transform(this, targetCrsProjection); 
         }
 
         /// <summary>
@@ -178,11 +180,3 @@ package com.programmerare.sweden_crs_transformations_4jvm;
 //            _toStringImplementation = defaultToStringImplementation;
 //        }
     }
-
-// TODO replace the method stub implementation with the implementation from C#.NET   
-// which should become implemented as Java or Scala  
-class Transformer {
-    public static CrsCoordinate Transform(CrsCoordinate crsCoordinate, CrsProjection targetCrsProjection)  {
-        return null;
-    }
-}
