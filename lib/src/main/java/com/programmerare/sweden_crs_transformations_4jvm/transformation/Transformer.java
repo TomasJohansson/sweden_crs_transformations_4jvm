@@ -61,8 +61,7 @@ public class Transformer {
             return _transFormStrategy.Transform(sourceCoordinate, targetCrsProjection);
         }
 
-        //throw new IllegalArgumentException(string.Format("Unhandled source/target projection transformation: {0} ==> {1}", sourceCoordinate.CrsProjection, targetCrsProjection));
-        throw new IllegalArgumentException(String.format("Unhandled source/target projection transformation: {0} ==> {1}", sourceCoordinate.getCrsProjection(), targetCrsProjection));
+        throw new IllegalArgumentException(String.format("Unhandled source/target projection transformation: %s ==> %s", sourceCoordinate.getCrsProjection(), targetCrsProjection));
     }
 
 }

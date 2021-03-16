@@ -90,10 +90,10 @@ public class TransformingCoordinatesFromFileTest {
 
         if (diffLongitude > maxDifference || diffLatitude > maxDifference) {
             String problem = String.format(
-                "Projection {0} ==> {1} , diffLongitude {2}  , diffLatitude {3}"
-                + "sourceCoordinate xLongitude/yLatitude: {4}/{5}" 
-                + "targetCoordinate xLongitude/yLatitude: {6}/{7}" 
-                + "targetCoordinateExpected xLongitude/yLatitude: {8}/{9}",
+                " Projection %s ==> %s , diffLongitude %s  , diffLatitude %s , "
+                + " sourceCoordinate xLongitude/yLatitude: %s/%s , " 
+                + " targetCoordinate xLongitude/yLatitude: %s/%s , " 
+                + " targetCoordinateExpected xLongitude/yLatitude: %s/%s",
                 sourceCoordinate.getCrsProjection(), targetCoordinateExpected.getCrsProjection(),
                 diffLongitude, diffLatitude,
                 sourceCoordinate.getLongitudeX(), sourceCoordinate.getLatitudeY(),

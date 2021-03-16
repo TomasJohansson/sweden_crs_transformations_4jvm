@@ -1,17 +1,8 @@
 package com.programmerare.sweden_crs_transformations_4jvm;
 
-import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.numberOfSweref99projections;
-import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.numberOfWgs84Projections;
-import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.numberOfRT90projections;
-import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.epsgNumberForWgs84;
 import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.epsgNumberForSweref99tm;
-import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjection.*;
-import org.junit.Before;
 import org.junit.Test;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-
 import static org.junit.Assert.*;
 
     public class CrsCoordinateTest {
@@ -182,23 +173,21 @@ import static org.junit.Assert.*;
                 coordinate2.toString()
             );
             // now testing the same coordinate as above but with a custom 'ToString' implementation
-            // TODO JVM implementation of the code below
-//            CrsCoordinate.SetToStringImplementation(myCustomToStringMethod);
-//            assertEquals(
-//                "18.059196 , 59.330231",
-//                coordinate2.toString()
-//            );
-//            CrsCoordinate.SetToStringImplementationDefault(); // restores the default 'ToString' implementation
-//            assertEquals(
-//                expectedDefaultToStringResultForCoordinate2 ,
-//                coordinate2.toString()
-//            );
+            CrsCoordinate.SetToStringImplementation(this::myCustomToStringMethod);
+            assertEquals(
+                "18.059196 , 59.330231",
+                coordinate2.toString()
+            );
+            CrsCoordinate.SetToStringImplementationDefault(); // restores the default 'ToString' implementation
+            assertEquals(
+                expectedDefaultToStringResultForCoordinate2 ,
+                coordinate2.toString()
+            );
         }
 
         private String myCustomToStringMethod(CrsCoordinate coordinate) {
-            // TODO implement and test
             return String.format(
-                "{0} , {1}",
+                "%s , %s",
                     coordinate.getLongitudeX(),
                     coordinate.getLatitudeY()
             );
@@ -207,7 +196,7 @@ import static org.junit.Assert.*;
 
         // This is not really a "Test" method used for assertions, but can be used for code examples 
         // e.g. verify that this code below works and then it can be paste into some example page at github
-        // [Test]
+        // @Test
         public void Example() {
             CrsCoordinate stockholmWGS84 = CrsCoordinate.CreateCoordinate(
                 CrsProjection.wgs84,
@@ -251,3 +240,4 @@ import static org.junit.Assert.*;
             //CrsCoordinate [ Latitude: 59.330231 , Longitude: 18.059196 , CRS: WGS84 ]
         }
     }
+

@@ -16,6 +16,8 @@ package com.programmerare.sweden_crs_transformations_4jvm;
 
 import com.programmerare.sweden_crs_transformations_4jvm.transformation.Transformer;
 
+import java.util.function.Function;
+
 /// <summary>
     /// Coordinate, defined by the three parameters for the factory methods.
     /// </summary>
@@ -145,38 +147,37 @@ import com.programmerare.sweden_crs_transformations_4jvm.transformation.Transfor
         /// </summary>
         @Override
         public String toString() {
-            return "TODO";//_toStringImplementation(this);
+            return _toStringImplementation.apply(this);
         }
 
-//        private static Func<CrsCoordinate, string> _toStringImplementation = defaultToStringImplementation;
-//        
-//        private static string defaultToStringImplementation(CrsCoordinate coordinate) {
-//            string crs = coordinate.CrsProjection.ToString().ToUpper();
-//            bool isWgs84 =  coordinate.CrsProjection.IsWgs84();
-//            string yOrLatitude = isWgs84 ? "Latitude" : "Y";
-//            string xOrLongitude = isWgs84 ? "Longitude" : "X";
-//            return string.Format(
-//                "{0} [ {1}: {2} , {3}: {4} , CRS: {5} ]",
-//                    nameof(CrsCoordinate),  // 0
-//                    yOrLatitude,            // 1
-//                    coordinate.LatitudeY,   // 2
-//                    xOrLongitude,           // 3
-//                    coordinate.LongitudeX,  // 4
-//                    crs                     // 5
-//            );
-//        }
+        private static Function<CrsCoordinate, String> _toStringImplementation = CrsCoordinate::defaultToStringImplementation;
+    
+        private static String defaultToStringImplementation(CrsCoordinate coordinate) {
+            String crs = coordinate.getCrsProjection().toString().toUpperCase();
+            boolean isWgs84 =  coordinate.getCrsProjection().IsWgs84();
+            String yOrLatitude = isWgs84 ? "Latitude" : "Y";
+            String xOrLongitude = isWgs84 ? "Longitude" : "X";
+            return String.format(
+                "CrsCoordinate [ %s: %s , %s: %s , CRS: %s ]",
+                    yOrLatitude,
+                    coordinate.getLatitudeY(),
+                    xOrLongitude,
+                    coordinate.getLongitudeX(),
+                    crs
+            );
+        }
 //
 //        /// <summary>
 //        /// Sets a custom method to be used for rendering an instance when the 'ToString' method is used.
 //        /// </summary>
-//        public static void SetToStringImplementation(Func<CrsCoordinate, string> toStringImplementation) {
-//            _toStringImplementation = toStringImplementation;
-//        }
+        public static void SetToStringImplementation(Function<CrsCoordinate, String> toStringImplementation) {
+            _toStringImplementation = toStringImplementation;
+        }
 //
 //        /// <summary>
 //        /// Sets the default method to be used for rendering an instance when the 'ToString' method is used.
 //        /// </summary>
-//        public static void SetToStringImplementationDefault() { 
-//            _toStringImplementation = defaultToStringImplementation;
-//        }
+        public static void SetToStringImplementationDefault() { 
+            _toStringImplementation = CrsCoordinate::defaultToStringImplementation;
+        }
     }
