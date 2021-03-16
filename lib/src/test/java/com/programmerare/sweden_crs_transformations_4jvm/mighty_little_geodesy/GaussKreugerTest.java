@@ -1,4 +1,4 @@
-﻿import LatLon from '../../src/mighty_little_geodesy/lat_lon';
+import LatLon from '../../src/mighty_little_geodesy/lat_lon';
 import GaussKreuger from '../../src/mighty_little_geodesy/gauss_kreuger';
 import CrsProjection from '../../src/crs_projection';
 

@@ -1,4 +1,4 @@
-﻿import LatLon from '../../src/mighty_little_geodesy/lat_lon';
+import LatLon from '../../src/mighty_little_geodesy/lat_lon';
 
 test('LatLon', () => {
   const latLon = new LatLon(12.34, 56.78);
