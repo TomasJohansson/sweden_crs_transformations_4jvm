@@ -12,7 +12,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import static org.junit.Assert.*;
     
-    public class CrsProjectionExtensionsTest {
+    public class CrsProjectionTest
+    {
 
         private HashSet<CrsProjection> _wgs84Projections;
         private HashSet<CrsProjection> _sweref99Projections;
