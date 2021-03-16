@@ -13,57 +13,56 @@ package com.programmerare.sweden_crs_transformations_4jvm.transformation;
 import com.programmerare.sweden_crs_transformations_4jvm.CrsCoordinate;
 import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
 
-    public class Transformer {
+public class Transformer {
 
-        // Implementations of transformations from WGS84:
-        private static final TransformStrategy _transformStrategy_from_WGS84_to_SWEREF99_or_RT90 = new TransformStrategy_from_WGS84_to_SWEREF99_or_RT90();
+    // Implementations of transformations from WGS84:
+    private static final TransformStrategy _transformStrategy_from_WGS84_to_SWEREF99_or_RT90 = new TransformStrategy_from_WGS84_to_SWEREF99_or_RT90();
 
-        // Implementations of transformations to WGS84:
-        private static final TransformStrategy _transformStrategy_from_SWEREF99_or_RT90_to_WGS84 = new TransformStrategy_from_SWEREF99_or_RT90_to_WGS84();
+    // Implementations of transformations to WGS84:
+    private static final TransformStrategy _transformStrategy_from_SWEREF99_or_RT90_to_WGS84 = new TransformStrategy_from_SWEREF99_or_RT90_to_WGS84();
 
-        // Implementation first transforming to WGS84 and then to the real target:
-        private static final TransformStrategy _transFormStrategy_From_Sweref99OrRT90_to_WGS84_andThenToRealTarget  = new TransFormStrategy_From_Sweref99OrRT90_to_WGS84_andThenToRealTarget();
+    // Implementation first transforming to WGS84 and then to the real target:
+    private static final TransformStrategy _transFormStrategy_From_Sweref99OrRT90_to_WGS84_andThenToRealTarget  = new TransFormStrategy_From_Sweref99OrRT90_to_WGS84_andThenToRealTarget();
 
-        public static CrsCoordinate Transform(CrsCoordinate sourceCoordinate, CrsProjection targetCrsProjection) {
-            if(sourceCoordinate.getCrsProjection() == targetCrsProjection) return sourceCoordinate;
+    public static CrsCoordinate Transform(CrsCoordinate sourceCoordinate, CrsProjection targetCrsProjection) {
+        if(sourceCoordinate.getCrsProjection() == targetCrsProjection) return sourceCoordinate;
 
-            TransformStrategy _transFormStrategy = null;
+        TransformStrategy _transFormStrategy = null;
 
-            // Transform FROM wgs84:
-            if(
-                sourceCoordinate.getCrsProjection().IsWgs84()
-                &&
-                ( targetCrsProjection.IsSweref() || targetCrsProjection.IsRT90() )
-            ) {
-                _transFormStrategy = _transformStrategy_from_WGS84_to_SWEREF99_or_RT90;
-            }
-
-            // Transform TO wgs84:
-            else if(
-                targetCrsProjection.IsWgs84()
-                &&
-                ( sourceCoordinate.getCrsProjection().IsSweref() || sourceCoordinate.getCrsProjection().IsRT90() )
-            ) {
-                _transFormStrategy = _transformStrategy_from_SWEREF99_or_RT90_to_WGS84;
-            }
-
-            // Transform between two non-wgs84:
-            else if(
-                ( sourceCoordinate.getCrsProjection().IsSweref() || sourceCoordinate.getCrsProjection().IsRT90() )
-                &&
-                ( targetCrsProjection.IsSweref() || targetCrsProjection.IsRT90() )
-            ) {
-                // the only direct transform supported is to/from WGS84, so therefore first transform to wgs84
-                _transFormStrategy = _transFormStrategy_From_Sweref99OrRT90_to_WGS84_andThenToRealTarget;
-            }
-            
-            if(_transFormStrategy != null) {
-                return _transFormStrategy.Transform(sourceCoordinate, targetCrsProjection);
-            }
-
-            //throw new IllegalArgumentException(string.Format("Unhandled source/target projection transformation: {0} ==> {1}", sourceCoordinate.CrsProjection, targetCrsProjection));
-            throw new IllegalArgumentException(String.format("Unhandled source/target projection transformation: {0} ==> {1}", sourceCoordinate.getCrsProjection(), targetCrsProjection));
+        // Transform FROM wgs84:
+        if(
+            sourceCoordinate.getCrsProjection().IsWgs84()
+            &&
+            ( targetCrsProjection.IsSweref() || targetCrsProjection.IsRT90() )
+        ) {
+            _transFormStrategy = _transformStrategy_from_WGS84_to_SWEREF99_or_RT90;
         }
 
+        // Transform TO wgs84:
+        else if(
+            targetCrsProjection.IsWgs84()
+            &&
+            ( sourceCoordinate.getCrsProjection().IsSweref() || sourceCoordinate.getCrsProjection().IsRT90() )
+        ) {
+            _transFormStrategy = _transformStrategy_from_SWEREF99_or_RT90_to_WGS84;
+        }
+
+        // Transform between two non-wgs84:
+        else if(
+            ( sourceCoordinate.getCrsProjection().IsSweref() || sourceCoordinate.getCrsProjection().IsRT90() )
+            &&
+            ( targetCrsProjection.IsSweref() || targetCrsProjection.IsRT90() )
+        ) {
+            // the only direct transform supported is to/from WGS84, so therefore first transform to wgs84
+            _transFormStrategy = _transFormStrategy_From_Sweref99OrRT90_to_WGS84_andThenToRealTarget;
+        }
+        
+        if(_transFormStrategy != null) {
+            return _transFormStrategy.Transform(sourceCoordinate, targetCrsProjection);
+        }
+
+        //throw new IllegalArgumentException(string.Format("Unhandled source/target projection transformation: {0} ==> {1}", sourceCoordinate.CrsProjection, targetCrsProjection));
+        throw new IllegalArgumentException(String.format("Unhandled source/target projection transformation: {0} ==> {1}", sourceCoordinate.getCrsProjection(), targetCrsProjection));
     }
 
+}

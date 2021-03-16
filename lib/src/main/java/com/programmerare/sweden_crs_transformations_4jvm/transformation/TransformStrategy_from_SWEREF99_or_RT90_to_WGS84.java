@@ -16,15 +16,15 @@ import com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy.G
 import com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy.LatLon;
 
 class TransformStrategy_from_SWEREF99_or_RT90_to_WGS84 implements TransformStrategy {
-        // Precondition: sourceCoordinate must be CRS SWEREF99 or RT90
-        @Override
-        public CrsCoordinate Transform(
-            CrsCoordinate sourceCoordinate,
-            CrsProjection targetCrsProjection
-        ) {
-            GaussKreuger gkProjection = new GaussKreuger();
-            gkProjection.swedish_params(sourceCoordinate.getCrsProjection());
-            LatLon latLon = gkProjection.grid_to_geodetic(sourceCoordinate.getLatitudeY(), sourceCoordinate.getLongitudeX());
-            return CrsCoordinate.CreateCoordinate(targetCrsProjection, latLon.LatitudeY, latLon.LongitudeX);
-        }
+    // Precondition: sourceCoordinate must be CRS SWEREF99 or RT90
+    @Override
+    public CrsCoordinate Transform(
+        CrsCoordinate sourceCoordinate,
+        CrsProjection targetCrsProjection
+    ) {
+        GaussKreuger gkProjection = new GaussKreuger();
+        gkProjection.swedish_params(sourceCoordinate.getCrsProjection());
+        LatLon latLon = gkProjection.grid_to_geodetic(sourceCoordinate.getLatitudeY(), sourceCoordinate.getLongitudeX());
+        return CrsCoordinate.CreateCoordinate(targetCrsProjection, latLon.LatitudeY, latLon.LongitudeX);
     }
+}

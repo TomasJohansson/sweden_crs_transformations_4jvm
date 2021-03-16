@@ -15,17 +15,16 @@ import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
 import com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy.GaussKreuger;
 import com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy.LatLon;
 
-
-    class TransformStrategy_from_WGS84_to_SWEREF99_or_RT90 implements TransformStrategy {
-        // Precondition: sourceCoordinate must be CRS WGS84
-        @Override            
-        public CrsCoordinate Transform(
-            CrsCoordinate sourceCoordinate,
-            CrsProjection targetCrsProjection
-        ) {
-            GaussKreuger gkProjection = new GaussKreuger();
-            gkProjection.swedish_params(targetCrsProjection);
-            LatLon latLon = gkProjection.geodetic_to_grid(sourceCoordinate.getLatitudeY(), sourceCoordinate.getLongitudeX());
-            return CrsCoordinate.CreateCoordinate(targetCrsProjection, latLon.LatitudeY, latLon.LongitudeX);
-        }
+class TransformStrategy_from_WGS84_to_SWEREF99_or_RT90 implements TransformStrategy {
+    // Precondition: sourceCoordinate must be CRS WGS84
+    @Override            
+    public CrsCoordinate Transform(
+        CrsCoordinate sourceCoordinate,
+        CrsProjection targetCrsProjection
+    ) {
+        GaussKreuger gkProjection = new GaussKreuger();
+        gkProjection.swedish_params(targetCrsProjection);
+        LatLon latLon = gkProjection.geodetic_to_grid(sourceCoordinate.getLatitudeY(), sourceCoordinate.getLongitudeX());
+        return CrsCoordinate.CreateCoordinate(targetCrsProjection, latLon.LatitudeY, latLon.LongitudeX);
     }
+}
