@@ -59,13 +59,13 @@
  */
 // ------------------------------------------------------------------------------------------
 
-using System;
-using static SwedenCrsTransformations.CrsProjection;
-using SwedenCrsTransformations;
+package com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy;
 
-namespace MightyLittleGeodesy.Classes
-{
-    /*
+import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
+
+import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjection.*;
+
+/*
      * .NET-implementation of "Gauss Conformal Projection 
      * (Transverse Mercator), Krügers Formulas".
      * - Parameters for SWEREF99 lat-long to/from RT90 and SWEREF99 
@@ -80,7 +80,7 @@ namespace MightyLittleGeodesy.Classes
      * Some modifications in this file were made 2021 by Tomas Johansson.
      * For details about changes, you should be able to use the github repository to see the git history where you found this source code file.
      */
-    internal class GaussKreuger
+    class GaussKreuger
     {
         double axis; // Semi-major axis of the ellipsoid.
         double flattening; // Flattening of the ellipsoid.
@@ -218,7 +218,7 @@ namespace MightyLittleGeodesy.Classes
             }
             else
             {
-                central_meridian = double.MinValue;
+                central_meridian = Double.MIN_VALUE;
             }
         }
 
@@ -227,13 +227,13 @@ namespace MightyLittleGeodesy.Classes
         {
             axis = 6378137.0; // GRS 80.
             flattening = 1.0 / 298.257222101; // GRS 80.
-            central_meridian = double.MinValue;
+            central_meridian = Double.MIN_VALUE;
         }
         private void bessel_params()
         {
             axis = 6377397.155; // Bessel 1841.
             flattening = 1.0 / 299.1528128; // Bessel 1841.
-            central_meridian = double.MinValue;
+            central_meridian = Double.MIN_VALUE;
             scale = 1.0;
             false_northing = 0.0;
             false_easting = 1500000.0;
@@ -242,7 +242,7 @@ namespace MightyLittleGeodesy.Classes
         {
             axis = 6378137.0; // GRS 80.
             flattening = 1.0 / 298.257222101; // GRS 80.
-            central_meridian = double.MinValue;
+            central_meridian = Double.MIN_VALUE;
             scale = 1.0;
             false_northing = 0.0;
             false_easting = 150000.0;
@@ -272,28 +272,28 @@ namespace MightyLittleGeodesy.Classes
             double lambda = longitude * deg_to_rad;
             double lambda_zero = central_meridian * deg_to_rad;
 
-            double phi_star = phi - Math.Sin(phi) * Math.Cos(phi) * (A +
-                            B * Math.Pow(Math.Sin(phi), 2) +
-                            C * Math.Pow(Math.Sin(phi), 4) +
-                            D * Math.Pow(Math.Sin(phi), 6));
+            double phi_star = phi - Math.sin(phi) * Math.cos(phi) * (A +
+                            B * Math.pow(Math.sin(phi), 2) +
+                            C * Math.pow(Math.sin(phi), 4) +
+                            D * Math.pow(Math.sin(phi), 6));
             double delta_lambda = lambda - lambda_zero;
-            double xi_prim = Math.Atan(Math.Tan(phi_star) / Math.Cos(delta_lambda));
-            double eta_prim = math_atanh(Math.Cos(phi_star) * Math.Sin(delta_lambda));
+            double xi_prim = Math.atan(Math.tan(phi_star) / Math.cos(delta_lambda));
+            double eta_prim = math_atanh(Math.cos(phi_star) * Math.sin(delta_lambda));
             double x = scale * a_roof * (xi_prim +
-                            beta1 * Math.Sin(2.0 * xi_prim) * math_cosh(2.0 * eta_prim) +
-                            beta2 * Math.Sin(4.0 * xi_prim) * math_cosh(4.0 * eta_prim) +
-                            beta3 * Math.Sin(6.0 * xi_prim) * math_cosh(6.0 * eta_prim) +
-                            beta4 * Math.Sin(8.0 * xi_prim) * math_cosh(8.0 * eta_prim)) +
+                            beta1 * Math.sin(2.0 * xi_prim) * math_cosh(2.0 * eta_prim) +
+                            beta2 * Math.sin(4.0 * xi_prim) * math_cosh(4.0 * eta_prim) +
+                            beta3 * Math.sin(6.0 * xi_prim) * math_cosh(6.0 * eta_prim) +
+                            beta4 * Math.sin(8.0 * xi_prim) * math_cosh(8.0 * eta_prim)) +
                             false_northing;
             double y = scale * a_roof * (eta_prim +
-                            beta1 * Math.Cos(2.0 * xi_prim) * math_sinh(2.0 * eta_prim) +
-                            beta2 * Math.Cos(4.0 * xi_prim) * math_sinh(4.0 * eta_prim) +
-                            beta3 * Math.Cos(6.0 * xi_prim) * math_sinh(6.0 * eta_prim) +
-                            beta4 * Math.Cos(8.0 * xi_prim) * math_sinh(8.0 * eta_prim)) +
+                            beta1 * Math.cos(2.0 * xi_prim) * math_sinh(2.0 * eta_prim) +
+                            beta2 * Math.cos(4.0 * xi_prim) * math_sinh(4.0 * eta_prim) +
+                            beta3 * Math.cos(6.0 * xi_prim) * math_sinh(6.0 * eta_prim) +
+                            beta4 * Math.cos(8.0 * xi_prim) * math_sinh(8.0 * eta_prim)) +
                             false_easting;
-            x_y[0] = Math.Round(x * 1000.0) / 1000.0;
-            x_y[1] = Math.Round(y * 1000.0) / 1000.0;
-            var latLon = new LatLon(x_y[0], x_y[1]);
+            x_y[0] = Math.round(x * 1000.0) / 1000.0;
+            x_y[1] = Math.round(y * 1000.0) / 1000.0;
+            LatLon latLon = new LatLon(x_y[0], x_y[1]);
             return latLon;
         }
 
@@ -302,7 +302,7 @@ namespace MightyLittleGeodesy.Classes
         public LatLon grid_to_geodetic(double yLatitude, double xLongitude) // public double[] grid_to_geodetic(double yLatitude, double xLongitude)
         {
             double[] lat_lon = new double[2];
-            if (central_meridian == double.MinValue)
+            if (central_meridian == Double.MIN_VALUE)
             {
                 return new LatLon(lat_lon[1], lat_lon[0]);
             }
@@ -326,39 +326,38 @@ namespace MightyLittleGeodesy.Classes
             double xi = (yLatitude - false_northing) / (scale * a_roof);
             double eta = (xLongitude - false_easting) / (scale * a_roof);
             double xi_prim = xi -
-                            delta1 * Math.Sin(2.0 * xi) * math_cosh(2.0 * eta) -
-                            delta2 * Math.Sin(4.0 * xi) * math_cosh(4.0 * eta) -
-                            delta3 * Math.Sin(6.0 * xi) * math_cosh(6.0 * eta) -
-                            delta4 * Math.Sin(8.0 * xi) * math_cosh(8.0 * eta);
+                            delta1 * Math.sin(2.0 * xi) * math_cosh(2.0 * eta) -
+                            delta2 * Math.sin(4.0 * xi) * math_cosh(4.0 * eta) -
+                            delta3 * Math.sin(6.0 * xi) * math_cosh(6.0 * eta) -
+                            delta4 * Math.sin(8.0 * xi) * math_cosh(8.0 * eta);
             double eta_prim = eta -
-                            delta1 * Math.Cos(2.0 * xi) * math_sinh(2.0 * eta) -
-                            delta2 * Math.Cos(4.0 * xi) * math_sinh(4.0 * eta) -
-                            delta3 * Math.Cos(6.0 * xi) * math_sinh(6.0 * eta) -
-                            delta4 * Math.Cos(8.0 * xi) * math_sinh(8.0 * eta);
-            double phi_star = Math.Asin(Math.Sin(xi_prim) / math_cosh(eta_prim));
-            double delta_lambda = Math.Atan(math_sinh(eta_prim) / Math.Cos(xi_prim));
+                            delta1 * Math.cos(2.0 * xi) * math_sinh(2.0 * eta) -
+                            delta2 * Math.cos(4.0 * xi) * math_sinh(4.0 * eta) -
+                            delta3 * Math.cos(6.0 * xi) * math_sinh(6.0 * eta) -
+                            delta4 * Math.cos(8.0 * xi) * math_sinh(8.0 * eta);
+            double phi_star = Math.asin(Math.sin(xi_prim) / math_cosh(eta_prim));
+            double delta_lambda = Math.atan(math_sinh(eta_prim) / Math.cos(xi_prim));
             double lon_radian = lambda_zero + delta_lambda;
-            double lat_radian = phi_star + Math.Sin(phi_star) * Math.Cos(phi_star) *
+            double lat_radian = phi_star + Math.sin(phi_star) * Math.cos(phi_star) *
                             (Astar +
-                             Bstar * Math.Pow(Math.Sin(phi_star), 2) +
-                             Cstar * Math.Pow(Math.Sin(phi_star), 4) +
-                             Dstar * Math.Pow(Math.Sin(phi_star), 6));
+                             Bstar * Math.pow(Math.sin(phi_star), 2) +
+                             Cstar * Math.pow(Math.sin(phi_star), 4) +
+                             Dstar * Math.pow(Math.sin(phi_star), 6));
             lat_lon[0] = lat_radian * 180.0 / Math.PI;
             lat_lon[1] = lon_radian * 180.0 / Math.PI;
-            var latLon = new LatLon(lat_lon[0], lat_lon[1]);
+            LatLon latLon = new LatLon(lat_lon[0], lat_lon[1]);
             return latLon;
         }
 
 
         private double math_sinh(double value) {
-            return 0.5 * (Math.Exp(value) - Math.Exp(-value));
+            return 0.5 * (Math.exp(value) - Math.exp(-value));
         }
         private double math_cosh(double value) {
-            return 0.5 * (Math.Exp(value) + Math.Exp(-value));
+            return 0.5 * (Math.exp(value) + Math.exp(-value));
         }
         private double math_atanh(double value) {
-            return 0.5 * Math.Log((1.0 + value) / (1.0 - value));
+            return 0.5 * Math.log((1.0 + value) / (1.0 - value));
         }
 
     }
-}

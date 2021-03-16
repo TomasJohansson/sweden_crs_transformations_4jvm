@@ -1,7 +1,15 @@
-import LatLon from '../../src/mighty_little_geodesy/lat_lon';
+package com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy;
 
-test('LatLon', () => {
-  const latLon = new LatLon(12.34, 56.78);
-  expect(latLon.yLatitude).toEqual(12.34);
-  expect(latLon.xLongitude).toEqual(56.78);
-});
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+
+public class LatLonTest {
+    private final static double delta = 0.00000000000000000001;
+    
+    @Test
+    public void LatLon() {
+        final LatLon latLon = new LatLon(12.34, 56.78);
+        assertEquals(latLon.LatitudeY, 12.34, delta);
+        assertEquals(latLon.LongitudeX, 56.78, delta);        
+    }
+}
