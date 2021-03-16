@@ -92,4 +92,29 @@ public class CrsProjectionTest  {
         }
     }
 
+
+    @Test
+    public void getAsString() {
+        assertEquals(
+            "WGS84",
+            CrsProjection.wgs84.getAsString()
+        );
+
+
+        assertEquals(
+            "SWEREF_99_TM",
+            CrsProjection.sweref_99_tm.getAsString()
+        );
+
+        assertEquals(
+            "SWEREF_99_14_15",
+            CrsProjection.sweref_99_14_15.getAsString()
+        );
+
+        assertEquals(
+            "RT90_0_0_GON_V",
+            CrsProjection.rt90_0_0_gon_v.getAsString()
+        );
+    }
+
 }

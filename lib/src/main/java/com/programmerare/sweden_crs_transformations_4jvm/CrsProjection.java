@@ -126,4 +126,7 @@ public enum CrsProjection {
         return epsgLowerValueForRT90 <= epsg && epsg <= epsgUpperValueForRT90;
     }
 
+    public String getAsString() {
+        return this.name().toUpperCase();
+    }
 }
