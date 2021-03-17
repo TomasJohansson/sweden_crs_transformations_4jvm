@@ -45,12 +45,12 @@ public class CrsCoordinateTest {
             stockholmWGS84, // expected WGS84
             stockholmRT90.transform(CrsProjection.wgs84) // actual/transformed WGS84
         );
-        // below is a similar test as one of the above tests but using the overloaded Transform method
+        // below is a similar test as one of the above tests but using the overloaded transform method
         // which takes an integer as parameter instead of an instance of the enum CrsProjection
         int epsgNumberForWgs84 = CrsProjection.wgs84.getEpsgNumber();
         assertEqual(
             stockholmWGS84,
-            stockholmRT90.transform(epsgNumberForWgs84) // testing the overloaded Transform method with an integer parameter
+            stockholmRT90.transform(epsgNumberForWgs84) // testing the overloaded transform method with an integer parameter
         );
         
 
@@ -92,6 +92,7 @@ public class CrsCoordinateTest {
         final double x = 20.0;
         final double y = 60.0;
         CrsCoordinate crsCoordinate = CrsCoordinate.createCoordinate(epsgNumberForSweref99tm, y, x);
+        assertEquals(CrsProjection.sweref_99_tm, crsCoordinate.getCrsProjection());
         assertEquals(epsgNumberForSweref99tm, crsCoordinate.getCrsProjection().getEpsgNumber());
         final double delta = 0.000001;
         assertEquals(x, crsCoordinate.getLongitudeX(), delta);
@@ -119,7 +120,6 @@ public class CrsCoordinateTest {
         assertEquals(coordinateInstance_1.hashCode(), coordinateInstance_2.hashCode());
         assertTrue(coordinateInstance_1.equals(coordinateInstance_2));
         assertTrue(coordinateInstance_2.equals(coordinateInstance_1));
-
 
         double delta = 0.000000000000001; // see comments further below regarding the value of "delta"
         CrsCoordinate coordinateInstance_3 = CrsCoordinate.createCoordinate(
@@ -149,10 +149,10 @@ public class CrsCoordinateTest {
         // Note that below are the Are*NOT*Equal assertions made instead of AreEqual as further above when a smaller delta value was used
         assertNotEquals(coordinateInstance_1, coordinateInstance_4);
         assertNotEquals(coordinateInstance_1.hashCode(), coordinateInstance_4.hashCode());
-        assertTrue(coordinateInstance_1 != coordinateInstance_4); // Note that the method "operator !=" becomes used here
-        assertTrue(coordinateInstance_4 != coordinateInstance_1);
-        assertFalse(coordinateInstance_1.equals(coordinateInstance_4));
-        assertFalse(coordinateInstance_4.equals(coordinateInstance_1));
+        assertNotSame(coordinateInstance_1, coordinateInstance_4); // Note that the method "operator !=" becomes used here
+        assertNotSame(coordinateInstance_4, coordinateInstance_1);
+        assertNotEquals(coordinateInstance_1, coordinateInstance_4);
+        assertNotEquals(coordinateInstance_4, coordinateInstance_1);
     }
 
 
@@ -169,13 +169,13 @@ public class CrsCoordinateTest {
             expectedDefaultToStringResultForCoordinate2 ,
             coordinate2.toString()
         );
-        // now testing the same coordinate as above but with a custom 'ToString' implementation
+        // now testing the same coordinate as above but with a custom 'toString' implementation
         CrsCoordinate.setToStringImplementation(this::myCustomToStringMethod);
         assertEquals(
             "18.059196 , 59.330231",
             coordinate2.toString()
         );
-        CrsCoordinate.setToStringImplementationDefault(); // restores the default 'ToString' implementation
+        CrsCoordinate.setToStringImplementationDefault(); // restores the default 'toString' implementation
         assertEquals(
             expectedDefaultToStringResultForCoordinate2 ,
             coordinate2.toString()
