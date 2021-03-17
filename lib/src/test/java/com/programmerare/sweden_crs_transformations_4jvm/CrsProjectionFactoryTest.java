@@ -2,9 +2,9 @@ package com.programmerare.sweden_crs_transformations_4jvm;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import static org.junit.Assert.assertEquals;
 
@@ -38,7 +38,7 @@ public class CrsProjectionFactoryTest {
 
         assertEquals(
             CrsProjection.rt90_5_0_gon_o,
-            CrsProjectionFactory.getCrsProjectionByEpsgNumber(3024)  // https://epsg.io/3018
+            CrsProjectionFactory.getCrsProjectionByEpsgNumber(3024)  // https://epsg.io/3024
         );
     }
 
@@ -52,45 +52,31 @@ public class CrsProjectionFactoryTest {
 
     @Test
     public void verifyNumberOfWgs84Projections() {
-        // C#.NET
-        // assertEquals(numberOfWgs84Projections, _allCrsProjections.Where(crs => crs.IsWgs84()).Count());
        assertEquals(
            numberOfWgs84Projections,
-           
-           _allCrsProjections.stream()
-               .filter(crs -> crs.isWgs84())
-               .collect(Collectors.toList())
-               .size()
+           getNumberOfProjections(crs -> crs.isWgs84())
        );
     }
-    // TODO refactor duplication in above and below methods (stream ... Collectors)
     @Test
     public void verifyNumberOfSweref99Projections() {
-        // C#.NET
-        // assertEquals(numberOfSweref99projections, _allCrsProjections.Where(crs => crs.IsSweref()).Count());
         assertEquals(
             numberOfSweref99projections,
-
-            _allCrsProjections.stream()
-                .filter(crs -> crs.isSweref())
-                .collect(Collectors.toList())
-                .size()
+            getNumberOfProjections(crs -> crs.isSweref())
         );            
     }
-    // TODO refactor duplication in above and below methods (stream ... Collectors)
     @Test
     public void verifyNumberOfRT90Projections() {
-        // C#.NET
-        // assertEquals(numberOfRT90projections, _allCrsProjections.Where(crs => crs.IsRT90()).Count());
         assertEquals(
             numberOfRT90projections,
-
-            _allCrsProjections.stream()
-                .filter(crs -> crs.isRT90())
-                .collect(Collectors.toList())
-                .size()
+            getNumberOfProjections(crs -> crs.isRT90())
         );
     }
+    private int getNumberOfProjections(Predicate<CrsProjection> predicate) {
+        return _allCrsProjections.stream()
+            .filter(crs -> predicate.test(crs))
+            .collect(Collectors.toList())
+            .size();
+    }    
 
     @Test
     public void verifyThatAllProjectionsCanBeRetrievedByItsEpsgNumber() {
