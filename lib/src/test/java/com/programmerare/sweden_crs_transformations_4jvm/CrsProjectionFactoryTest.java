@@ -5,7 +5,6 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import static org.junit.Assert.assertEquals;
 
 public class CrsProjectionFactoryTest {
@@ -46,7 +45,7 @@ public class CrsProjectionFactoryTest {
     public void verifyTotalNumberOfProjections() {
         assertEquals(
             totalNumberOfProjections,
-            _allCrsProjections.size() // retrieved with 'GetAllCrsProjections' in the SetUp method
+            _allCrsProjections.size() // retrieved with 'getAllCrsProjections' in the setUp ('@Before' annotated) method
         );
     }
 
@@ -54,28 +53,30 @@ public class CrsProjectionFactoryTest {
     public void verifyNumberOfWgs84Projections() {
        assertEquals(
            numberOfWgs84Projections,
-           getNumberOfProjections(crs -> crs.isWgs84())
+           getNumberOfProjections(CrsProjection::isWgs84) //  crs -> crs.isWgs84()
        );
     }
     @Test
     public void verifyNumberOfSweref99Projections() {
         assertEquals(
             numberOfSweref99projections,
-            getNumberOfProjections(crs -> crs.isSweref())
+            getNumberOfProjections(CrsProjection::isSweref) // crs -> crs.isSweref()
         );            
     }
     @Test
     public void verifyNumberOfRT90Projections() {
         assertEquals(
             numberOfRT90projections,
-            getNumberOfProjections(crs -> crs.isRT90())
+            getNumberOfProjections(CrsProjection::isRT90) // crs -> crs.isRT90()
         );
     }
     private int getNumberOfProjections(Predicate<CrsProjection> predicate) {
-        return _allCrsProjections.stream()
-            .filter(crs -> predicate.test(crs))
-            .collect(Collectors.toList())
-            .size();
+        //    return _allCrsProjections.stream()
+        //        .filter(predicate) // .filter(predicate::test)  or  .filter(crs -> predicate.test(crs))
+        //        .collect(Collectors.toList())
+        //        .size();
+        // The below row is a shorter alternative to the above implementation
+        return (int) _allCrsProjections.stream().filter(predicate).count();
     }    
 
     @Test
