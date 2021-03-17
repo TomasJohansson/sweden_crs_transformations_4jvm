@@ -42,9 +42,11 @@ public class CrsProjectionFactory {
 
     /// <summary>
     /// Convenience method for retrieving all the projections in a List.
+    /// They are returned ordered by EPSG number (from low to high values)
+    /// with the exception that WGS84 is the first projection in the returned list
     /// </summary>
     public static List<CrsProjection> getAllCrsProjections() {
+        // The method 'values()' returns the items in the order declared.
         return Arrays.asList(CrsProjection.values());
-        //return ((CrsProjection[])Enum.GetValues(typeof(CrsProjection))).ToList();
     }
 }

@@ -35,6 +35,10 @@ public enum CrsProjection {
     /// https://en.wikipedia.org/wiki/World_Geodetic_System#A_new_World_Geodetic_System:_WGS_84
     /// </summary>
     wgs84(4326),
+    
+    // Note: Keep the order as it is in this enum, i.e. the very first item should be 
+    // WGS84, but then the rest (i.e. the Swedish projections) should be declared by EPSG number (in increasing order with low values first)
+    // There is also a test method implemented for this specified return order. 
 
     /// <summary>
     /// "SWEREF 99 TM" (with EPSG code 3006) is the new national projection.
