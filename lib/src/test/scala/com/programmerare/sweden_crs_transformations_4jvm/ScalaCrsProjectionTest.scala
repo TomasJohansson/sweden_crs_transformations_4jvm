@@ -1,10 +1,10 @@
 package com.programmerare.sweden_crs_transformations_4jvm
 
-import com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.numberOfSweref99projections
-import com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.numberOfWgs84Projections
-import com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.numberOfRT90projections
-import com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.epsgNumberForWgs84
-import com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.epsgNumberForSweref99tm
+import JavaCrsProjectionFactoryTest.numberOfSweref99projections
+import JavaCrsProjectionFactoryTest.numberOfWgs84Projections
+import JavaCrsProjectionFactoryTest.numberOfRT90projections
+import JavaCrsProjectionFactoryTest.epsgNumberForWgs84
+import JavaCrsProjectionFactoryTest.epsgNumberForSweref99tm
 import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection._
 import org.junit.Before
 import org.junit.Test
@@ -36,11 +36,11 @@ class ScalaCrsProjectionTest {
 
   @Test def getEpsgNumber(): Unit = {
     assertEquals(
-      epsgNumberForSweref99tm, // constant defined in CrsProjectionFactoryTest
+      epsgNumberForSweref99tm, // constant defined in JavaCrsProjectionFactoryTest
       CrsProjection.sweref_99_tm.getEpsgNumber
     )
     assertEquals(
-      epsgNumberForWgs84, // constant defined in CrsProjectionFactoryTest
+      epsgNumberForWgs84, // constant defined in JavaCrsProjectionFactoryTest
       CrsProjection.wgs84.getEpsgNumber
     )
   }

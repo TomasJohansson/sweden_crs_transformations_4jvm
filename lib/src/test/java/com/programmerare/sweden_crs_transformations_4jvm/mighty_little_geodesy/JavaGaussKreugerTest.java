@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-public class GaussKreugerTest {
+public class JavaGaussKreugerTest {
     // https://kartor.eniro.se/m/XRCfh
     //WGS84 decimal (lat, lon)      59.330231, 18.059196
     //SWEREF99 TM (nord, öst)       6580822, 674032

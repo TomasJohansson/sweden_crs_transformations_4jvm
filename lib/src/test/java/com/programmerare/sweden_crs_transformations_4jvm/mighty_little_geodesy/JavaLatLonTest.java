@@ -3,7 +3,7 @@ package com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-public class LatLonTest {
+public class JavaLatLonTest {
     private final static double delta = 0.00000000000000000001;
     
     @Test

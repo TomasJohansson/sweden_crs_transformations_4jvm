@@ -1,11 +1,12 @@
 package com.programmerare.sweden_crs_transformations_4jvm;
 
-import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.epsgNumberForSweref99tm;
+import static com.programmerare.sweden_crs_transformations_4jvm.JavaCrsProjectionFactoryTest.epsgNumberForSweref99tm;
 import org.junit.Test;
 import java.util.List;
 import static org.junit.Assert.*;
 
-public class CrsCoordinateTest {
+public class JavaCrsCoordinateTest
+{
 
     // https://kartor.eniro.se/m/XRCfh
         //WGS84 decimal (lat, lon)      59.330231, 18.059196

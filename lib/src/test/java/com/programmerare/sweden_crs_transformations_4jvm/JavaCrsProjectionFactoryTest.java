@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.function.Predicate;
 import static org.junit.Assert.assertEquals;
 
-public class CrsProjectionFactoryTest {
+public class JavaCrsProjectionFactoryTest
+{
 
     public final static int epsgNumberForWgs84 = 4326;
     public final static int epsgNumberForSweref99tm = 3006; // https://epsg.org/crs_3006/SWEREF99-TM.html

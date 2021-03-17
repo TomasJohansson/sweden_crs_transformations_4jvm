@@ -1,10 +1,10 @@
 package com.programmerare.sweden_crs_transformations_4jvm;
 
-import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.numberOfSweref99projections;
-import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.numberOfWgs84Projections;
-import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.numberOfRT90projections;
-import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.epsgNumberForWgs84;
-import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjectionFactoryTest.epsgNumberForSweref99tm;
+import static com.programmerare.sweden_crs_transformations_4jvm.JavaCrsProjectionFactoryTest.numberOfSweref99projections;
+import static com.programmerare.sweden_crs_transformations_4jvm.JavaCrsProjectionFactoryTest.numberOfWgs84Projections;
+import static com.programmerare.sweden_crs_transformations_4jvm.JavaCrsProjectionFactoryTest.numberOfRT90projections;
+import static com.programmerare.sweden_crs_transformations_4jvm.JavaCrsProjectionFactoryTest.epsgNumberForWgs84;
+import static com.programmerare.sweden_crs_transformations_4jvm.JavaCrsProjectionFactoryTest.epsgNumberForSweref99tm;
 import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjection.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +12,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import static org.junit.Assert.*;
     
-public class CrsProjectionTest  {
+public class JavaCrsProjectionTest
+{
 
     private HashSet<CrsProjection> _wgs84Projections;
     private HashSet<CrsProjection> _sweref99Projections;
@@ -36,12 +37,12 @@ public class CrsProjectionTest  {
     @Test
     public void getEpsgNumber() {
         assertEquals(
-            epsgNumberForSweref99tm, // constant defined in CrsProjectionFactoryTest
+            epsgNumberForSweref99tm, // constant defined in JavaCrsProjectionFactoryTest
             CrsProjection.sweref_99_tm.getEpsgNumber()
         );
 
         assertEquals(
-            epsgNumberForWgs84, // constant defined in CrsProjectionFactoryTest
+            epsgNumberForWgs84, // constant defined in JavaCrsProjectionFactoryTest
             CrsProjection.wgs84.getEpsgNumber()
         );
     }
