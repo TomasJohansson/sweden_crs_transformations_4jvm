@@ -112,13 +112,11 @@ public class CrsCoordinateTest {
 
 
     @Test
-    public void equalityTest() {
+    public void equalityTest() { 
         CrsCoordinate coordinateInstance_1 = CrsCoordinate.createCoordinate(CrsProjection.wgs84, stockholmCentralStation_WGS84_longitude, stockholmCentralStation_WGS84_latitude);
         CrsCoordinate coordinateInstance_2 = CrsCoordinate.createCoordinate(CrsProjection.wgs84, stockholmCentralStation_WGS84_longitude, stockholmCentralStation_WGS84_latitude);
         assertEquals(coordinateInstance_1, coordinateInstance_2);
         assertEquals(coordinateInstance_1.hashCode(), coordinateInstance_2.hashCode());
-        assertTrue(coordinateInstance_1 == coordinateInstance_2);
-        assertTrue(coordinateInstance_2 == coordinateInstance_1);
         assertTrue(coordinateInstance_1.equals(coordinateInstance_2));
         assertTrue(coordinateInstance_2.equals(coordinateInstance_1));
 
@@ -131,11 +129,10 @@ public class CrsCoordinateTest {
         );
         assertEquals(coordinateInstance_1, coordinateInstance_3);
         assertEquals(coordinateInstance_1.hashCode(), coordinateInstance_3.hashCode());
-        assertTrue(coordinateInstance_1 == coordinateInstance_3); // method "operator =="
-        assertTrue(coordinateInstance_3 == coordinateInstance_1);
         assertTrue(coordinateInstance_1.equals(coordinateInstance_3));
         assertTrue(coordinateInstance_3.equals(coordinateInstance_1));
 
+        // TODO review the below comment which was once made for C#
         // Regarding the chosen value for "delta" (which is added to the lon/lat values, to create a slightly different value) above and below,
         // it is because of experimentation this "breakpoint" value has been determined, i.e. the above value still resulted in equality 
         // but when it was increased as below with one decimal then the above kind of assertions failed and therefore the other assertions below 

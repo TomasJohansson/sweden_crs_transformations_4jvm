@@ -11,6 +11,8 @@
 package com.programmerare.sweden_crs_transformations_4jvm;
 
 import com.programmerare.sweden_crs_transformations_4jvm.transformation.Transformer;
+
+import java.util.Objects;
 import java.util.function.Function;
 
 /// <summary>
@@ -104,35 +106,26 @@ public class CrsCoordinate {
     }
 
     // ----------------------------------------------------------------------------------------------------------------------
-    // These five methods below was generated with Visual Studio 2019
-//        public override bool Equals(object obj) {
-//            return Equals(obj as CrsCoordinate);
-//        }
-//
-//        public bool Equals(CrsCoordinate other) {
-//            return other != null &&
-//                   CrsProjection == other.CrsProjection &&
-//                   LongitudeX == other.LongitudeX &&
-//                   LatitudeY == other.LatitudeY;
-//        }
-//
-//        public override int GetHashCode() {
-//            int hashCode = 1147467376;
-//            hashCode = hashCode * -1521134295 + CrsProjection.GetHashCode();
-//            hashCode = hashCode * -1521134295 + LongitudeX.GetHashCode();
-//            hashCode = hashCode * -1521134295 + LatitudeY.GetHashCode();
-//            return hashCode;
-//        }
-//
-//        public static bool operator ==(CrsCoordinate left, CrsCoordinate right) {
-//            return EqualityComparer<CrsCoordinate>.Default.Equals(left, right);
-//        }
-//
-//        public static bool operator !=(CrsCoordinate left, CrsCoordinate right) {
-//            return !(left == right);
-//        }
+    // These two methods below (i.e. 'equals' and 'hashCode') was generated with IntelliJ IDEA 2020.3
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        CrsCoordinate that = (CrsCoordinate) o;
+        return Double.compare(that.yLatitude, yLatitude) == 0
+            && Double.compare(that.xLongitude, xLongitude) == 0
+            && crsProjection == that.crsProjection;
+    }
 
-    // These five methods above was generated with Visual Studio 2019
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(crsProjection, yLatitude, xLongitude);
+    }
+    // These two methods above (i.e. 'equals' and 'hashCode') was generated with IntelliJ IDEA 2020.3
     // ----------------------------------------------------------------------------------------------------------------------
 
     /// <summary>
@@ -175,4 +168,5 @@ public class CrsCoordinate {
     public static void setToStringImplementationDefault() { 
         _toStringImplementation = CrsCoordinate::defaultToStringImplementation;
     }
+
 }
