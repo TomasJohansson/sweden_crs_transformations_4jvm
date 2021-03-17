@@ -14,7 +14,7 @@ import com.programmerare.sweden_crs_transformations_4jvm.CrsCoordinate;
 import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
 
 interface TransformStrategy {
-    CrsCoordinate Transform(
+    CrsCoordinate transform(
         CrsCoordinate sourceCoordinate,
         CrsProjection targetCrsProjection
     );

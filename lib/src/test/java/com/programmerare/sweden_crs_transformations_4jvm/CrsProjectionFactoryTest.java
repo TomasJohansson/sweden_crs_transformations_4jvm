@@ -18,30 +18,30 @@ public class CrsProjectionFactoryTest {
     private List<CrsProjection> _allCrsProjections;
 
     @Before
-    public void SetUp() {
-        _allCrsProjections = CrsProjectionFactory.GetAllCrsProjections();;
+    public void setUp() {
+        _allCrsProjections = CrsProjectionFactory.getAllCrsProjections();;
     }
 
     @Test
-    public void GetCrsProjectionByEpsgNumber() {
+    public void getCrsProjectionByEpsgNumber() {
         assertEquals(
             CrsProjection.sweref_99_tm,
-            CrsProjectionFactory.GetCrsProjectionByEpsgNumber(epsgNumberForSweref99tm)
+            CrsProjectionFactory.getCrsProjectionByEpsgNumber(epsgNumberForSweref99tm)
         );
 
         assertEquals(
             CrsProjection.sweref_99_23_15,
-            CrsProjectionFactory.GetCrsProjectionByEpsgNumber(3018) // https://epsg.io/3018
+            CrsProjectionFactory.getCrsProjectionByEpsgNumber(3018) // https://epsg.io/3018
         );
 
         assertEquals(
             CrsProjection.rt90_5_0_gon_o,
-            CrsProjectionFactory.GetCrsProjectionByEpsgNumber(3024)  // https://epsg.io/3018
+            CrsProjectionFactory.getCrsProjectionByEpsgNumber(3024)  // https://epsg.io/3018
         );
     }
 
     @Test
-    public void VerifyTotalNumberOfProjections() {
+    public void verifyTotalNumberOfProjections() {
         assertEquals(
             totalNumberOfProjections,
             _allCrsProjections.size() // retrieved with 'GetAllCrsProjections' in the SetUp method
@@ -49,51 +49,51 @@ public class CrsProjectionFactoryTest {
     }
 
     @Test
-    public void VerifyNumberOfWgs84Projections() {
+    public void verifyNumberOfWgs84Projections() {
         // C#.NET
         // assertEquals(numberOfWgs84Projections, _allCrsProjections.Where(crs => crs.IsWgs84()).Count());
        assertEquals(
            numberOfWgs84Projections,
            
            _allCrsProjections.stream()
-               .filter(crs -> crs.IsWgs84())
+               .filter(crs -> crs.isWgs84())
                .collect(Collectors.toList())
                .size()
        );
     }
     // TODO refactor duplication in above and below methods (stream ... Collectors)
     @Test
-    public void VerifyNumberOfSweref99Projections() {
+    public void verifyNumberOfSweref99Projections() {
         // C#.NET
         // assertEquals(numberOfSweref99projections, _allCrsProjections.Where(crs => crs.IsSweref()).Count());
         assertEquals(
             numberOfSweref99projections,
 
             _allCrsProjections.stream()
-                .filter(crs -> crs.IsSweref())
+                .filter(crs -> crs.isSweref())
                 .collect(Collectors.toList())
                 .size()
         );            
     }
     // TODO refactor duplication in above and below methods (stream ... Collectors)
     @Test
-    public void VerifyNumberOfRT90Projections() {
+    public void verifyNumberOfRT90Projections() {
         // C#.NET
         // assertEquals(numberOfRT90projections, _allCrsProjections.Where(crs => crs.IsRT90()).Count());
         assertEquals(
             numberOfRT90projections,
 
             _allCrsProjections.stream()
-                .filter(crs -> crs.IsRT90())
+                .filter(crs -> crs.isRT90())
                 .collect(Collectors.toList())
                 .size()
         );
     }
 
     @Test
-    public void VerifyThatAllProjectionsCanBeRetrievedByItsEpsgNumber() {
+    public void verifyThatAllProjectionsCanBeRetrievedByItsEpsgNumber() {
         for(CrsProjection crsProjection : _allCrsProjections) {
-            CrsProjection crsProj = CrsProjectionFactory.GetCrsProjectionByEpsgNumber(crsProjection.GetEpsgNumber());
+            CrsProjection crsProj = CrsProjectionFactory.getCrsProjectionByEpsgNumber(crsProjection.getEpsgNumber());
             assertEquals(crsProjection, crsProj);
         }
     }    

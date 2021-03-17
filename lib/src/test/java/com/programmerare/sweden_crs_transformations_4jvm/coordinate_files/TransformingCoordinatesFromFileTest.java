@@ -23,7 +23,7 @@ public class TransformingCoordinatesFromFileTest {
     // the above file should be located within 'test/resources' i.e. at the path ".../test/resources/coordinate_files/swedish_crs_coordinates.csv"        
 
     @Test
-    public void AssertThatTransformationsDoNotDifferTooMuchFromExpectedResultInFile() {
+    public void assertThatTransformationsDoNotDifferTooMuchFromExpectedResultInFile() {
         List<String> problemTransformationResults = new ArrayList<String>();
         List<String> lines = this.readAllLinesFromResourceFile(relativePathForFileWith_swedish_crs_transformations);
         // The first two lines of the input file (the header row, and a data row):
@@ -49,8 +49,8 @@ public class TransformingCoordinatesFromFileTest {
             List<CrsCoordinate> coordinates = listOfCoordinatesWhichRepresentTheSameLocation.coordinateList;
             for(int i=0; i<coordinates.size()-1; i++) {
                 for(int j=i+1; j<coordinates.size(); j++) {
-                    Transform(coordinates.get(i), coordinates.get(j), problemTransformationResults);
-                    Transform(coordinates.get(j), coordinates.get(i), problemTransformationResults);
+                    transform(coordinates.get(i), coordinates.get(j), problemTransformationResults);
+                    transform(coordinates.get(j), coordinates.get(i), problemTransformationResults);
                     numberOfTransformations += 2;
                 }
             }
@@ -74,14 +74,14 @@ public class TransformingCoordinatesFromFileTest {
         assertEquals(expectedNumberOfTransformations, numberOfTransformations);
     }
 
-    private void Transform(
+    private void transform(
         CrsCoordinate sourceCoordinate,
         CrsCoordinate targetCoordinateExpected,
         List<String> problemTransformationResults
     ) {
         CrsProjection targetCrs = targetCoordinateExpected.getCrsProjection();
-        CrsCoordinate targetCoordinate = sourceCoordinate.Transform(targetCrs);
-        boolean isTargetEpsgWgs84 = targetCrs.IsWgs84();
+        CrsCoordinate targetCoordinate = sourceCoordinate.transform(targetCrs);
+        boolean isTargetEpsgWgs84 = targetCrs.isWgs84();
         // double maxDifference = isTargetEpsgWgs84 ? 0.000002 : 0.2;   // fails, Epsg 3022 ==> 4326 , diffLongitude 2.39811809521484E-06
         // double maxDifference = isTargetEpsgWgs84 ? 0.000003 : 0.1;     // fails, Epsg 4326 ==> 3022 , diffLongitude 0.117090131156147
         double maxDifference = isTargetEpsgWgs84 ? 0.000003 : 0.2; // the other (i.e. non-WGS84) are using meter as unit, so 0.2 is just two decimeters difference
@@ -129,11 +129,9 @@ class Coordinates {
             // Note that the order of the parameters in the input file (with its lines being used here)
             // are in the order x/Longitude first, but the create method below takes the y/Latitude first
             // (and therefore the parameters are not in the sequential order regarding the array indexes)
-            CrsCoordinate.CreateCoordinate(Integer.parseInt(array[0]), Double.parseDouble(array[2]), Double.parseDouble(array[1])),
-            CrsCoordinate.CreateCoordinate(Integer.parseInt(array[3]), Double.parseDouble(array[5]), Double.parseDouble(array[4])),
-            CrsCoordinate.CreateCoordinate(Integer.parseInt(array[6]), Double.parseDouble(array[8]), Double.parseDouble(array[7]))
+            CrsCoordinate.createCoordinate(Integer.parseInt(array[0]), Double.parseDouble(array[2]), Double.parseDouble(array[1])),
+            CrsCoordinate.createCoordinate(Integer.parseInt(array[3]), Double.parseDouble(array[5]), Double.parseDouble(array[4])),
+            CrsCoordinate.createCoordinate(Integer.parseInt(array[6]), Double.parseDouble(array[8]), Double.parseDouble(array[7]))
         );
     }
-
 }
-

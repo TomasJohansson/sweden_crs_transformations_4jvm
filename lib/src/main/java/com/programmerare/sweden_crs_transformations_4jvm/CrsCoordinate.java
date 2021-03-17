@@ -60,17 +60,17 @@ public class CrsCoordinate {
     /// Transforms the coordinate to another coordinate reference system
     /// </summary>
     /// <param name="targetCrsProjection">the coordinate reference system that you want to transform to</param>        
-    public CrsCoordinate Transform(CrsProjection targetCrsProjection) {
-        return Transformer.Transform(this, targetCrsProjection); 
+    public CrsCoordinate transform(CrsProjection targetCrsProjection) {
+        return Transformer.transform(this, targetCrsProjection); 
     }
 
     /// <summary>
     /// Transforms the coordinate to another coordinate reference system
     /// </summary>
     /// <param name="targetEpsgNumber">the coordinate reference system that you want to transform to</param>        
-    public CrsCoordinate Transform(int targetEpsgNumber) {
-        CrsProjection targetCrsProjection = CrsProjectionFactory.GetCrsProjectionByEpsgNumber(targetEpsgNumber);
-        return this.Transform(targetCrsProjection);
+    public CrsCoordinate transform(int targetEpsgNumber) {
+        CrsProjection targetCrsProjection = CrsProjectionFactory.getCrsProjectionByEpsgNumber(targetEpsgNumber);
+        return this.transform(targetCrsProjection);
     }
 
     /// <summary>
@@ -79,13 +79,13 @@ public class CrsCoordinate {
     /// <param name="epsgNumber">represents the coordinate reference system that defines the location together with the other two parameters</param>
     /// <param name="xLongitude">the coordinate position value representing the longitude or X or Easting</param>
     /// <param name="yLatitude">the coordinate position value representing the latitude or Y or Northing</param>
-    public static CrsCoordinate CreateCoordinate(
+    public static CrsCoordinate createCoordinate(
         int epsgNumber,
         double yLatitude,
         double xLongitude
     ) {
-        CrsProjection crsProjection = CrsProjectionFactory.GetCrsProjectionByEpsgNumber(epsgNumber);
-        return CreateCoordinate(crsProjection, yLatitude, xLongitude);
+        CrsProjection crsProjection = CrsProjectionFactory.getCrsProjectionByEpsgNumber(epsgNumber);
+        return createCoordinate(crsProjection, yLatitude, xLongitude);
     }
 
     /// <summary>
@@ -95,7 +95,7 @@ public class CrsCoordinate {
     /// <param name="crsProjection">represents the coordinate reference system that defines the location together with the other two parameters</param>
     /// <param name="xLongitude">the coordinate position value representing the longitude or X or Easting</param>
     /// <param name="yLatitude">the coordinate position value representing the latitude or Y or Northing</param>
-    public static CrsCoordinate CreateCoordinate(
+    public static CrsCoordinate createCoordinate(
         CrsProjection crsProjection,
         double yLatitude,
         double xLongitude
@@ -149,7 +149,7 @@ public class CrsCoordinate {
 
     private static String defaultToStringImplementation(CrsCoordinate coordinate) {
         String crs = coordinate.getCrsProjection().toString().toUpperCase();
-        boolean isWgs84 =  coordinate.getCrsProjection().IsWgs84();
+        boolean isWgs84 =  coordinate.getCrsProjection().isWgs84();
         String yOrLatitude = isWgs84 ? "Latitude" : "Y";
         String xOrLongitude = isWgs84 ? "Longitude" : "X";
         return String.format(
@@ -165,14 +165,14 @@ public class CrsCoordinate {
 //        /// <summary>
 //        /// Sets a custom method to be used for rendering an instance when the 'ToString' method is used.
 //        /// </summary>
-    public static void SetToStringImplementation(Function<CrsCoordinate, String> toStringImplementation) {
+    public static void setToStringImplementation(Function<CrsCoordinate, String> toStringImplementation) {
         _toStringImplementation = toStringImplementation;
     }
 //
 //        /// <summary>
 //        /// Sets the default method to be used for rendering an instance when the 'ToString' method is used.
 //        /// </summary>
-    public static void SetToStringImplementationDefault() { 
+    public static void setToStringImplementationDefault() { 
         _toStringImplementation = CrsCoordinate::defaultToStringImplementation;
     }
 }

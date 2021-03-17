@@ -24,41 +24,41 @@ public class Transformer {
     // Implementation first transforming to WGS84 and then to the real target:
     private static final TransformStrategy _transFormStrategy_From_Sweref99OrRT90_to_WGS84_andThenToRealTarget  = new TransFormStrategy_From_Sweref99OrRT90_to_WGS84_andThenToRealTarget();
 
-    public static CrsCoordinate Transform(CrsCoordinate sourceCoordinate, CrsProjection targetCrsProjection) {
+    public static CrsCoordinate transform(CrsCoordinate sourceCoordinate, CrsProjection targetCrsProjection) {
         if(sourceCoordinate.getCrsProjection() == targetCrsProjection) return sourceCoordinate;
 
         TransformStrategy _transFormStrategy = null;
 
         // Transform FROM wgs84:
         if(
-            sourceCoordinate.getCrsProjection().IsWgs84()
+            sourceCoordinate.getCrsProjection().isWgs84()
             &&
-            ( targetCrsProjection.IsSweref() || targetCrsProjection.IsRT90() )
+            ( targetCrsProjection.isSweref() || targetCrsProjection.isRT90() )
         ) {
             _transFormStrategy = _transformStrategy_from_WGS84_to_SWEREF99_or_RT90;
         }
 
         // Transform TO wgs84:
         else if(
-            targetCrsProjection.IsWgs84()
+            targetCrsProjection.isWgs84()
             &&
-            ( sourceCoordinate.getCrsProjection().IsSweref() || sourceCoordinate.getCrsProjection().IsRT90() )
+            ( sourceCoordinate.getCrsProjection().isSweref() || sourceCoordinate.getCrsProjection().isRT90() )
         ) {
             _transFormStrategy = _transformStrategy_from_SWEREF99_or_RT90_to_WGS84;
         }
 
         // Transform between two non-wgs84:
         else if(
-            ( sourceCoordinate.getCrsProjection().IsSweref() || sourceCoordinate.getCrsProjection().IsRT90() )
+            ( sourceCoordinate.getCrsProjection().isSweref() || sourceCoordinate.getCrsProjection().isRT90() )
             &&
-            ( targetCrsProjection.IsSweref() || targetCrsProjection.IsRT90() )
+            ( targetCrsProjection.isSweref() || targetCrsProjection.isRT90() )
         ) {
             // the only direct transform supported is to/from WGS84, so therefore first transform to wgs84
             _transFormStrategy = _transFormStrategy_From_Sweref99OrRT90_to_WGS84_andThenToRealTarget;
         }
         
         if(_transFormStrategy != null) {
-            return _transFormStrategy.Transform(sourceCoordinate, targetCrsProjection);
+            return _transFormStrategy.transform(sourceCoordinate, targetCrsProjection);
         }
 
         throw new IllegalArgumentException(String.format("Unhandled source/target projection transformation: %s ==> %s", sourceCoordinate.getCrsProjection(), targetCrsProjection));

@@ -100,7 +100,7 @@ public enum CrsProjection {
     /// An EPSG number.
     /// https://en.wikipedia.org/wiki/EPSG_Geodetic_Parameter_Dataset
     /// </returns>
-    public int GetEpsgNumber() {
+    public int getEpsgNumber() {
         // the EPSG numbers have been used as the values in this enum
         return epsg;
     }
@@ -108,21 +108,21 @@ public enum CrsProjection {
     /// <summary>
     /// True if the coordinate reference system is WGS84.
     /// </summary>
-    public boolean IsWgs84() {
+    public boolean isWgs84() {
         return epsg == CrsProjection.wgs84.epsg;
     }
 
     /// <summary>
     /// True if the coordinate reference system is a version of SWEREF99.
     /// </summary>
-    public boolean IsSweref() {
+    public boolean isSweref() {
         return epsgLowerValueForSweref <= epsg && epsg <= epsgUpperValueForSweref;
     }
 
     /// <summary>
     /// True if the coordinate reference system is a version of RT90.
     /// </summary>
-    public boolean IsRT90() {
+    public boolean isRT90() {
         return epsgLowerValueForRT90 <= epsg && epsg <= epsgUpperValueForRT90;
     }
 

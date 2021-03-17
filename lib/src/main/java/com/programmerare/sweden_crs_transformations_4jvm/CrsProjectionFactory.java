@@ -30,10 +30,10 @@ public class CrsProjectionFactory {
     /// https://epsg.io
     /// </param>
     /// See also <see cref="CrsProjection"/>        
-    public static CrsProjection GetCrsProjectionByEpsgNumber(int epsg) {
-        List<CrsProjection> values = GetAllCrsProjections();
+    public static CrsProjection getCrsProjectionByEpsgNumber(int epsg) {
+        List<CrsProjection> values = getAllCrsProjections();
         for(CrsProjection value : values) {
-            if(value.GetEpsgNumber() == epsg) {
+            if(value.getEpsgNumber() == epsg) {
                 return value;
             }
         }
@@ -43,7 +43,7 @@ public class CrsProjectionFactory {
     /// <summary>
     /// Convenience method for retrieving all the projections in a List.
     /// </summary>
-    public static List<CrsProjection> GetAllCrsProjections() {
+    public static List<CrsProjection> getAllCrsProjections() {
         return Arrays.asList(CrsProjection.values());
         //return ((CrsProjection[])Enum.GetValues(typeof(CrsProjection))).ToList();
     }

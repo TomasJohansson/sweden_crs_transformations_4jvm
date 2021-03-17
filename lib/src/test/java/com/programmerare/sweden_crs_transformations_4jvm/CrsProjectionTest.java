@@ -19,7 +19,7 @@ public class CrsProjectionTest  {
     private HashSet<CrsProjection> _rt90Projections;
 
     @Before
-    public void SetUp() {
+    public void setUp() {
         _wgs84Projections = new HashSet<CrsProjection>(Arrays.asList(CrsProjection.wgs84));
         _sweref99Projections = new HashSet<CrsProjection>(Arrays.asList( 
             sweref_99_12_00, sweref_99_13_30, sweref_99_14_15,
@@ -34,15 +34,15 @@ public class CrsProjectionTest  {
     }
 
     @Test
-    public void GetEpsgNumber() {
+    public void getEpsgNumber() {
         assertEquals(
             epsgNumberForSweref99tm, // constant defined in CrsProjectionFactoryTest
-            CrsProjection.sweref_99_tm.GetEpsgNumber()
+            CrsProjection.sweref_99_tm.getEpsgNumber()
         );
 
         assertEquals(
             epsgNumberForWgs84, // constant defined in CrsProjectionFactoryTest
-            CrsProjection.wgs84.GetEpsgNumber()
+            CrsProjection.wgs84.getEpsgNumber()
         );
     }
 
@@ -52,13 +52,13 @@ public class CrsProjectionTest  {
         assertEquals(numberOfWgs84Projections, _wgs84Projections.size());
 
         for(CrsProjection item : _wgs84Projections) {
-            assertTrue(item.IsWgs84());
+            assertTrue(item.isWgs84());
         }
         for(CrsProjection item : _sweref99Projections) {
-            assertFalse(item.IsWgs84());
+            assertFalse(item.isWgs84());
         }
         for(CrsProjection item : _rt90Projections) {
-            assertFalse(item.IsWgs84());
+            assertFalse(item.isWgs84());
         }
     }
 
@@ -67,13 +67,13 @@ public class CrsProjectionTest  {
         assertEquals(numberOfSweref99projections, _sweref99Projections.size());
 
         for(CrsProjection item : _wgs84Projections) {
-            assertFalse(item.IsSweref());
+            assertFalse(item.isSweref());
         }
         for(CrsProjection item : _sweref99Projections) {
-            assertTrue(item.IsSweref());
+            assertTrue(item.isSweref());
         }
         for(CrsProjection item : _rt90Projections) {
-            assertFalse(item.IsSweref());
+            assertFalse(item.isSweref());
         }
     }
 
@@ -82,13 +82,13 @@ public class CrsProjectionTest  {
         assertEquals(numberOfRT90projections, _rt90Projections.size());
 
         for(CrsProjection item : _wgs84Projections) {
-            assertFalse(item.IsRT90());
+            assertFalse(item.isRT90());
         }
         for(CrsProjection item : _sweref99Projections) {
-            assertFalse(item.IsRT90());
+            assertFalse(item.isRT90());
         }
         for(CrsProjection item : _rt90Projections) {
-            assertTrue(item.IsRT90());
+            assertTrue(item.isRT90());
         }
     }
 

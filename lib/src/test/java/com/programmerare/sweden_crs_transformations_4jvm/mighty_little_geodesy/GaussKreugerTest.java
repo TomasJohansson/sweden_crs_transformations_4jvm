@@ -17,7 +17,7 @@ public class GaussKreugerTest {
     private final static GaussKreuger gaussKreuger = new GaussKreuger();
   
     @Before
-    public void SetUp() {
+    public void setUp() {
         gaussKreuger.swedish_params(CrsProjection.sweref_99_tm);
     }
   
