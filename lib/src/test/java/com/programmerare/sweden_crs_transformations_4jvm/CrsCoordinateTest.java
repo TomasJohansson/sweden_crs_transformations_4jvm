@@ -132,13 +132,16 @@ public class CrsCoordinateTest {
         assertTrue(coordinateInstance_1.equals(coordinateInstance_3));
         assertTrue(coordinateInstance_3.equals(coordinateInstance_1));
 
-        // TODO review the below comment which was once made for C#
         // Regarding the chosen value for "delta" (which is added to the lon/lat values, to create a slightly different value) above and below,
         // it is because of experimentation this "breakpoint" value has been determined, i.e. the above value still resulted in equality 
-        // but when it was increased as below with one decimal then the above kind of assertions failed and therefore the other assertions below 
-        // are used instead e.g. testing the overloaded operator "!=".
-        // You should generally be cautios when comparing floating point values but the above test indicate that values are considered equal even though 
+        // but when it was increased as below with one decimal then the above kind of assertions failed and therefore 
+        // the other assertions below are used instead.
+        // You should generally be cautious when comparing floating point values but the above test indicate that values are considered equal even though 
         // the difference is as 'big' as in the "delta" value above.
+        
+        // Note that the chosen values for the 'delta' above and below has been determined by experimentation 
+        // to see where it succeeds/fails, and it was originally implemented for C#.NET
+        // but later has been verified that those 'breakpoint' delta values are the same for this JVM/Java implementation. 
 
         delta = delta * 10; // moving the decimal one bit to get a somewhat larger values, and then the instances are not considered equal, as you can see in the tests below.
         CrsCoordinate coordinateInstance_4 = CrsCoordinate.createCoordinate(
