@@ -15,6 +15,14 @@ import com.programmerare.sweden_crs_transformations_4jvm.CrsCoordinate;
 import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
 
 interface TransformStrategy {
+
+    /**
+     * Transforms a coordinate from one CRS (Coordinate Reference System) to another CRS.
+     * @param sourceCoordinate the source coordinate, i.e. X/Y values and a CRS.
+     * @param targetCrsProjection the target CRS
+     * @return a new coordinate instance representing the source coordinate in the target CRS 
+     * @see CrsProjection
+     */
     CrsCoordinate transform(
         CrsCoordinate sourceCoordinate,
         CrsProjection targetCrsProjection

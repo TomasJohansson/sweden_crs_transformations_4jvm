@@ -15,6 +15,11 @@
 // The main part that is still used is this file with the mathematical calculations i.e. the file "GaussKreuger.cs"
 // Although there has been some modifications of this file too, as mentioned below.
 
+// Please note that some of the coments below may have been originally been written below for this library:
+// https://github.com/TomasJohansson/sweden_crs_transformations_4net
+// and maybe has not been updated for the JVM port: 
+// https://github.com/TomasJohansson/sweden_crs_transformations_4jvm
+
 // https://github.com/bjornsallarp/MightyLittleGeodesy/blob/83491fc6e7454f5d90d792610b317eca7a332334/MightyLittleGeodesy/Classes/GaussKreuger.cs
 // The original version of the below class 'GaussKreuger' is located at the above URL.
 // That original version has been modified below in this file below but not in a significant way (e.g. the mathematical calculations has not been modified).
@@ -59,12 +64,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 // ------------------------------------------------------------------------------------------
-
 package com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy;
 
 import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
-
-import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjection.*;
+import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjection.*; // wgs84 , sweref_99_tm , and so on
 
 /*
      * .NET-implementation of "Gauss Conformal Projection 

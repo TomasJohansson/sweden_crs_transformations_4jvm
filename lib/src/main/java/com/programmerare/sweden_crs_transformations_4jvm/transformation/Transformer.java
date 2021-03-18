@@ -25,6 +25,13 @@ public class Transformer {
     // Implementation first transforming to WGS84 and then to the real target:
     private static final TransformStrategy _transFormStrategy_From_Sweref99OrRT90_to_WGS84_andThenToRealTarget  = new TransFormStrategy_From_Sweref99OrRT90_to_WGS84_andThenToRealTarget();
 
+    /**
+     * Transforms a coordinate from one CRS (Coordinate Reference System) to another CRS.
+     * @param sourceCoordinate the source coordinate, i.e. X/Y values and a CRS.
+     * @param targetCrsProjection the target CRS
+     * @return a new coordinate instance representing the source coordinate in the target CRS 
+     * @see CrsProjection
+     */
     public static CrsCoordinate transform(CrsCoordinate sourceCoordinate, CrsProjection targetCrsProjection) {
         if(sourceCoordinate.getCrsProjection() == targetCrsProjection) return sourceCoordinate;
 

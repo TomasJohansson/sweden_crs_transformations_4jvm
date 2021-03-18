@@ -14,24 +14,23 @@ package com.programmerare.sweden_crs_transformations_4jvm;
 import java.util.Arrays;
 import java.util.List;
 
-/// <summary>
-/// Class with methods for getting all projections, and for getting one projection by its EPSG number.
-/// (since such custom methods can not be located within the CrsProjection enum type itself)
-/// </summary>
-/// See also <see cref="CrsProjection"/>
+/**
+ * Class with methods for getting all projections, and for getting one projection by its EPSG number.
+ * @see CrsProjection
+ * @see <a href="https://epsg.io">https://epsg.io</a>
+ * @see <a href="https://epsg.org">https://epsg.org</a>
+ * @see <a href="https://en.wikipedia.org/wiki/EPSG_Geodetic_Parameter_Dataset">https://en.wikipedia.org/wiki/EPSG_Geodetic_Parameter_Dataset</a>
+ */
 public class CrsProjectionFactory {
 
-    /// <summary>
-    /// Factory method creating an enum 'CrsProjection' by its number (EPSG) value.
-    /// </summary>
-    /// <param name="epsg">
-    /// An EPSG number.
-    /// https://en.wikipedia.org/wiki/EPSG_Geodetic_Parameter_Dataset
-    /// https://epsg.org
-    /// https://epsg.io
-    /// </param>
-    /// See also <see cref="CrsProjection"/>        
+    /**
+     * Factory method creating an enum 'CrsProjection' by its number (EPSG) value. 
+     * @param epsg An EPSG number
+     * @return an instance of the enum 'CrsProjection' which representents the EPSG number provided as method parameter
+     * @see CrsProjection
+     */
     public static CrsProjection getCrsProjectionByEpsgNumber(int epsg) {
+        // TODO maybe implement this method with a hash/map table lookup instead of iteration every time
         List<CrsProjection> values = getAllCrsProjections();
         for(CrsProjection value : values) {
             if(value.getEpsgNumber() == epsg) {
@@ -41,13 +40,18 @@ public class CrsProjectionFactory {
         throw new IllegalArgumentException("Could not find CrsProjection for EPSG " + epsg);
     }
 
-    /// <summary>
-    /// Convenience method for retrieving all the projections in a List.
-    /// They are returned ordered by EPSG number (from low to high values)
-    /// with the exception that WGS84 is the first projection in the returned list
-    /// </summary>
+    /**
+     * Convenience method for retrieving all the projections in a List.
+     * They are returned ordered by EPSG number (from low to high values)
+     * with the exception that WGS84 is the first projection in the returned list 
+     * @return a list of all CrsProjection items, in the sort order from low to high EPSG number 
+     * (with WGS84 as an exception, being the first item returned)
+     * @see CrsProjection
+     */    
     public static List<CrsProjection> getAllCrsProjections() {
         // The method 'values()' returns the items in the order declared.
+        // WGS84 must be declared first, and then the rest sorted by EPSG number,
+        // and please note that this specified sort order is also verified in test code.
         return Arrays.asList(CrsProjection.values());
     }
 }

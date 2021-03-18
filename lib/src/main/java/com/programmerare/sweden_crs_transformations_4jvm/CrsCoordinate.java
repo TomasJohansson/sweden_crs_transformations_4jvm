@@ -12,43 +12,45 @@
 package com.programmerare.sweden_crs_transformations_4jvm;
 
 import com.programmerare.sweden_crs_transformations_4jvm.transformation.Transformer;
-
 import java.util.Objects;
 import java.util.function.Function;
 
-/// <summary>
-/// Coordinate, defined by the three parameters for the factory methods.
-/// </summary>
+/**
+ * Coordinate, defined by the three parameters for the factory methods. 
+ */
 public class CrsCoordinate {
     
     private final CrsProjection crsProjection;
     private final double yLatitude;
     private final double xLongitude;
 
-    /// <summary>
-    /// The coordinate reference system that defines the location together with the other two properties (LongitudeX and LatitudeY).
-    /// </summary>
+    /**
+     * @return the coordinate reference system that defines the location together with the other two properties (LongitudeX and LatitudeY).
+     */
     public CrsProjection getCrsProjection() {
         return crsProjection;
     }
     
-    /// <summary>
-    /// The coordinate value representing the longitude or X or Easting.
-    /// </summary>    
+    /**
+     * @return the coordinate value representing the longitude or X or Easting.
+     */
     public double getLongitudeX() {
         return xLongitude;
     }
 
-    /// <summary>
-    /// The coordinate value representing the latitude or Y or Northing.
-    /// </summary>
+    /**
+     * @return the coordinate value representing the latitude or Y or Northing.
+     */    
     public double getLatitudeY() {
         return yLatitude;
     }
 
-    /// <summary>
-    /// Private constructor. Client code must instead use the public factory methods.
-    /// </summary>
+    /**
+     * Private constructor. Client code must instead use the public factory methods.
+     * @param crsProjection represents the coordinate reference system that defines the location together with the other two parameters
+     * @param yLatitude the coordinate position value representing the latitude or Y or Northing
+     * @param xLongitude the coordinate position value representing the longitude or X or Easting
+     */
     private CrsCoordinate(
         CrsProjection crsProjection,
         double yLatitude,
@@ -59,29 +61,32 @@ public class CrsCoordinate {
         this.xLongitude = xLongitude;
     }
 
-    /// <summary>
-    /// Transforms the coordinate to another coordinate reference system
-    /// </summary>
-    /// <param name="targetCrsProjection">the coordinate reference system that you want to transform to</param>        
+    /**
+     * Transforms the coordinate to another coordinate reference system
+     * @param targetCrsProjection the coordinate reference system that you want to transform to
+     * @return a new instance representing the transformed coordinate
+     */
     public CrsCoordinate transform(CrsProjection targetCrsProjection) {
         return Transformer.transform(this, targetCrsProjection); 
     }
 
-    /// <summary>
-    /// Transforms the coordinate to another coordinate reference system
-    /// </summary>
-    /// <param name="targetEpsgNumber">the coordinate reference system that you want to transform to</param>        
+    /**
+     * Transforms the coordinate to another coordinate reference system
+     * @param targetEpsgNumber the coordinate reference system that you want to transform to
+     * @return a new instance representing the transformed coordinate
+     */
     public CrsCoordinate transform(int targetEpsgNumber) {
         CrsProjection targetCrsProjection = CrsProjectionFactory.getCrsProjectionByEpsgNumber(targetEpsgNumber);
         return this.transform(targetCrsProjection);
     }
 
-    /// <summary>
-    /// Factory method for creating an instance.
-    /// </summary>
-    /// <param name="epsgNumber">represents the coordinate reference system that defines the location together with the other two parameters</param>
-    /// <param name="xLongitude">the coordinate position value representing the longitude or X or Easting</param>
-    /// <param name="yLatitude">the coordinate position value representing the latitude or Y or Northing</param>
+    /**
+     * Factory method for creating an instance.
+     * @param epsgNumber represents the coordinate reference system that defines the location together with the other two parameters
+     * @param yLatitude the coordinate position value representing the latitude or Y or Northing
+     * @param xLongitude the coordinate position value representing the longitude or X or Easting
+     * @return an instance of CrsCoordinate 
+     */
     public static CrsCoordinate createCoordinate(
         int epsgNumber,
         double yLatitude,
@@ -91,13 +96,13 @@ public class CrsCoordinate {
         return createCoordinate(crsProjection, yLatitude, xLongitude);
     }
 
-    /// <summary>
-    /// Factory method for creating an instance.
-    /// See also <see cref="CrsProjection"/>
-    /// </summary>
-    /// <param name="crsProjection">represents the coordinate reference system that defines the location together with the other two parameters</param>
-    /// <param name="xLongitude">the coordinate position value representing the longitude or X or Easting</param>
-    /// <param name="yLatitude">the coordinate position value representing the latitude or Y or Northing</param>
+    /**
+     * Factory method for creating an instance.
+     * @param crsProjection  represents the coordinate reference system that defines the location together with the other two parameters
+     * @param yLatitude the coordinate position value representing the latitude or Y or Northing
+     * @param xLongitude the coordinate position value representing the longitude or X or Easting
+     * @return an instance of CrsCoordinate
+     */
     public static CrsCoordinate createCoordinate(
         CrsProjection crsProjection,
         double yLatitude,
@@ -129,11 +134,11 @@ public class CrsCoordinate {
     // These two methods above (i.e. 'equals' and 'hashCode') was generated with IntelliJ IDEA 2020.3
     // ----------------------------------------------------------------------------------------------------------------------
 
-    /// <summary>
-    /// Two examples of the string that can be returned:
-    /// "CrsCoordinate [ X: 153369.673 , Y: 6579457.649 , CRS: SWEREF_99_18_00 ]"
-    /// "CrsCoordinate [ Longitude: 18.059196 , Latitude: 59.330231 , CRS: WGS84 ]"
-    /// </summary>
+    /**
+     * @return Two examples of the string that can be returned:
+     *  "CrsCoordinate [ X: 153369.673 , Y: 6579457.649 , CRS: SWEREF_99_18_00 ]"
+     *  "CrsCoordinate [ Longitude: 18.059196 , Latitude: 59.330231 , CRS: WGS84 ]"
+     */
     @Override
     public String toString() {
         return _toStringImplementation.apply(this);
@@ -155,17 +160,18 @@ public class CrsCoordinate {
                 crs
         );
     }
-//
-//        /// <summary>
-//        /// Sets a custom method to be used for rendering an instance when the 'ToString' method is used.
-//        /// </summary>
+
+    /**
+     * Sets a custom method to be used for rendering an instance when the 'ToString' method is used. 
+     * @param toStringImplementation a method/function with 'CrsCoordinate' as parameter, and returning a String
+     */
     public static void setToStringImplementation(Function<CrsCoordinate, String> toStringImplementation) {
         _toStringImplementation = toStringImplementation;
     }
-//
-//        /// <summary>
-//        /// Sets the default method to be used for rendering an instance when the 'ToString' method is used.
-//        /// </summary>
+
+    /**
+     * Sets the default method to be used for rendering an instance when the 'toString' method is used.
+     */
     public static void setToStringImplementationDefault() { 
         _toStringImplementation = CrsCoordinate::defaultToStringImplementation;
     }
