@@ -14,12 +14,8 @@ class ScalaGaussKreugerTest {
   private val stockholmCentralStation_SWEREF99TM_northing = 6580822
   private val stockholmCentralStation_SWEREF99TM_easting = 674032
 
-  private val gaussKreuger = new GaussKreuger
-
-  @Before
-  def setUp(): Unit = {
-    gaussKreuger.swedish_params(CrsProjection.SWEREF_99_TM)
-  }
+  private val gaussKreugerFactory = GaussKreugerFactory.getInstance
+  private val gaussKreuger = gaussKreugerFactory.getGaussKreuger(CrsProjection.SWEREF_99_TM)
 
   @Test
   def geodetic_to_grid_transforming_from_WGS84_to_SWEREF99TM(): Unit = {

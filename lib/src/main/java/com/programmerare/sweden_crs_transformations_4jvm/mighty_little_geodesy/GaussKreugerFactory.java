@@ -16,9 +16,7 @@ public class GaussKreugerFactory
     public GaussKreuger getGaussKreuger(CrsProjection crsProjection) {
         // TODO cache the 'GaussKreuger' instances instead of creating new instances every time in this method
 
-        GaussKreuger gkProjection = new GaussKreuger();
-        // TODO make the 'GaussKreuger' immutable, e.g. provide the projection as parameter to the above constructor instead of the below method   
-        gkProjection.swedish_params(crsProjection);
+        GaussKreuger gkProjection = GaussKreuger.create(crsProjection);
         
         return gkProjection;
     }

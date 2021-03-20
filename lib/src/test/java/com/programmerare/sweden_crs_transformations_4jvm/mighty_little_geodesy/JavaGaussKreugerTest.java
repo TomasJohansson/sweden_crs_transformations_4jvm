@@ -14,11 +14,12 @@ public class JavaGaussKreugerTest {
     private final static double stockholmCentralStation_SWEREF99TM_northing = 6580822;
     private final static double  stockholmCentralStation_SWEREF99TM_easting = 674032;
 
-    private final static GaussKreuger gaussKreuger = new GaussKreuger();
+    private final static GaussKreugerFactory gaussKreugerFactory = GaussKreugerFactory.getInstance();
+    private GaussKreuger gaussKreuger;
   
     @Before
     public void setUp() {
-        gaussKreuger.swedish_params(CrsProjection.SWEREF_99_TM);
+        gaussKreuger = gaussKreugerFactory.getGaussKreuger(CrsProjection.SWEREF_99_TM);
     }
   
     @Test

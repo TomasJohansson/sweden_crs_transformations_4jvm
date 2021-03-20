@@ -1,9 +1,9 @@
 package com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy
 
 import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import org.junit.Assert.assertEquals
 
 class KotlinGaussKreugerTest {
     // https://kartor.eniro.se/m/XRCfh
@@ -14,11 +14,12 @@ class KotlinGaussKreugerTest {
     private val stockholmCentralStation_SWEREF99TM_northing = 6580822.0
     private val stockholmCentralStation_SWEREF99TM_easting = 674032.0
 
-    private val gaussKreuger: GaussKreuger = GaussKreuger()
+    private val gaussKreugerFactory = GaussKreugerFactory.getInstance()
+    private var gaussKreuger: GaussKreuger = gaussKreugerFactory.getGaussKreuger(CrsProjection.SWEREF_99_TM)
 
     @Before
     fun setUp() {
-        gaussKreuger.swedish_params(CrsProjection.SWEREF_99_TM)
+//        gaussKreuger = gaussKreugerFactory.getGaussKreuger(CrsProjection.SWEREF_99_TM)
     }
 
     @Test
