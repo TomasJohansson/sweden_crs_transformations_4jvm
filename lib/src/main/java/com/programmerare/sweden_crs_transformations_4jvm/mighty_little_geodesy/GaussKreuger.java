@@ -91,7 +91,7 @@ public class GaussKreuger
     private final double false_northing; // Offset for origo.
     private final double false_easting; // Offset for origo.
 
-    private GaussKreuger(GaussKreugerFactory.GaussKreugerParameterObject gaussKreugerParameterObject) {
+    private GaussKreuger(GaussKreugerParameterObject gaussKreugerParameterObject) {
         this.axis = gaussKreugerParameterObject.axis;
         this.flattening = gaussKreugerParameterObject.flattening;
         this.central_meridian = gaussKreugerParameterObject.central_meridian;
@@ -100,9 +100,9 @@ public class GaussKreuger
         this.false_easting = gaussKreugerParameterObject.false_easting;
     }
     public static GaussKreuger create(
-        GaussKreugerFactory.GaussKreugerParameterObject gaussKreugerParameterObject) {
-        GaussKreuger gaussKreuger = new GaussKreuger(gaussKreugerParameterObject);
-        return gaussKreuger;
+        GaussKreugerParameterObject gaussKreugerParameterObject
+    ) {
+        return new GaussKreuger(gaussKreugerParameterObject);
     }
 
     // Conversion from geodetic coordinates to grid coordinates.
