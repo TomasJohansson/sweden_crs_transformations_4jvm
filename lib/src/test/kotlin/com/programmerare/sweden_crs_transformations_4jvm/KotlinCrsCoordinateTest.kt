@@ -254,7 +254,7 @@ class KotlinCrsCoordinateTest {
         //stockholmSweref99tm X: 674032.357
         //stockholmSweref99tm Y: 6580821.991
         //stockholmSweref99tm 'ToString': CrsCoordinate [ Y: 6580821.991 , X: 674032.357 , CRS: SWEREF_99_TM ]
-        val allProjections: List<CrsProjection> = CrsProjectionFactory.getAllCrsProjections()
+        val allProjections: List<CrsProjection> = CrsProjection.getAllCrsProjections()
         for (crsProjection in allProjections) {
             println(stockholmWGS84.transform(crsProjection))
         }

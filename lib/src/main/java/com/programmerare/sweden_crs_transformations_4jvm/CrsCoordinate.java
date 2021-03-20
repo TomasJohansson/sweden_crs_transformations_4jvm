@@ -76,7 +76,7 @@ public class CrsCoordinate {
      * @return a new instance representing the transformed coordinate
      */
     public CrsCoordinate transform(int targetEpsgNumber) {
-        CrsProjection targetCrsProjection = CrsProjectionFactory.getCrsProjectionByEpsgNumber(targetEpsgNumber);
+        CrsProjection targetCrsProjection = CrsProjection.getCrsProjectionByEpsgNumber(targetEpsgNumber);
         return this.transform(targetCrsProjection);
     }
 
@@ -92,7 +92,7 @@ public class CrsCoordinate {
         double yLatitude,
         double xLongitude
     ) {
-        CrsProjection crsProjection = CrsProjectionFactory.getCrsProjectionByEpsgNumber(epsgNumber);
+        CrsProjection crsProjection = CrsProjection.getCrsProjectionByEpsgNumber(epsgNumber);
         return createCoordinate(crsProjection, yLatitude, xLongitude);
     }
 

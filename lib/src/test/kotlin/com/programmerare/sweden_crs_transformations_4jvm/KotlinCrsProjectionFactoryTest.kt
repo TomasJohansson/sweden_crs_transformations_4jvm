@@ -5,6 +5,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.Assert.assertEquals
 
+// TODO move these CrsProjectionFactoryTest tests into CrsProjectionTest since the methods of CrsProjectionFactory has been moved into CrsProjection
+
 class KotlinCrsProjectionFactoryTest {
     private val epsgNumberForSweref99tm = 3006 // https://epsg.org/crs_3006/SWEREF99-TM.html
     
@@ -17,22 +19,22 @@ class KotlinCrsProjectionFactoryTest {
 
     @Before
     fun setUp() {
-        _allCrsProjections = CrsProjectionFactory.getAllCrsProjections().toList()
+        _allCrsProjections = CrsProjection.getAllCrsProjections().toList()
     }
 
     @Test
     fun getCrsProjectionByEpsgNumber() {
         assertEquals(
             CrsProjection.SWEREF_99_TM,
-            CrsProjectionFactory.getCrsProjectionByEpsgNumber(epsgNumberForSweref99tm)
+            CrsProjection.getCrsProjectionByEpsgNumber(epsgNumberForSweref99tm)
         )
         assertEquals(
             CrsProjection.SWEREF_99_23_15,
-            CrsProjectionFactory.getCrsProjectionByEpsgNumber(3018) // https://epsg.io/3018
+            CrsProjection.getCrsProjectionByEpsgNumber(3018) // https://epsg.io/3018
         )
         assertEquals(
             CrsProjection.RT90_5_0_GON_O,
-            CrsProjectionFactory.getCrsProjectionByEpsgNumber(3024) // https://epsg.io/3024
+            CrsProjection.getCrsProjectionByEpsgNumber(3024) // https://epsg.io/3024
         )
     }
 
@@ -77,7 +79,7 @@ class KotlinCrsProjectionFactoryTest {
     @Test
     fun verifyThatAllProjectionsCanBeRetrievedByItsEpsgNumber() {
         for (crsProjection in _allCrsProjections) {
-            val crsProj: CrsProjection = CrsProjectionFactory.getCrsProjectionByEpsgNumber(crsProjection.epsgNumber)
+            val crsProj: CrsProjection = CrsProjection.getCrsProjectionByEpsgNumber(crsProjection.epsgNumber)
             assertEquals(crsProjection, crsProj)
         }
     }

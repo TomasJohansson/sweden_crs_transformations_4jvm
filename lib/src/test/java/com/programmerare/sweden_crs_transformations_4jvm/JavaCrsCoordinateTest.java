@@ -214,7 +214,7 @@ public class JavaCrsCoordinateTest
         //stockholmSweref99tm Y: 6580821.991
         //stockholmSweref99tm 'ToString': CrsCoordinate [ Y: 6580821.991 , X: 674032.357 , CRS: SWEREF_99_TM ]
 
-        List<CrsProjection> allProjections = CrsProjectionFactory.getAllCrsProjections();
+        List<CrsProjection> allProjections = CrsProjection.getAllCrsProjections();
         for(CrsProjection crsProjection : allProjections) {
             System.out.println(stockholmWGS84.transform(crsProjection));
         }

@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Deprecated // instead use the CrsProjection methods directly
 public class CrsProjectionFactory {
-
+    /*
     @Deprecated // instead use the CrsProjection method directly    
     public static CrsProjection getCrsProjectionByEpsgNumber(int epsg) {
         return CrsProjection.getCrsProjectionByEpsgNumber(epsg);
@@ -32,4 +32,5 @@ public class CrsProjectionFactory {
     public static List<CrsProjection> getAllCrsProjections() {
         return CrsProjection.getAllCrsProjections();
     }
+    */
 }

@@ -177,7 +177,7 @@ class ScalaCrsCoordinateTest {
     //stockholmSweref99tm X: 674032.357
     //stockholmSweref99tm Y: 6580821.991
     //stockholmSweref99tm 'ToString': CrsCoordinate [ Y: 6580821.991 , X: 674032.357 , CRS: SWEREF_99_TM ]
-    val allProjections: List[CrsProjection] = CrsProjectionFactory.getAllCrsProjections.asScala.toList
+    val allProjections: List[CrsProjection] = CrsProjection.getAllCrsProjections.asScala.toList
     for (crsProjection <- allProjections) {
       println(stockholmWGS84.transform(crsProjection))
     }
