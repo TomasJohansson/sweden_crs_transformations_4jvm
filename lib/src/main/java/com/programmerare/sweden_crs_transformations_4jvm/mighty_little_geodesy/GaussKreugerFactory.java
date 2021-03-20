@@ -3,6 +3,9 @@ package com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy;
 import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjection.*; // wgs84 , sweref_99_tm , and so on
 import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class GaussKreugerFactory {
     private final static GaussKreugerFactory _gaussKreugerFactory = new GaussKreugerFactory();
     
@@ -11,17 +14,25 @@ public class GaussKreugerFactory {
     }
 
     private GaussKreugerFactory() {
+        CrsProjection[] crsProjections = CrsProjection.values();
+        for (CrsProjection crsProjection : crsProjections) {
+            GaussKreugerParameterObject gaussKreugerParameterObject = new GaussKreugerParameterObject(crsProjection);
+            GaussKreuger gaussKreuger = GaussKreuger.create(gaussKreugerParameterObject);
+            mapWithAllGaussKreugers.put(crsProjection, gaussKreuger);
+        }        
     }
+
+    private final Map<CrsProjection, GaussKreuger>
+        mapWithAllGaussKreugers = new HashMap<CrsProjection, GaussKreuger>();
     
     public GaussKreuger getGaussKreuger(CrsProjection crsProjection) {
-        // TODO cache the 'GaussKreuger' instances instead of creating new instances every time in this method
-
-        GaussKreugerParameterObject gaussKreugerParameterObject = new GaussKreugerParameterObject(crsProjection);
-        GaussKreuger gkProjection = GaussKreuger.create(gaussKreugerParameterObject);
-        
-        return gkProjection;
+        if(mapWithAllGaussKreugers.containsKey(crsProjection)) {
+            return mapWithAllGaussKreugers.get(crsProjection);            
+        }
+        throw new IllegalArgumentException("Could not find GaussKreuger for crsProjection " + crsProjection);
     }
-    
+
+    // -----------------------------------------------------------------------------------------------------    
     class GaussKreugerParameterObject {
         GaussKreugerParameterObject(CrsProjection crsProjection) {
             this.swedish_params(crsProjection);
@@ -191,5 +202,6 @@ public class GaussKreugerFactory {
             false_northing = 0.0;
             false_easting = 150000.0;
         }        
-    }
-}
+    } // ends inner class GaussKreugerParameterObject
+    // -----------------------------------------------------------------------------------------------------
+} // ends class GaussKreugerFactory
