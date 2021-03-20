@@ -107,6 +107,15 @@ public class GaussKreuger
         return new GaussKreuger(gaussKreugerParameterObject);
     }
 
+    // ----------------------------------------------------------------------------------
+    // The mathematics in the methods below (e.g. 'geodetic_to_grid' and 'grid_to_geodetic'
+    // is the same as in this Java library class below: 
+    // https://github.com/goober/coordinate-transformation-library/blob/master/src/main/java/com/github/goober/coordinatetransformation/GaussKreuger.java
+    // You can for example do a side-by-side comparison with a program such as WinMerge to see how similar these methods are.
+    // This similarity is indeed expected since both this class and the class at the above URL are based on the below .NET library:
+    // https://github.com/bjornsallarp/MightyLittleGeodesy
+    // https://github.com/bjornsallarp/MightyLittleGeodesy/blob/master/MightyLittleGeodesy/Classes/GaussKreuger.cs    
+    
     // Conversion from geodetic coordinates to grid coordinates.
     public LatLon geodetic_to_grid(double latitude, double longitude) // public double[] geodetic_to_grid(double latitude, double longitude)
     {
@@ -132,24 +141,24 @@ public class GaussKreuger
         double lambda_zero = central_meridian * deg_to_rad;
 
         double phi_star = phi - Math.sin(phi) * Math.cos(phi) * (A +
-                        B * Math.pow(Math.sin(phi), 2) +
-                        C * Math.pow(Math.sin(phi), 4) +
-                        D * Math.pow(Math.sin(phi), 6));
+                B * Math.pow(Math.sin(phi), 2) +
+                C * Math.pow(Math.sin(phi), 4) +
+                D * Math.pow(Math.sin(phi), 6));
         double delta_lambda = lambda - lambda_zero;
         double xi_prim = Math.atan(Math.tan(phi_star) / Math.cos(delta_lambda));
         double eta_prim = math_atanh(Math.cos(phi_star) * Math.sin(delta_lambda));
         double x = scale * a_roof * (xi_prim +
-                        beta1 * Math.sin(2.0 * xi_prim) * math_cosh(2.0 * eta_prim) +
-                        beta2 * Math.sin(4.0 * xi_prim) * math_cosh(4.0 * eta_prim) +
-                        beta3 * Math.sin(6.0 * xi_prim) * math_cosh(6.0 * eta_prim) +
-                        beta4 * Math.sin(8.0 * xi_prim) * math_cosh(8.0 * eta_prim)) +
-                        false_northing;
+                beta1 * Math.sin(2.0 * xi_prim) * math_cosh(2.0 * eta_prim) +
+                beta2 * Math.sin(4.0 * xi_prim) * math_cosh(4.0 * eta_prim) +
+                beta3 * Math.sin(6.0 * xi_prim) * math_cosh(6.0 * eta_prim) +
+                beta4 * Math.sin(8.0 * xi_prim) * math_cosh(8.0 * eta_prim)) +
+                false_northing;
         double y = scale * a_roof * (eta_prim +
-                        beta1 * Math.cos(2.0 * xi_prim) * math_sinh(2.0 * eta_prim) +
-                        beta2 * Math.cos(4.0 * xi_prim) * math_sinh(4.0 * eta_prim) +
-                        beta3 * Math.cos(6.0 * xi_prim) * math_sinh(6.0 * eta_prim) +
-                        beta4 * Math.cos(8.0 * xi_prim) * math_sinh(8.0 * eta_prim)) +
-                        false_easting;
+                beta1 * Math.cos(2.0 * xi_prim) * math_sinh(2.0 * eta_prim) +
+                beta2 * Math.cos(4.0 * xi_prim) * math_sinh(4.0 * eta_prim) +
+                beta3 * Math.cos(6.0 * xi_prim) * math_sinh(6.0 * eta_prim) +
+                beta4 * Math.cos(8.0 * xi_prim) * math_sinh(8.0 * eta_prim)) +
+                false_easting;
         x_y[0] = Math.round(x * 1000.0) / 1000.0;
         x_y[1] = Math.round(y * 1000.0) / 1000.0;
         LatLon latLon = new LatLon(x_y[0], x_y[1]);
@@ -185,23 +194,23 @@ public class GaussKreuger
         double xi = (yLatitude - false_northing) / (scale * a_roof);
         double eta = (xLongitude - false_easting) / (scale * a_roof);
         double xi_prim = xi -
-                        delta1 * Math.sin(2.0 * xi) * math_cosh(2.0 * eta) -
-                        delta2 * Math.sin(4.0 * xi) * math_cosh(4.0 * eta) -
-                        delta3 * Math.sin(6.0 * xi) * math_cosh(6.0 * eta) -
-                        delta4 * Math.sin(8.0 * xi) * math_cosh(8.0 * eta);
+                delta1 * Math.sin(2.0 * xi) * math_cosh(2.0 * eta) -
+                delta2 * Math.sin(4.0 * xi) * math_cosh(4.0 * eta) -
+                delta3 * Math.sin(6.0 * xi) * math_cosh(6.0 * eta) -
+                delta4 * Math.sin(8.0 * xi) * math_cosh(8.0 * eta);
         double eta_prim = eta -
-                        delta1 * Math.cos(2.0 * xi) * math_sinh(2.0 * eta) -
-                        delta2 * Math.cos(4.0 * xi) * math_sinh(4.0 * eta) -
-                        delta3 * Math.cos(6.0 * xi) * math_sinh(6.0 * eta) -
-                        delta4 * Math.cos(8.0 * xi) * math_sinh(8.0 * eta);
+                delta1 * Math.cos(2.0 * xi) * math_sinh(2.0 * eta) -
+                delta2 * Math.cos(4.0 * xi) * math_sinh(4.0 * eta) -
+                delta3 * Math.cos(6.0 * xi) * math_sinh(6.0 * eta) -
+                delta4 * Math.cos(8.0 * xi) * math_sinh(8.0 * eta);
         double phi_star = Math.asin(Math.sin(xi_prim) / math_cosh(eta_prim));
         double delta_lambda = Math.atan(math_sinh(eta_prim) / Math.cos(xi_prim));
         double lon_radian = lambda_zero + delta_lambda;
         double lat_radian = phi_star + Math.sin(phi_star) * Math.cos(phi_star) *
-                        (Astar +
-                         Bstar * Math.pow(Math.sin(phi_star), 2) +
-                         Cstar * Math.pow(Math.sin(phi_star), 4) +
-                         Dstar * Math.pow(Math.sin(phi_star), 6));
+                (Astar +
+                Bstar * Math.pow(Math.sin(phi_star), 2) +
+                Cstar * Math.pow(Math.sin(phi_star), 4) +
+                Dstar * Math.pow(Math.sin(phi_star), 6));
         lat_lon[0] = lat_radian * 180.0 / Math.PI;
         lat_lon[1] = lon_radian * 180.0 / Math.PI;
         LatLon latLon = new LatLon(lat_lon[0], lat_lon[1]);
@@ -219,4 +228,5 @@ public class GaussKreuger
         return 0.5 * Math.log((1.0 + value) / (1.0 - value));
     }
 
+    // ----------------------------------------------------------------------------------
 }
