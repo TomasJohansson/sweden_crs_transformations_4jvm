@@ -11,8 +11,10 @@
  */
 package com.programmerare.sweden_crs_transformations_4jvm;
 
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Arrays;
 
 /**
  * Class with methods for getting all projections, and for getting one projection by its EPSG number.
@@ -23,6 +25,16 @@ import java.util.List;
  */
 public class CrsProjectionFactory {
 
+    private final static Map<Integer, CrsProjection>
+        mapWithAllCrsProjections = new HashMap<Integer, CrsProjection>();
+    
+    static {
+        CrsProjection[] crsProjections = CrsProjection.values();
+        for (CrsProjection crsProjection : crsProjections) {
+            mapWithAllCrsProjections.put(crsProjection.getEpsgNumber(), crsProjection);
+        }        
+    }
+    
     /**
      * Factory method creating an enum 'CrsProjection' by its number (EPSG) value. 
      * @param epsg An EPSG number
@@ -30,12 +42,8 @@ public class CrsProjectionFactory {
      * @see CrsProjection
      */
     public static CrsProjection getCrsProjectionByEpsgNumber(int epsg) {
-        // TODO maybe implement this method with a hash/map table lookup instead of iteration every time
-        List<CrsProjection> values = getAllCrsProjections();
-        for(CrsProjection value : values) {
-            if(value.getEpsgNumber() == epsg) {
-                return value;
-            }
+        if(mapWithAllCrsProjections.containsKey(epsg)) {
+            return mapWithAllCrsProjections.get(epsg);
         }
         throw new IllegalArgumentException("Could not find CrsProjection for EPSG " + epsg);
     }
