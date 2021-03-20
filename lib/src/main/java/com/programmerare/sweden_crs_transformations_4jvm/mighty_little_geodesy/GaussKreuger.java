@@ -34,7 +34,9 @@
 //              "public void swedish_params(string projection)" ==> "public void swedish_params(CrsProjection projection)"
 //      - now the if/else statements in the implementation of the above method "swedish_params" compares with the enum values for CrsProjection instead of comparing with string literals
 //      - removed the if/else statements in the above method "swedish_params" which used the projection strings beginning with "bessel_rt90"
-//      - TODO add comments about modifications later done in the JVM version e.g. changed the class to be immutable   
+//      - this JVM port has updated the GaussKreuger class to be immutable with final fields, and the methods that 
+//          previously initialized (mutated) the fields have instead been moved to another class and is provided as a 
+//          parameter object to the constructor which copies the values into the final fields.   
 // For more details about exactly what has changed in this GaussKreuger class, you can also use a git client with "compare" or "blame" features to see the changes)
 
 // ------------------------------------------------------------------------------------------
