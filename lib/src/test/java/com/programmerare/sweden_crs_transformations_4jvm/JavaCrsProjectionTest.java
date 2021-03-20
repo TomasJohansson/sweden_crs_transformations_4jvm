@@ -100,26 +100,26 @@ public class JavaCrsProjectionTest
 
 
     @Test
-    public void getAsString() {
+    public void toStringTest() {
         assertEquals(
             "WGS84",
-            CrsProjection.WGS84.getAsString()
+            CrsProjection.WGS84.toString()
         );
 
 
         assertEquals(
             "SWEREF_99_TM",
-            CrsProjection.SWEREF_99_TM.getAsString()
+            CrsProjection.SWEREF_99_TM.toString()
         );
 
         assertEquals(
             "SWEREF_99_14_15",
-            CrsProjection.SWEREF_99_14_15.getAsString()
+            CrsProjection.SWEREF_99_14_15.toString()
         );
 
         assertEquals(
             "RT90_0_0_GON_V",
-            CrsProjection.RT90_0_0_GON_V.getAsString()
+            CrsProjection.RT90_0_0_GON_V.toString()
         );
     }
 

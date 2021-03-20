@@ -118,22 +118,22 @@ class KotlinCrsProjectionTest {
     }
 
     @Test
-    fun getAsString() {
+    fun toStringTest() {
         Assert.assertEquals(
             "WGS84",
-            CrsProjection.WGS84.asString
+            CrsProjection.WGS84.toString()
         )
         Assert.assertEquals(
             "SWEREF_99_TM",
-            CrsProjection.SWEREF_99_TM.asString
+            CrsProjection.SWEREF_99_TM.toString()
         )
         Assert.assertEquals(
             "SWEREF_99_14_15",
-            CrsProjection.SWEREF_99_14_15.asString
+            CrsProjection.SWEREF_99_14_15.toString()
         )
         Assert.assertEquals(
             "RT90_0_0_GON_V",
-            CrsProjection.RT90_0_0_GON_V.asString
+            CrsProjection.RT90_0_0_GON_V.toString()
         )
     }
 

@@ -99,11 +99,11 @@ class ScalaCrsProjectionTest {
   }
 
   @Test
-  def getAsString(): Unit = {
-    assertEquals("WGS84",           CrsProjection.WGS84.getAsString)
-    assertEquals("SWEREF_99_TM",    CrsProjection.SWEREF_99_TM.getAsString)
-    assertEquals("SWEREF_99_14_15", CrsProjection.SWEREF_99_14_15.getAsString)
-    assertEquals("RT90_0_0_GON_V",  CrsProjection.RT90_0_0_GON_V.getAsString)
+  def toStringTest(): Unit = {
+    assertEquals("WGS84",           CrsProjection.WGS84.toString)
+    assertEquals("SWEREF_99_TM",    CrsProjection.SWEREF_99_TM.toString)
+    assertEquals("SWEREF_99_14_15", CrsProjection.SWEREF_99_14_15.toString)
+    assertEquals("RT90_0_0_GON_V",  CrsProjection.RT90_0_0_GON_V.toString)
   }
 
   @Test

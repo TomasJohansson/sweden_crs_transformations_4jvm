@@ -133,19 +133,11 @@ public enum CrsProjection {
      * @return a string representation of the enum.
      * For example "WGS84" or "SWEREF_99_TM" or "RT90_0_0_GON_V" 
      */
-    public String getAsString() {
-        return this.name().toUpperCase();
+    @Override
+    public String toString()  {
+        return this.name();
     }
-
-    // TODO implement 'toString' as below but also document that if you want a more defined return value 
-    // then use 'getAsString' rather than relying on toString
-    // But on the other hand, also be consequent regarding relying on a 'toString' method or not, which the class 'CrsCoordinate' do ...  
-//    @Override
-//    public String toString()  {
-//        return this.getAsString();
-//    }
-
-
+    
     private final static Map<Integer, CrsProjection>
         mapWithAllCrsProjections = new HashMap<Integer, CrsProjection>();
 
@@ -183,4 +175,5 @@ public enum CrsProjection {
         }
         throw new IllegalArgumentException("Could not find CrsProjection for EPSG " + epsg);
     }
+
 }
