@@ -11,6 +11,11 @@
 */
 package com.programmerare.sweden_crs_transformations_4jvm;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  *  Crs = Coordinate reference system.
  *
@@ -139,4 +144,43 @@ public enum CrsProjection {
 //    public String toString()  {
 //        return this.getAsString();
 //    }
+
+
+    private final static Map<Integer, CrsProjection>
+        mapWithAllCrsProjections = new HashMap<Integer, CrsProjection>();
+
+    static {
+        CrsProjection[] crsProjections = CrsProjection.values();
+        for (CrsProjection crsProjection : crsProjections) {
+            mapWithAllCrsProjections.put(crsProjection.getEpsgNumber(), crsProjection);
+        }
+    }
+
+    /**
+     * Convenience method for retrieving all the projections in a List.
+     * They are returned ordered by EPSG number (from low to high values)
+     * with the exception that WGS84 is the first projection in the returned list 
+     * @return a list of all CrsProjection items, in the sort order from low to high EPSG number 
+     * (with WGS84 as an exception, being the first item returned)
+     * @see CrsProjection
+     */
+    public static List<CrsProjection> getAllCrsProjections() {
+        // The method 'values()' returns the items in the order declared.
+        // WGS84 must be declared first, and then the rest sorted by EPSG number,
+        // and please note that this specified sort order is also verified in test code.
+        return Arrays.asList(CrsProjection.values());
+    }
+
+    /**
+     * Factory method creating an enum 'CrsProjection' by its number (EPSG) value. 
+     * @param epsg An EPSG number
+     * @return an instance of the enum 'CrsProjection' which representents the EPSG number provided as method parameter
+     * @see CrsProjection
+     */
+    public static CrsProjection getCrsProjectionByEpsgNumber(int epsg) {
+        if(mapWithAllCrsProjections.containsKey(epsg)) {
+            return mapWithAllCrsProjections.get(epsg);
+        }
+        throw new IllegalArgumentException("Could not find CrsProjection for EPSG " + epsg);
+    }
 }
