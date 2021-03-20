@@ -14,6 +14,7 @@ package com.programmerare.sweden_crs_transformations_4jvm.transformation;
 import com.programmerare.sweden_crs_transformations_4jvm.CrsCoordinate;
 import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
 import com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy.GaussKreuger;
+import com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy.GaussKreugerFactory;
 import com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy.LatLon;
 
 class TransformStrategy_from_SWEREF99_or_RT90_to_WGS84 implements TransformStrategy {
@@ -23,8 +24,7 @@ class TransformStrategy_from_SWEREF99_or_RT90_to_WGS84 implements TransformStrat
         CrsCoordinate sourceCoordinate,
         CrsProjection targetCrsProjection
     ) {
-        GaussKreuger gkProjection = new GaussKreuger();
-        gkProjection.swedish_params(sourceCoordinate.getCrsProjection());
+        GaussKreuger gkProjection = GaussKreugerFactory.getInstance().getGaussKreuger(sourceCoordinate.getCrsProjection());
         LatLon latLon = gkProjection.grid_to_geodetic(sourceCoordinate.getLatitudeY(), sourceCoordinate.getLongitudeX());
         return CrsCoordinate.createCoordinate(targetCrsProjection, latLon.LatitudeY, latLon.LongitudeX);
     }
