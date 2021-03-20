@@ -1,6 +1,6 @@
 package com.programmerare.sweden_crs_transformations_4jvm
 
-import com.programmerare.sweden_crs_transformations_4jvm.JavaCrsProjectionFactoryTest.epsgNumberForSweref99tm
+import com.programmerare.sweden_crs_transformations_4jvm.JavaCrsProjectionTest.epsgNumberForSweref99tm
 import org.junit.Test
 import org.junit.Assert._
 import scala.jdk.CollectionConverters._ // asScala

@@ -1,13 +1,18 @@
 package com.programmerare.sweden_crs_transformations_4jvm;
 
-import static com.programmerare.sweden_crs_transformations_4jvm.JavaCrsProjectionFactoryTest.epsgNumberForSweref99tm;
 import org.junit.Test;
 import java.util.List;
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class JavaCrsCoordinateTest
 {
-
+    public final static int epsgNumberForSweref99tm = 3006; // https://epsg.org/crs_3006/SWEREF99-TM.html
+    public final static int numberOfSweref99projections = 13; // with EPSG numbers 3006-3018
+    public final static int numberOfRT90projections = 6; // with EPSG numbers 3019-3024
+    public final static int numberOfWgs84Projections = 1; // just to provide semantic instead of using a magic number 1 below
+    private final static int totalNumberOfProjections = numberOfSweref99projections + numberOfRT90projections + numberOfWgs84Projections;
+    
     // https://kartor.eniro.se/m/XRCfh
         //WGS84 decimal (lat, lon)      59.330231, 18.059196
         //RT90 (nord, öst)              6580994, 1628294
