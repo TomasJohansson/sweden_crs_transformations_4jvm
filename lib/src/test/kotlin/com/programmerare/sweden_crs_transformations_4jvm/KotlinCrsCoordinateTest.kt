@@ -19,17 +19,17 @@ class KotlinCrsCoordinateTest {
     @Test
     fun transform() {
         val stockholmWGS84: CrsCoordinate = CrsCoordinate.createCoordinate(
-            CrsProjection.wgs84,
+            CrsProjection.WGS84,
             stockholmCentralStation_WGS84_latitude,
             stockholmCentralStation_WGS84_longitude
         )
         val stockholmSWEREF99TM: CrsCoordinate = CrsCoordinate.createCoordinate(
-            CrsProjection.sweref_99_tm,
+            CrsProjection.SWEREF_99_TM,
             stockholmCentralStation_SWEREF99TM_northing,
             stockholmCentralStation_SWEREF99TM_easting
         )
         val stockholmRT90: CrsCoordinate = CrsCoordinate.createCoordinate(
-            CrsProjection.rt90_2_5_gon_v,
+            CrsProjection.RT90_2_5_GON_V,
             stockholmCentralStation_RT90_northing,
             stockholmCentralStation_RT90_easting
         )
@@ -37,15 +37,15 @@ class KotlinCrsCoordinateTest {
         // Transformations to WGS84 (from SWEREF99TM and RT90):
         assertEqual(
             stockholmWGS84,  // expected WGS84
-            stockholmSWEREF99TM.transform(CrsProjection.wgs84) // actual/transformed WGS84
+            stockholmSWEREF99TM.transform(CrsProjection.WGS84) // actual/transformed WGS84
         )
         assertEqual(
             stockholmWGS84,  // expected WGS84
-            stockholmRT90.transform(CrsProjection.wgs84) // actual/transformed WGS84
+            stockholmRT90.transform(CrsProjection.WGS84) // actual/transformed WGS84
         )
         // below is a similar test as one of the above tests but using the overloaded transform method
         // which takes an integer as parameter instead of an instance of the enum CrsProjection
-        val epsgNumberForWgs84: Int = CrsProjection.wgs84.epsgNumber
+        val epsgNumberForWgs84: Int = CrsProjection.WGS84.epsgNumber
         assertEqual(
             stockholmWGS84,
             stockholmRT90.transform(epsgNumberForWgs84) // testing the overloaded transform method with an integer parameter
@@ -55,22 +55,22 @@ class KotlinCrsCoordinateTest {
         // Transformations to SWEREF99TM (from WGS84 and RT90):
         assertEqual(
             stockholmSWEREF99TM,  // expected SWEREF99TM
-            stockholmWGS84.transform(CrsProjection.sweref_99_tm) // actual/transformed SWEREF99TM
+            stockholmWGS84.transform(CrsProjection.SWEREF_99_TM) // actual/transformed SWEREF99TM
         )
         assertEqual(
             stockholmSWEREF99TM,  // expected SWEREF99TM
-            stockholmRT90.transform(CrsProjection.sweref_99_tm) // actual/transformed SWEREF99TM
+            stockholmRT90.transform(CrsProjection.SWEREF_99_TM) // actual/transformed SWEREF99TM
         )
 
 
         // Transformations to RT90 (from WGS84 and SWEREF99TM):
         assertEqual(
             stockholmRT90,  // expected RT90
-            stockholmWGS84.transform(CrsProjection.rt90_2_5_gon_v) // actual/transformed RT90
+            stockholmWGS84.transform(CrsProjection.RT90_2_5_GON_V) // actual/transformed RT90
         )
         assertEqual(
             stockholmRT90,  // expected RT90
-            stockholmSWEREF99TM.transform(CrsProjection.rt90_2_5_gon_v) // actual/transformed RT90
+            stockholmSWEREF99TM.transform(CrsProjection.RT90_2_5_GON_V) // actual/transformed RT90
         )
     }
 
@@ -102,7 +102,7 @@ class KotlinCrsCoordinateTest {
             y,
             x
         )
-        assertEquals(CrsProjection.sweref_99_tm, crsCoordinate.crsProjection)
+        assertEquals(CrsProjection.SWEREF_99_TM, crsCoordinate.crsProjection)
         assertEquals(
             epsgNumberForSweref99tm,
             crsCoordinate.crsProjection.epsgNumber
@@ -117,14 +117,14 @@ class KotlinCrsCoordinateTest {
         val x = 22.5
         val y = 62.5
         val crsCoordinate: CrsCoordinate =
-            CrsCoordinate.createCoordinate(CrsProjection.sweref_99_tm, y, x)
+            CrsCoordinate.createCoordinate(CrsProjection.SWEREF_99_TM, y, x)
         
         assertEquals(
             epsgNumberForSweref99tm,
             crsCoordinate.crsProjection.epsgNumber
         )
         assertEquals(
-            CrsProjection.sweref_99_tm,
+            CrsProjection.SWEREF_99_TM,
             crsCoordinate.crsProjection
         )
         val delta = 0.000001
@@ -136,12 +136,12 @@ class KotlinCrsCoordinateTest {
     @Test
     fun equalityTest() {
         val coordinateInstance_1: CrsCoordinate = CrsCoordinate.createCoordinate(
-            CrsProjection.wgs84,
+            CrsProjection.WGS84,
             stockholmCentralStation_WGS84_longitude,
             stockholmCentralStation_WGS84_latitude
         )
         val coordinateInstance_2: CrsCoordinate = CrsCoordinate.createCoordinate(
-            CrsProjection.wgs84,
+            CrsProjection.WGS84,
             stockholmCentralStation_WGS84_longitude,
             stockholmCentralStation_WGS84_latitude
         )
@@ -154,7 +154,7 @@ class KotlinCrsCoordinateTest {
         assertTrue(coordinateInstance_2 == coordinateInstance_1)
         var delta = 0.000000000000001 // see comments further below regarding the value of "delta"
         val coordinateInstance_3: CrsCoordinate = CrsCoordinate.createCoordinate(
-            CrsProjection.wgs84,
+            CrsProjection.WGS84,
             stockholmCentralStation_WGS84_longitude + delta,
             stockholmCentralStation_WGS84_latitude + delta
         )
@@ -178,7 +178,7 @@ class KotlinCrsCoordinateTest {
         // but later has been verified that those 'breakpoint' delta values are the same for this JVM/Java implementation. 
         delta = delta * 10 // moving the decimal one bit to get a somewhat larger values, and then the instances are not considered equal, as you can see in the tests below.
         val coordinateInstance_4: CrsCoordinate = CrsCoordinate.createCoordinate(
-            CrsProjection.wgs84,
+            CrsProjection.WGS84,
             stockholmCentralStation_WGS84_longitude + delta,
             stockholmCentralStation_WGS84_latitude + delta
         )
@@ -201,14 +201,14 @@ class KotlinCrsCoordinateTest {
     @Test
     fun toStringTest() {
         val coordinate: CrsCoordinate =
-            CrsCoordinate.createCoordinate(CrsProjection.sweref_99_18_00, 6579457.649, 153369.673)
+            CrsCoordinate.createCoordinate(CrsProjection.SWEREF_99_18_00, 6579457.649, 153369.673)
         assertEquals(
             "CrsCoordinate [ Y: 6579457.649 , X: 153369.673 , CRS: SWEREF_99_18_00 ]",
             coordinate.toString()
         )
         
         val coordinate2: CrsCoordinate =
-            CrsCoordinate.createCoordinate(CrsProjection.wgs84, 59.330231, 18.059196)
+            CrsCoordinate.createCoordinate(CrsProjection.WGS84, 59.330231, 18.059196)
         val expectedDefaultToStringResultForCoordinate2 =
             "CrsCoordinate [ Latitude: 59.330231 , Longitude: 18.059196 , CRS: WGS84 ]"
         assertEquals(
@@ -241,12 +241,12 @@ class KotlinCrsCoordinateTest {
     //@Test
     fun example() {
         val stockholmWGS84: CrsCoordinate = CrsCoordinate.createCoordinate(
-            CrsProjection.wgs84,
+            CrsProjection.WGS84,
             stockholmCentralStation_WGS84_latitude,
             stockholmCentralStation_WGS84_longitude
         )
         val stockholmSweref99tm: CrsCoordinate =
-            stockholmWGS84.transform(CrsProjection.sweref_99_tm)
+            stockholmWGS84.transform(CrsProjection.SWEREF_99_TM)
         println("stockholmSweref99tm X: " + stockholmSweref99tm.longitudeX)
         println("stockholmSweref99tm Y: " + stockholmSweref99tm.latitudeY)
         println("stockholmSweref99tm 'ToString': " + stockholmSweref99tm)

@@ -17,33 +17,33 @@ class KotlinCrsProjectionTest {
 
     @Before
     fun setUp() {
-        _wgs84Projections = HashSet(listOf(wgs84))
+        _wgs84Projections = HashSet(listOf(WGS84))
         
         _sweref99Projections = HashSet(
             listOf(
-                sweref_99_12_00,
-                sweref_99_13_30,
-                sweref_99_14_15,
-                sweref_99_15_00,
-                sweref_99_15_45,
-                sweref_99_16_30,
-                sweref_99_17_15,
-                sweref_99_18_00,
-                sweref_99_18_45,
-                sweref_99_20_15,
-                sweref_99_21_45,
-                sweref_99_23_15,
-                sweref_99_tm
+                SWEREF_99_12_00,
+                SWEREF_99_13_30,
+                SWEREF_99_14_15,
+                SWEREF_99_15_00,
+                SWEREF_99_15_45,
+                SWEREF_99_16_30,
+                SWEREF_99_17_15,
+                SWEREF_99_18_00,
+                SWEREF_99_18_45,
+                SWEREF_99_20_15,
+                SWEREF_99_21_45,
+                SWEREF_99_23_15,
+                SWEREF_99_TM
             )
         )
         _rt90Projections = HashSet(
             listOf(
-                rt90_0_0_gon_v,
-                rt90_2_5_gon_o,
-                rt90_2_5_gon_v,
-                rt90_5_0_gon_o,
-                rt90_5_0_gon_v,
-                rt90_7_5_gon_v
+                RT90_0_0_GON_V,
+                RT90_2_5_GON_O,
+                RT90_2_5_GON_V,
+                RT90_5_0_GON_O,
+                RT90_5_0_GON_V,
+                RT90_7_5_GON_V
             )
         )
     }
@@ -52,11 +52,11 @@ class KotlinCrsProjectionTest {
     fun getEpsgNumber() {
         Assert.assertEquals(
             epsgNumberForSweref99tm,  // constant defined in JavaCrsProjectionFactoryTest
-            CrsProjection.sweref_99_tm.epsgNumber
+            CrsProjection.SWEREF_99_TM.epsgNumber
         )
         Assert.assertEquals(
             epsgNumberForWgs84,  // constant defined in JavaCrsProjectionFactoryTest
-            CrsProjection.wgs84.epsgNumber
+            CrsProjection.WGS84.epsgNumber
         )
     }
 
@@ -116,19 +116,19 @@ class KotlinCrsProjectionTest {
     fun getAsString() {
         Assert.assertEquals(
             "WGS84",
-            CrsProjection.wgs84.asString
+            CrsProjection.WGS84.asString
         )
         Assert.assertEquals(
             "SWEREF_99_TM",
-            CrsProjection.sweref_99_tm.asString
+            CrsProjection.SWEREF_99_TM.asString
         )
         Assert.assertEquals(
             "SWEREF_99_14_15",
-            CrsProjection.sweref_99_14_15.asString
+            CrsProjection.SWEREF_99_14_15.asString
         )
         Assert.assertEquals(
             "RT90_0_0_GON_V",
-            CrsProjection.rt90_0_0_gon_v.asString
+            CrsProjection.RT90_0_0_GON_V.asString
         )
     }
 

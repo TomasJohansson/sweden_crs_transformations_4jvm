@@ -21,7 +21,7 @@ class TransFormStrategy_From_Sweref99OrRT90_to_WGS84_andThenToRealTarget impleme
         CrsCoordinate sourceCoordinate,
         CrsProjection targetCrsProjection
     ) {
-        CrsCoordinate wgs84coordinate = Transformer.transform(sourceCoordinate, CrsProjection.wgs84);
+        CrsCoordinate wgs84coordinate = Transformer.transform(sourceCoordinate, CrsProjection.WGS84);
         return Transformer.transform(wgs84coordinate, targetCrsProjection);
     }
 }

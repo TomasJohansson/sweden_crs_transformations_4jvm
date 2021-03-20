@@ -19,41 +19,41 @@ class ScalaCrsCoordinateTest {
 
   @Test
   def transform(): Unit = {
-    val stockholmWGS84: CrsCoordinate = CrsCoordinate.createCoordinate(CrsProjection.wgs84, stockholmCentralStation_WGS84_latitude, stockholmCentralStation_WGS84_longitude)
-    val stockholmSWEREF99TM: CrsCoordinate = CrsCoordinate.createCoordinate(CrsProjection.sweref_99_tm, stockholmCentralStation_SWEREF99TM_northing, stockholmCentralStation_SWEREF99TM_easting)
-    val stockholmRT90: CrsCoordinate = CrsCoordinate.createCoordinate(CrsProjection.rt90_2_5_gon_v, stockholmCentralStation_RT90_northing, stockholmCentralStation_RT90_easting)
+    val stockholmWGS84: CrsCoordinate = CrsCoordinate.createCoordinate(CrsProjection.WGS84, stockholmCentralStation_WGS84_latitude, stockholmCentralStation_WGS84_longitude)
+    val stockholmSWEREF99TM: CrsCoordinate = CrsCoordinate.createCoordinate(CrsProjection.SWEREF_99_TM, stockholmCentralStation_SWEREF99TM_northing, stockholmCentralStation_SWEREF99TM_easting)
+    val stockholmRT90: CrsCoordinate = CrsCoordinate.createCoordinate(CrsProjection.RT90_2_5_GON_V, stockholmCentralStation_RT90_northing, stockholmCentralStation_RT90_easting)
     // Transformations to WGS84 (from SWEREF99TM and RT90):
     assertEqual(
       stockholmWGS84, // expected WGS84
-      stockholmSWEREF99TM.transform(CrsProjection.wgs84) // actual/transformed WGS84)
+      stockholmSWEREF99TM.transform(CrsProjection.WGS84) // actual/transformed WGS84)
     )
     assertEqual(
       stockholmWGS84,
-      stockholmRT90.transform(CrsProjection.wgs84)
+      stockholmRT90.transform(CrsProjection.WGS84)
     )
     // below is a similar test as one of the above tests but using the overloaded transform method
     // which takes an integer as parameter instead of an instance of the enum CrsProjection
-    val epsgNumberForWgs84: Int = CrsProjection.wgs84.getEpsgNumber
+    val epsgNumberForWgs84: Int = CrsProjection.WGS84.getEpsgNumber
     assertEqual(stockholmWGS84, stockholmRT90.transform(epsgNumberForWgs84)) // testing the overloaded transform method with an integer parameter)
 
     // Transformations to SWEREF99TM (from WGS84 and RT90):
     assertEqual(
       stockholmSWEREF99TM, // expected SWEREF99TM
-      stockholmWGS84.transform(CrsProjection.sweref_99_tm) // actual/transformed SWEREF99TM)
+      stockholmWGS84.transform(CrsProjection.SWEREF_99_TM) // actual/transformed SWEREF99TM)
     )
     assertEqual(
       stockholmSWEREF99TM,
-      stockholmRT90.transform(CrsProjection.sweref_99_tm)
+      stockholmRT90.transform(CrsProjection.SWEREF_99_TM)
     )
     
     // Transformations to RT90 (from WGS84 and SWEREF99TM):
     assertEqual(
       stockholmRT90, // expected RT90
-      stockholmWGS84.transform(CrsProjection.rt90_2_5_gon_v) // actual/transformed RT90)
+      stockholmWGS84.transform(CrsProjection.RT90_2_5_GON_V) // actual/transformed RT90)
     )
     assertEqual(
       stockholmRT90,
-      stockholmSWEREF99TM.transform(CrsProjection.rt90_2_5_gon_v)
+      stockholmSWEREF99TM.transform(CrsProjection.RT90_2_5_GON_V)
     )
   }
 
@@ -78,7 +78,7 @@ class ScalaCrsCoordinateTest {
     val x: Double = 20.0
     val y: Double = 60.0
     val crsCoordinate: CrsCoordinate = CrsCoordinate.createCoordinate(epsgNumberForSweref99tm, y, x)
-    assertEquals(CrsProjection.sweref_99_tm, crsCoordinate.getCrsProjection)
+    assertEquals(CrsProjection.SWEREF_99_TM, crsCoordinate.getCrsProjection)
     assertEquals(epsgNumberForSweref99tm, crsCoordinate.getCrsProjection.getEpsgNumber)
     val delta: Double = 0.000001
     assertEquals(x, crsCoordinate.getLongitudeX, delta)
@@ -89,9 +89,9 @@ class ScalaCrsCoordinateTest {
   def createCoordinate(): Unit = {
     val x: Double = 22.5
     val y: Double = 62.5
-    val crsCoordinate: CrsCoordinate = CrsCoordinate.createCoordinate(CrsProjection.sweref_99_tm, y, x)
+    val crsCoordinate: CrsCoordinate = CrsCoordinate.createCoordinate(CrsProjection.SWEREF_99_TM, y, x)
     assertEquals(epsgNumberForSweref99tm, crsCoordinate.getCrsProjection.getEpsgNumber)
-    assertEquals(CrsProjection.sweref_99_tm, crsCoordinate.getCrsProjection)
+    assertEquals(CrsProjection.SWEREF_99_TM, crsCoordinate.getCrsProjection)
     val delta: Double = 0.000001
     assertEquals(x, crsCoordinate.getLongitudeX, delta)
     assertEquals(y, crsCoordinate.getLatitudeY, delta)
@@ -100,14 +100,14 @@ class ScalaCrsCoordinateTest {
 
   @Test
   def equalityTest(): Unit = {
-    val coordinateInstance_1: CrsCoordinate = CrsCoordinate.createCoordinate(CrsProjection.wgs84, stockholmCentralStation_WGS84_longitude, stockholmCentralStation_WGS84_latitude)
-    val coordinateInstance_2: CrsCoordinate = CrsCoordinate.createCoordinate(CrsProjection.wgs84, stockholmCentralStation_WGS84_longitude, stockholmCentralStation_WGS84_latitude)
+    val coordinateInstance_1: CrsCoordinate = CrsCoordinate.createCoordinate(CrsProjection.WGS84, stockholmCentralStation_WGS84_longitude, stockholmCentralStation_WGS84_latitude)
+    val coordinateInstance_2: CrsCoordinate = CrsCoordinate.createCoordinate(CrsProjection.WGS84, stockholmCentralStation_WGS84_longitude, stockholmCentralStation_WGS84_latitude)
     assertEquals(coordinateInstance_1, coordinateInstance_2)
     assertEquals(coordinateInstance_1.hashCode, coordinateInstance_2.hashCode)
     assertTrue(coordinateInstance_1 == coordinateInstance_2)
     assertTrue(coordinateInstance_2 == coordinateInstance_1)
     var delta: Double = 0.000000000000001 // see comments further below regarding the value of "delta"
-    val coordinateInstance_3: CrsCoordinate = CrsCoordinate.createCoordinate(CrsProjection.wgs84, stockholmCentralStation_WGS84_longitude + delta, stockholmCentralStation_WGS84_latitude + delta)
+    val coordinateInstance_3: CrsCoordinate = CrsCoordinate.createCoordinate(CrsProjection.WGS84, stockholmCentralStation_WGS84_longitude + delta, stockholmCentralStation_WGS84_latitude + delta)
     assertEquals(coordinateInstance_1, coordinateInstance_3)
     assertEquals(coordinateInstance_1.hashCode, coordinateInstance_3.hashCode)
     assertTrue(coordinateInstance_1 == coordinateInstance_3)
@@ -123,7 +123,7 @@ class ScalaCrsCoordinateTest {
     // but later has been verified that those 'breakpoint' delta values are the same for this JVM/Java implementation. 
     delta = delta * 10 // moving the decimal one bit to get a somewhat larger values, and then the instances are not considered equal, as you can see in the tests below.
 
-    val coordinateInstance_4: CrsCoordinate = CrsCoordinate.createCoordinate(CrsProjection.wgs84, stockholmCentralStation_WGS84_longitude + delta, stockholmCentralStation_WGS84_latitude + delta)
+    val coordinateInstance_4: CrsCoordinate = CrsCoordinate.createCoordinate(CrsProjection.WGS84, stockholmCentralStation_WGS84_longitude + delta, stockholmCentralStation_WGS84_latitude + delta)
     // Note that below are the Are*NOT*Equal assertions made instead of AreEqual as further above when a smaller delta value was used
     assertNotEquals(coordinateInstance_1, coordinateInstance_4)
     assertNotEquals(coordinateInstance_1.hashCode, coordinateInstance_4.hashCode)
@@ -137,7 +137,7 @@ class ScalaCrsCoordinateTest {
   @Test
   def toStringTest(): Unit = {
     val coordinate: CrsCoordinate = CrsCoordinate.createCoordinate(
-      CrsProjection.sweref_99_18_00,
+      CrsProjection.SWEREF_99_18_00,
       6579457.649,
       153369.673
     )
@@ -145,7 +145,7 @@ class ScalaCrsCoordinateTest {
       "CrsCoordinate [ Y: 6579457.649 , X: 153369.673 , CRS: SWEREF_99_18_00 ]",
       coordinate.toString
     )
-    val coordinate2: CrsCoordinate = CrsCoordinate.createCoordinate(CrsProjection.wgs84, 59.330231, 18.059196)
+    val coordinate2: CrsCoordinate = CrsCoordinate.createCoordinate(CrsProjection.WGS84, 59.330231, 18.059196)
     val expectedDefaultToStringResultForCoordinate2: String = "CrsCoordinate [ Latitude: 59.330231 , Longitude: 18.059196 , CRS: WGS84 ]"
     assertEquals(
       expectedDefaultToStringResultForCoordinate2,
@@ -168,8 +168,8 @@ class ScalaCrsCoordinateTest {
   // e.g. verify that this code below works and then it can be paste into some example page at github
   //@Test
   def example(): Unit = {
-    val stockholmWGS84: CrsCoordinate = CrsCoordinate.createCoordinate(CrsProjection.wgs84, stockholmCentralStation_WGS84_latitude, stockholmCentralStation_WGS84_longitude)
-    val stockholmSweref99tm: CrsCoordinate = stockholmWGS84.transform(CrsProjection.sweref_99_tm)
+    val stockholmWGS84: CrsCoordinate = CrsCoordinate.createCoordinate(CrsProjection.WGS84, stockholmCentralStation_WGS84_latitude, stockholmCentralStation_WGS84_longitude)
+    val stockholmSweref99tm: CrsCoordinate = stockholmWGS84.transform(CrsProjection.SWEREF_99_TM)
     println("stockholmSweref99tm X: " + stockholmSweref99tm.getLongitudeX)
     println("stockholmSweref99tm Y: " + stockholmSweref99tm.getLatitudeY)
     println("stockholmSweref99tm 'ToString': " + stockholmSweref99tm.toString)

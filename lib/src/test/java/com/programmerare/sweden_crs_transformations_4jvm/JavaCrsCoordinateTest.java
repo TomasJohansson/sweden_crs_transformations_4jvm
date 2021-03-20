@@ -22,17 +22,17 @@ public class JavaCrsCoordinateTest
     @Test
     public void transform() { 
         CrsCoordinate stockholmWGS84 = CrsCoordinate.createCoordinate(
-            CrsProjection.wgs84,
+            CrsProjection.WGS84,
             stockholmCentralStation_WGS84_latitude,
             stockholmCentralStation_WGS84_longitude
         );
         CrsCoordinate stockholmSWEREF99TM = CrsCoordinate.createCoordinate(
-            CrsProjection.sweref_99_tm,
+            CrsProjection.SWEREF_99_TM,
             stockholmCentralStation_SWEREF99TM_northing,
             stockholmCentralStation_SWEREF99TM_easting
         );
         CrsCoordinate stockholmRT90 = CrsCoordinate.createCoordinate(
-            CrsProjection.rt90_2_5_gon_v,
+            CrsProjection.RT90_2_5_GON_V,
             stockholmCentralStation_RT90_northing,
             stockholmCentralStation_RT90_easting
         );
@@ -40,15 +40,15 @@ public class JavaCrsCoordinateTest
         // Transformations to WGS84 (from SWEREF99TM and RT90):
         assertEqual(
             stockholmWGS84, // expected WGS84
-            stockholmSWEREF99TM.transform(CrsProjection.wgs84) // actual/transformed WGS84
+            stockholmSWEREF99TM.transform(CrsProjection.WGS84) // actual/transformed WGS84
         );
         assertEqual(
             stockholmWGS84, // expected WGS84
-            stockholmRT90.transform(CrsProjection.wgs84) // actual/transformed WGS84
+            stockholmRT90.transform(CrsProjection.WGS84) // actual/transformed WGS84
         );
         // below is a similar test as one of the above tests but using the overloaded transform method
         // which takes an integer as parameter instead of an instance of the enum CrsProjection
-        int epsgNumberForWgs84 = CrsProjection.wgs84.getEpsgNumber();
+        int epsgNumberForWgs84 = CrsProjection.WGS84.getEpsgNumber();
         assertEqual(
             stockholmWGS84,
             stockholmRT90.transform(epsgNumberForWgs84) // testing the overloaded transform method with an integer parameter
@@ -58,22 +58,22 @@ public class JavaCrsCoordinateTest
         // Transformations to SWEREF99TM (from WGS84 and RT90):
         assertEqual(
             stockholmSWEREF99TM, // expected SWEREF99TM
-            stockholmWGS84.transform(CrsProjection.sweref_99_tm) // actual/transformed SWEREF99TM
+            stockholmWGS84.transform(CrsProjection.SWEREF_99_TM) // actual/transformed SWEREF99TM
         );
         assertEqual(
             stockholmSWEREF99TM, // expected SWEREF99TM
-            stockholmRT90.transform(CrsProjection.sweref_99_tm) // actual/transformed SWEREF99TM
+            stockholmRT90.transform(CrsProjection.SWEREF_99_TM) // actual/transformed SWEREF99TM
         );
 
 
         // Transformations to RT90 (from WGS84 and SWEREF99TM):
         assertEqual(
             stockholmRT90,  // expected RT90
-            stockholmWGS84.transform(CrsProjection.rt90_2_5_gon_v) // actual/transformed RT90
+            stockholmWGS84.transform(CrsProjection.RT90_2_5_GON_V) // actual/transformed RT90
         );
         assertEqual(
             stockholmRT90,  // expected RT90
-            stockholmSWEREF99TM.transform(CrsProjection.rt90_2_5_gon_v) // actual/transformed RT90
+            stockholmSWEREF99TM.transform(CrsProjection.RT90_2_5_GON_V) // actual/transformed RT90
         );
     }
 
@@ -93,7 +93,7 @@ public class JavaCrsCoordinateTest
         final double x = 20.0;
         final double y = 60.0;
         CrsCoordinate crsCoordinate = CrsCoordinate.createCoordinate(epsgNumberForSweref99tm, y, x);
-        assertEquals(CrsProjection.sweref_99_tm, crsCoordinate.getCrsProjection());
+        assertEquals(CrsProjection.SWEREF_99_TM, crsCoordinate.getCrsProjection());
         assertEquals(epsgNumberForSweref99tm, crsCoordinate.getCrsProjection().getEpsgNumber());
         final double delta = 0.000001;
         assertEquals(x, crsCoordinate.getLongitudeX(), delta);
@@ -104,9 +104,9 @@ public class JavaCrsCoordinateTest
     public void createCoordinate() {
         final double x = 22.5;
         final double y = 62.5;
-        CrsCoordinate crsCoordinate = CrsCoordinate.createCoordinate(CrsProjection.sweref_99_tm, y, x);
+        CrsCoordinate crsCoordinate = CrsCoordinate.createCoordinate(CrsProjection.SWEREF_99_TM, y, x);
         assertEquals(epsgNumberForSweref99tm, crsCoordinate.getCrsProjection().getEpsgNumber());
-        assertEquals(CrsProjection.sweref_99_tm, crsCoordinate.getCrsProjection());
+        assertEquals(CrsProjection.SWEREF_99_TM, crsCoordinate.getCrsProjection());
         final double delta = 0.000001;
         assertEquals(x, crsCoordinate.getLongitudeX(), delta);
         assertEquals(y, crsCoordinate.getLatitudeY(), delta);
@@ -115,8 +115,8 @@ public class JavaCrsCoordinateTest
 
     @Test
     public void equalityTest() { 
-        CrsCoordinate coordinateInstance_1 = CrsCoordinate.createCoordinate(CrsProjection.wgs84, stockholmCentralStation_WGS84_longitude, stockholmCentralStation_WGS84_latitude);
-        CrsCoordinate coordinateInstance_2 = CrsCoordinate.createCoordinate(CrsProjection.wgs84, stockholmCentralStation_WGS84_longitude, stockholmCentralStation_WGS84_latitude);
+        CrsCoordinate coordinateInstance_1 = CrsCoordinate.createCoordinate(CrsProjection.WGS84, stockholmCentralStation_WGS84_longitude, stockholmCentralStation_WGS84_latitude);
+        CrsCoordinate coordinateInstance_2 = CrsCoordinate.createCoordinate(CrsProjection.WGS84, stockholmCentralStation_WGS84_longitude, stockholmCentralStation_WGS84_latitude);
         assertEquals(coordinateInstance_1, coordinateInstance_2);
         assertEquals(coordinateInstance_1.hashCode(), coordinateInstance_2.hashCode());
         assertTrue(coordinateInstance_1.equals(coordinateInstance_2));
@@ -124,7 +124,7 @@ public class JavaCrsCoordinateTest
 
         double delta = 0.000000000000001; // see comments further below regarding the value of "delta"
         CrsCoordinate coordinateInstance_3 = CrsCoordinate.createCoordinate(
-            CrsProjection.wgs84,
+            CrsProjection.WGS84,
             stockholmCentralStation_WGS84_longitude + delta,
             stockholmCentralStation_WGS84_latitude + delta
         );
@@ -146,7 +146,7 @@ public class JavaCrsCoordinateTest
 
         delta = delta * 10; // moving the decimal one bit to get a somewhat larger values, and then the instances are not considered equal, as you can see in the tests below.
         CrsCoordinate coordinateInstance_4 = CrsCoordinate.createCoordinate(
-            CrsProjection.wgs84,
+            CrsProjection.WGS84,
             stockholmCentralStation_WGS84_longitude + delta,
             stockholmCentralStation_WGS84_latitude + delta
         );
@@ -162,12 +162,12 @@ public class JavaCrsCoordinateTest
 
     @Test
     public void toStringTest() {
-        CrsCoordinate coordinate = CrsCoordinate.createCoordinate(CrsProjection.sweref_99_18_00, 6579457.649, 153369.673);
+        CrsCoordinate coordinate = CrsCoordinate.createCoordinate(CrsProjection.SWEREF_99_18_00, 6579457.649, 153369.673);
         assertEquals(
             "CrsCoordinate [ Y: 6579457.649 , X: 153369.673 , CRS: SWEREF_99_18_00 ]",
             coordinate.toString()
         );
-        CrsCoordinate coordinate2 = CrsCoordinate.createCoordinate(CrsProjection.wgs84, 59.330231, 18.059196);
+        CrsCoordinate coordinate2 = CrsCoordinate.createCoordinate(CrsProjection.WGS84, 59.330231, 18.059196);
         final String expectedDefaultToStringResultForCoordinate2 = "CrsCoordinate [ Latitude: 59.330231 , Longitude: 18.059196 , CRS: WGS84 ]";
         assertEquals(
             expectedDefaultToStringResultForCoordinate2 ,
@@ -200,12 +200,12 @@ public class JavaCrsCoordinateTest
     // @Test
     public void Example() {
         CrsCoordinate stockholmWGS84 = CrsCoordinate.createCoordinate(
-            CrsProjection.wgs84,
+            CrsProjection.WGS84,
             stockholmCentralStation_WGS84_latitude,
             stockholmCentralStation_WGS84_longitude
         );
 
-        CrsCoordinate stockholmSweref99tm = stockholmWGS84.transform(CrsProjection.sweref_99_tm);
+        CrsCoordinate stockholmSweref99tm = stockholmWGS84.transform(CrsProjection.SWEREF_99_TM);
         System.out.println("stockholmSweref99tm X: " + stockholmSweref99tm.getLongitudeX());
         System.out.println("stockholmSweref99tm Y: " + stockholmSweref99tm.getLatitudeY());
         System.out.println("stockholmSweref99tm 'ToString': " + stockholmSweref99tm.toString());

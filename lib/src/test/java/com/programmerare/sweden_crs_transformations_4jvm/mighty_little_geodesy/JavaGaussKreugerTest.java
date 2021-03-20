@@ -18,7 +18,7 @@ public class JavaGaussKreugerTest {
   
     @Before
     public void setUp() {
-        gaussKreuger.swedish_params(CrsProjection.sweref_99_tm);
+        gaussKreuger.swedish_params(CrsProjection.SWEREF_99_TM);
     }
   
     @Test

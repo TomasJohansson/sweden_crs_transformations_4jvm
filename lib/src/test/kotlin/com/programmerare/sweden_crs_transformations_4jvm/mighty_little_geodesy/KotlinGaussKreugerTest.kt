@@ -18,7 +18,7 @@ class KotlinGaussKreugerTest {
 
     @Before
     fun setUp() {
-        gaussKreuger.swedish_params(CrsProjection.sweref_99_tm)
+        gaussKreuger.swedish_params(CrsProjection.SWEREF_99_TM)
     }
 
     @Test

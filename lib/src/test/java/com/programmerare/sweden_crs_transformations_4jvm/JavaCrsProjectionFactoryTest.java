@@ -27,17 +27,17 @@ public class JavaCrsProjectionFactoryTest
     @Test
     public void getCrsProjectionByEpsgNumber() {
         assertEquals(
-            CrsProjection.sweref_99_tm,
+            CrsProjection.SWEREF_99_TM,
             CrsProjectionFactory.getCrsProjectionByEpsgNumber(epsgNumberForSweref99tm)
         );
 
         assertEquals(
-            CrsProjection.sweref_99_23_15,
+            CrsProjection.SWEREF_99_23_15,
             CrsProjectionFactory.getCrsProjectionByEpsgNumber(3018) // https://epsg.io/3018
         );
 
         assertEquals(
-            CrsProjection.rt90_5_0_gon_o,
+            CrsProjection.RT90_5_0_GON_O,
             CrsProjectionFactory.getCrsProjectionByEpsgNumber(3024)  // https://epsg.io/3024
         );
     }
@@ -91,27 +91,27 @@ public class JavaCrsProjectionFactoryTest
     @Test
     public void verifyOrderOfProjectionsInEnum() {
         List<CrsProjection> expectedProjections = Arrays.asList(
-            CrsProjection.wgs84,           // 4326
+            CrsProjection.WGS84,           // 4326
             // the first item should be WGS84 (as above, but then below they are expected to be ordered by increasing EPSG number, i.e. from low to high) 
-            CrsProjection.sweref_99_tm,    // 3006  // national sweref99 CRS
-            CrsProjection.sweref_99_12_00, // 3007
-            CrsProjection.sweref_99_13_30, // 3008
-            CrsProjection.sweref_99_15_00, // 3009
-            CrsProjection.sweref_99_16_30, // 3010
-            CrsProjection.sweref_99_18_00, // 3011
-            CrsProjection.sweref_99_14_15, // 3012
-            CrsProjection.sweref_99_15_45, // 3013
-            CrsProjection.sweref_99_17_15, // 3014
-            CrsProjection.sweref_99_18_45, // 3015
-            CrsProjection.sweref_99_20_15, // 3016
-            CrsProjection.sweref_99_21_45, // 3017
-            CrsProjection.sweref_99_23_15, // 3018
-            CrsProjection.rt90_7_5_gon_v,  // 3019
-            CrsProjection.rt90_5_0_gon_v,  // 3020
-            CrsProjection.rt90_2_5_gon_v,  // 3021
-            CrsProjection.rt90_0_0_gon_v,  // 3022
-            CrsProjection.rt90_2_5_gon_o,  // 3023
-            CrsProjection.rt90_5_0_gon_o   // 3024
+            CrsProjection.SWEREF_99_TM,    // 3006  // national sweref99 CRS
+            CrsProjection.SWEREF_99_12_00, // 3007
+            CrsProjection.SWEREF_99_13_30, // 3008
+            CrsProjection.SWEREF_99_15_00, // 3009
+            CrsProjection.SWEREF_99_16_30, // 3010
+            CrsProjection.SWEREF_99_18_00, // 3011
+            CrsProjection.SWEREF_99_14_15, // 3012
+            CrsProjection.SWEREF_99_15_45, // 3013
+            CrsProjection.SWEREF_99_17_15, // 3014
+            CrsProjection.SWEREF_99_18_45, // 3015
+            CrsProjection.SWEREF_99_20_15, // 3016
+            CrsProjection.SWEREF_99_21_45, // 3017
+            CrsProjection.SWEREF_99_23_15, // 3018
+            CrsProjection.RT90_7_5_GON_V,  // 3019
+            CrsProjection.RT90_5_0_GON_V,  // 3020
+            CrsProjection.RT90_2_5_GON_V,  // 3021
+            CrsProjection.RT90_0_0_GON_V,  // 3022
+            CrsProjection.RT90_2_5_GON_O,  // 3023
+            CrsProjection.RT90_5_0_GON_O   // 3024
         );
         assertEquals(
             expectedProjections.size(),
