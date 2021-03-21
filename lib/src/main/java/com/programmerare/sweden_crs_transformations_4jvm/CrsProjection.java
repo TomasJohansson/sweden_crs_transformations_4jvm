@@ -128,6 +128,13 @@ public enum CrsProjection {
     public boolean isRT90() {
         return epsgLowerValueForRT90 <= epsg && epsg <= epsgUpperValueForRT90;
     }
+    
+    public CrsCoordinate createCoordinate(
+        double yLatitude,
+        double xLongitude
+    ) {
+        return CrsCoordinate.createCoordinate(this, yLatitude, xLongitude);
+    }
 
     /**
      * @return a string representation of the enum.

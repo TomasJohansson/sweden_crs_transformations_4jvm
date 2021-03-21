@@ -266,5 +266,16 @@ public class JavaCrsProjectionTest
             );
         }
     }
-    
+
+    @Test
+    public void createCoordinate() {
+        final double x = 22.5;
+        final double y = 62.5;
+        CrsCoordinate crsCoordinate = CrsProjection.SWEREF_99_TM.createCoordinate(y, x);
+        assertEquals(epsgNumberForSweref99tm, crsCoordinate.getCrsProjection().getEpsgNumber());
+        assertEquals(CrsProjection.SWEREF_99_TM, crsCoordinate.getCrsProjection());
+        final double delta = 0.000001;
+        assertEquals(x, crsCoordinate.getLongitudeX(), delta);
+        assertEquals(y, crsCoordinate.getLatitudeY(), delta);
+    }
 }

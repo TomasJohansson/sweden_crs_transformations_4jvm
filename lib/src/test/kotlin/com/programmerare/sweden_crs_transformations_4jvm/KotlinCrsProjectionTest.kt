@@ -240,4 +240,18 @@ class KotlinCrsProjectionTest {
         }
     }
 
+    @Test
+    fun createCoordinate() {
+        val x = 22.5
+        val y = 62.5
+        val crsCoordinate = SWEREF_99_TM.createCoordinate(y, x)
+        Assert.assertEquals(
+            epsgNumberForSweref99tm,
+            crsCoordinate.crsProjection.epsgNumber
+        )
+        Assert.assertEquals(SWEREF_99_TM, crsCoordinate.crsProjection)
+        val delta = 0.000001
+        Assert.assertEquals(x, crsCoordinate.longitudeX, delta)
+        Assert.assertEquals(y, crsCoordinate.latitudeY, delta)
+    }
 }

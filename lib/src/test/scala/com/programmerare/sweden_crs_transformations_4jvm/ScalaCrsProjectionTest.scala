@@ -190,4 +190,15 @@ class ScalaCrsProjectionTest {
     }
   }
 
+  @Test
+  def createCoordinate(): Unit = {
+    val x = 22.5
+    val y = 62.5
+    val crsCoordinate = CrsProjection.SWEREF_99_TM.createCoordinate(y, x)
+    assertEquals(epsgNumberForSweref99tm, crsCoordinate.getCrsProjection.getEpsgNumber)
+    assertEquals(CrsProjection.SWEREF_99_TM, crsCoordinate.getCrsProjection)
+    val delta = 0.000001
+    assertEquals(x, crsCoordinate.getLongitudeX, delta)
+    assertEquals(y, crsCoordinate.getLatitudeY, delta)
+  }
 }
