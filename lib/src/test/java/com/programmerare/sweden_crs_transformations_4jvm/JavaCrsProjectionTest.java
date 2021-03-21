@@ -69,17 +69,17 @@ public class JavaCrsProjectionTest
     }
 
     @Test
-    public void isSweref() {
+    public void isSweRef99() {
         assertEquals(numberOfSweref99projections, _sweref99Projections.size());
 
         for(CrsProjection item : _wgs84Projections) {
-            assertFalse(item.isSweref());
+            assertFalse(item.isSweRef99());
         }
         for(CrsProjection item : _sweref99Projections) {
-            assertTrue(item.isSweref());
+            assertTrue(item.isSweRef99());
         }
         for(CrsProjection item : _rt90Projections) {
-            assertFalse(item.isSweref());
+            assertFalse(item.isSweRef99());
         }
     }
 
@@ -213,7 +213,7 @@ public class JavaCrsProjectionTest
         return (
             p == ProjectionToCount.WGS && c.isWgs84()
             ||
-            p == ProjectionToCount.SWEREF && c.isSweref()
+            p == ProjectionToCount.SWEREF && c.isSweRef99()
             ||
             p == ProjectionToCount.RT90 && c.isRT90()
         );

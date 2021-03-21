@@ -41,7 +41,7 @@ public class Transformer {
         if(
             sourceCoordinate.getCrsProjection().isWgs84()
             &&
-            ( targetCrsProjection.isSweref() || targetCrsProjection.isRT90() )
+            ( targetCrsProjection.isSweRef99() || targetCrsProjection.isRT90() )
         ) {
             _transFormStrategy = _transformStrategy_from_WGS84_to_SWEREF99_or_RT90;
         }
@@ -50,16 +50,16 @@ public class Transformer {
         else if(
             targetCrsProjection.isWgs84()
             &&
-            ( sourceCoordinate.getCrsProjection().isSweref() || sourceCoordinate.getCrsProjection().isRT90() )
+            ( sourceCoordinate.getCrsProjection().isSweRef99() || sourceCoordinate.getCrsProjection().isRT90() )
         ) {
             _transFormStrategy = _transformStrategy_from_SWEREF99_or_RT90_to_WGS84;
         }
 
         // Transform between two non-wgs84:
         else if(
-            ( sourceCoordinate.getCrsProjection().isSweref() || sourceCoordinate.getCrsProjection().isRT90() )
+            ( sourceCoordinate.getCrsProjection().isSweRef99() || sourceCoordinate.getCrsProjection().isRT90() )
             &&
-            ( targetCrsProjection.isSweref() || targetCrsProjection.isRT90() )
+            ( targetCrsProjection.isSweRef99() || targetCrsProjection.isRT90() )
         ) {
             // the only direct transform supported is to/from WGS84, so therefore first transform to wgs84
             _transFormStrategy = _transFormStrategy_From_Sweref99OrRT90_to_WGS84_andThenToRealTarget;

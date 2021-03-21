@@ -84,19 +84,19 @@ class KotlinCrsProjectionTest {
     }
 
     @Test
-    fun isSweref() {
+    fun isSweRef99() {
         Assert.assertEquals(
             numberOfSweref99projections,
             _sweref99Projections.size
         )
         for (item in _wgs84Projections) {
-            Assert.assertFalse(item.isSweref)
+            Assert.assertFalse(item.isSweRef99)
         }
         for (item in _sweref99Projections) {
-            Assert.assertTrue(item.isSweref)
+            Assert.assertTrue(item.isSweRef99)
         }
         for (item in _rt90Projections) {
-            Assert.assertFalse(item.isSweref)
+            Assert.assertFalse(item.isSweRef99)
         }
     }
 
@@ -173,7 +173,7 @@ class KotlinCrsProjectionTest {
     fun verifyNumberOfSweref99Projections() {
         Assert.assertEquals(
             numberOfSweref99projections,
-            getNumberOfProjections { crs: CrsProjection -> crs.isSweref }
+            getNumberOfProjections { crs: CrsProjection -> crs.isSweRef99 }
         )
     }
 

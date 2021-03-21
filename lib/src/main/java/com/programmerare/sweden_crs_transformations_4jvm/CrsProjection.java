@@ -118,7 +118,7 @@ public enum CrsProjection {
     /**
      * @return true if the coordinate reference system is SWEREF99. Otherwise false.
      */
-    public boolean isSweref() {
+    public boolean isSweRef99() {
         return epsgLowerValueForSweref <= epsg && epsg <= epsgUpperValueForSweref;
     }
 

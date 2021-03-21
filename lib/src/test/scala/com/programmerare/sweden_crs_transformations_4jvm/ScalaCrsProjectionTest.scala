@@ -69,17 +69,17 @@ class ScalaCrsProjectionTest {
   }
 
   @Test
-  def isSweref(): Unit = {
+  def isSweRef99(): Unit = {
     assertEquals(numberOfSweref99projections, _sweref99Projections.size)
     
     for (item <- _wgs84Projections) {
-      assertFalse(item.isSweref)
+      assertFalse(item.isSweRef99)
     }
     for (item <- _sweref99Projections) {
-      assertTrue(item.isSweref)
+      assertTrue(item.isSweRef99)
     }
     for (item <- _rt90Projections) {
-      assertFalse(item.isSweref)
+      assertFalse(item.isSweRef99)
     }
   }
 
@@ -136,7 +136,7 @@ class ScalaCrsProjectionTest {
 
   @Test
   def verifyNumberOfSweref99Projections(): Unit = {
-    assertEquals(numberOfSweref99projections, getNumberOfProjections(crs => crs.isSweref))
+    assertEquals(numberOfSweref99projections, getNumberOfProjections(crs => crs.isSweRef99))
   }
 
   @Test
