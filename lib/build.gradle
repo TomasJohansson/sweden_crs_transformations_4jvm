@@ -56,5 +56,10 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
     testImplementation 'org.jetbrains.kotlin:kotlin-test-junit'
-    // ------------------------------------------------------    
+    // ------------------------------------------------------
+
+    // https://mvnrepository.com/artifact/com.github.goober/coordinate-transformation-library
+    // This 'goober' library is used from the example class: 
+    // lib/src/test/java/com/programmerare/sweden_crs_transformations_4jvm/example/ExampleComparingWithGooberLibrary.java
+    testImplementation 'com.github.goober:coordinate-transformation-library:1.1'
 }

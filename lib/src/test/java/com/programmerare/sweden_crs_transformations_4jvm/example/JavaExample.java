@@ -1,13 +1,79 @@
 package com.programmerare.sweden_crs_transformations_4jvm.example;
 
-// This is NOT a "test" class with assertions, but it can be used for code examples 
-// e.g. verify that this code below works and then it can be paste into some example page at github
+// This class can be used for code examples e.g. verify that this code below works 
+// and then it can be paste into some example page at github
 
-import com.programmerare.sweden_crs_transformations_4jvm.CrsCoordinate;
+// The only two types you need to use is 'CrsProjection' and 'CrsCoordinate' 
+// (and when you have created an instance of 'CrsCoordinate' you can use its method 'transform' )
 import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
+import com.programmerare.sweden_crs_transformations_4jvm.CrsCoordinate;
+
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 public class JavaExample  {
+
+    @Test
+    public void creating_instances_of_CrsProjection() {
+        final CrsProjection crsSWEREF_99_TM__1 = CrsProjection.SWEREF_99_TM;
+        // An enum instance of CrsProjection can be created either directly by enum access as
+        // above, or by using a so called EPSG number as illustrated below
+        final int epsgNumberFor_SWEREF_99_TM = 3006; // https://epsg.io/3006
+        final CrsProjection crsSWEREF_99_TM__2 = CrsProjection.getCrsProjectionByEpsgNumber(epsgNumberFor_SWEREF_99_TM);
+        // The above two instances of 'CrsProjection' are referencing the same enum 
+        // 'CrsProjection.SWEREF_99_TM' as illustrated in the below test assertion: 
+        assertEquals(crsSWEREF_99_TM__1, crsSWEREF_99_TM__2);
+
+        // The EPSG number is above defined explicitly into 'epsgNumberFor_SWEREF_99_TM'
+        // but you do not need to do that yourself since the value is available from the enum instance 
+        // as illustrated in the below test assertion:
+        assertEquals(
+            epsgNumberFor_SWEREF_99_TM, // 3006
+            CrsProjection.SWEREF_99_TM.getEpsgNumber() // 3006
+        );
+
+        // The 'toString' method renders as the name of the enum instance plus a an EPSG suffix
+        // as illustrated in the below test assertion
+        assertEquals(
+            "SWEREF_99_TM(EPSG:3006)",
+            CrsProjection.SWEREF_99_TM.toString()
+        );
+    }
+
+    @Test
+    public void creating_instances_of_CrsCoordinate() {
+        final int epsgNumberFor_RT90_2_5_GON_V = 3021; // https://epsg.io/3021
+        // Note that you do not need to define the EPSG numbers as above since 
+        // they are available from within the enum as illustrated in the below test assertion:
+        assertEquals(
+            epsgNumberFor_RT90_2_5_GON_V, // 3021
+            CrsProjection.RT90_2_5_GON_V.getEpsgNumber() // 3021
+        );
+        
+        final double y_RT90_2_5_GON_V = 6583050;
+        final double x_RT90_2_5_GON_V = 1627546;
+
+        // Below are three ways to create a coordinate represented by the above x/y values and the 
+        // above coordinate reference system RT90_2_5_GON_V (EPSG:3021) :
+        CrsCoordinate crs_1 = CrsProjection.RT90_2_5_GON_V.createCoordinate(y_RT90_2_5_GON_V, x_RT90_2_5_GON_V);
+        CrsCoordinate crs_2 = CrsCoordinate.createCoordinate(CrsProjection.RT90_2_5_GON_V, y_RT90_2_5_GON_V, x_RT90_2_5_GON_V);
+        CrsCoordinate crs_3 = CrsCoordinate.createCoordinate(epsgNumberFor_RT90_2_5_GON_V, y_RT90_2_5_GON_V, x_RT90_2_5_GON_V);
+        // The above three are equivalent as illustrated in the below test assertions: 
+        assertEquals(crs_1, crs_2);
+        assertEquals(crs_1, crs_3);
+        
+        // Now when you have created an instance of 'CrsCoordinate' you can use it for transforming 
+        // to another coordinate reference system, for example WGS84 as illustrated below
+        CrsCoordinate wgs84 = crs_1.transform(CrsProjection.WGS84);
+        // The transform method is overloaded, and instead of an enum instance 
+        // you may use an EPSG number (but of course onnly those 20 EPSG numbers that are supported)
+        final int epsgNumberForWGS84 = CrsProjection.WGS84.getEpsgNumber(); // 4326
+        CrsCoordinate wgs84_alternative = crs_1.transform(epsgNumberForWGS84); // 4326
+        CrsCoordinate wgs84_alternative_2 = crs_1.transform(4326);
+        // See also the below main method for more sample code
+    }
+    
     public static void main(String[] args) {
         
         final double stockholmCentralStation_WGS84_latitude = 59.330231;

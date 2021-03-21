@@ -23,11 +23,77 @@ Dart: [sweden_crs_transformations_4net](https://github.com/TomasJohansson/sweden
 
 # Code example for Java
 ```java
-import com.programmerare.sweden_crs_transformations_4jvm.CrsCoordinate;
+// The only two types you need to use is 'CrsProjection' and 'CrsCoordinate' 
+// (and when you have created an instance of 'CrsCoordinate' you can use its method 'transform' )
 import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
+import com.programmerare.sweden_crs_transformations_4jvm.CrsCoordinate;
+
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 public class JavaExample  {
+
+    @Test
+    public void creating_instances_of_CrsProjection() {
+        final CrsProjection crsSWEREF_99_TM__1 = CrsProjection.SWEREF_99_TM;
+        // An enum instance of CrsProjection can be created either directly by enum access as
+        // above, or by using a so called EPSG number as illustrated below
+        final int epsgNumberFor_SWEREF_99_TM = 3006; // https://epsg.io/3006
+        final CrsProjection crsSWEREF_99_TM__2 = CrsProjection.getCrsProjectionByEpsgNumber(epsgNumberFor_SWEREF_99_TM);
+        // The above two instances of 'CrsProjection' are referencing the same enum 
+        // 'CrsProjection.SWEREF_99_TM' as illustrated in the below test assertion: 
+        assertEquals(crsSWEREF_99_TM__1, crsSWEREF_99_TM__2);
+
+        // The EPSG number is above defined explicitly into 'epsgNumberFor_SWEREF_99_TM'
+        // but you do not need to do that yourself since the value is available from the enum instance 
+        // as illustrated in the below test assertion:
+        assertEquals(
+            epsgNumberFor_SWEREF_99_TM, // 3006
+            CrsProjection.SWEREF_99_TM.getEpsgNumber() // 3006
+        );
+
+        // The 'toString' method renders as the name of the enum instance plus a an EPSG suffix
+        // as illustrated in the below test assertion
+        assertEquals(
+            "SWEREF_99_TM(EPSG:3006)",
+            CrsProjection.SWEREF_99_TM.toString()
+        );
+    }
+
+    @Test
+    public void creating_instances_of_CrsCoordinate() {
+        final int epsgNumberFor_RT90_2_5_GON_V = 3021; // https://epsg.io/3021
+        // Note that you do not need to define the EPSG numbers as above since 
+        // they are available from within the enum as illustrated in the below test assertion:
+        assertEquals(
+            epsgNumberFor_RT90_2_5_GON_V, // 3021
+            CrsProjection.RT90_2_5_GON_V.getEpsgNumber() // 3021
+        );
+
+        final double y_RT90_2_5_GON_V = 6583050;
+        final double x_RT90_2_5_GON_V = 1627546;
+
+        // Below are three ways to create a coordinate represented by the above x/y values and the 
+        // above coordinate reference system RT90_2_5_GON_V (EPSG:3021) :
+        CrsCoordinate crs_1 = CrsProjection.RT90_2_5_GON_V.createCoordinate(y_RT90_2_5_GON_V, x_RT90_2_5_GON_V);
+        CrsCoordinate crs_2 = CrsCoordinate.createCoordinate(CrsProjection.RT90_2_5_GON_V, y_RT90_2_5_GON_V, x_RT90_2_5_GON_V);
+        CrsCoordinate crs_3 = CrsCoordinate.createCoordinate(epsgNumberFor_RT90_2_5_GON_V, y_RT90_2_5_GON_V, x_RT90_2_5_GON_V);
+        // The above three are equivalent as illustrated in the below test assertions: 
+        assertEquals(crs_1, crs_2);
+        assertEquals(crs_1, crs_3);
+
+        // Now when you have created an instance of 'CrsCoordinate' you can use it for transforming 
+        // to another coordinate reference system, for example WGS84 as illustrated below
+        CrsCoordinate wgs84 = crs_1.transform(CrsProjection.WGS84);
+        // The transform method is overloaded, and instead of an enum instance 
+        // you may use an EPSG number (but of course onnly those 20 EPSG numbers that are supported)
+        final int epsgNumberForWGS84 = CrsProjection.WGS84.getEpsgNumber(); // 4326
+        CrsCoordinate wgs84_alternative = crs_1.transform(epsgNumberForWGS84); // 4326
+        CrsCoordinate wgs84_alternative_2 = crs_1.transform(4326);
+        // See also the below main method for more sample code
+    }
+
     public static void main(String[] args) {
 
         final double stockholmCentralStation_WGS84_latitude = 59.330231;
@@ -42,11 +108,11 @@ public class JavaExample  {
         final CrsCoordinate stockholmSweref99tm = stockholmWGS84.transform(CrsProjection.SWEREF_99_TM);
         System.out.println("stockholmSweref99tm X: " + stockholmSweref99tm.getLongitudeX());
         System.out.println("stockholmSweref99tm Y: " + stockholmSweref99tm.getLatitudeY());
-        System.out.println("stockholmSweref99tm 'ToString': " + stockholmSweref99tm.toString());
+        System.out.println("stockholmSweref99tm 'toString': " + stockholmSweref99tm.toString());
         // Output from the above:
         //stockholmSweref99tm X: 674032.357
         //stockholmSweref99tm Y: 6580821.991
-        //stockholmSweref99tm 'ToString': CrsCoordinate [ Y: 6580821.991 , X: 674032.357 , CRS: SWEREF_99_TM(EPSG:3006) ]
+        //stockholmSweref99tm 'toString': CrsCoordinate [ Y: 6580821.991 , X: 674032.357 , CRS: SWEREF_99_TM(EPSG:3006) ]
 
         final List<CrsProjection> allProjections = CrsProjection.getAllCrsProjections();
         for(final CrsProjection crsProjection : allProjections) {
@@ -73,6 +139,119 @@ public class JavaExample  {
         //CrsCoordinate [ Y: 6578822.84 , X: 1500248.374 , CRS: RT90_0_0_GON_V(EPSG:3022) ]
         //CrsCoordinate [ Y: 6580977.349 , X: 1372202.721 , CRS: RT90_2_5_GON_O(EPSG:3023) ]
         //CrsCoordinate [ Y: 6587459.595 , X: 1244251.702 , CRS: RT90_5_0_GON_O(EPSG:3024) ]
+    }
+}
+```
+# Code example for Scala and Kotlin
+[Scala example](https://github.com/TomasJohansson/sweden_crs_transformations_4jvm/blob/java_SwedenCrsTransformations/lib/src/test/scala/com/programmerare/sweden_crs_transformations_4jvm/example/ScalaExample.scala)  
+[Kotlin example](https://github.com/TomasJohansson/sweden_crs_transformations_4jvm/blob/java_SwedenCrsTransformations/lib/src/test/kotlin/com/programmerare/sweden_crs_transformations_4jvm/example/KotlinExample.kt)  
+
+# Comparison with the Java library [goober/coordinate-transformation-library](https://github.com/goober/coordinate-transformation-library)
+https://github.com/TomasJohansson/sweden_crs_transformations_4jvm  
+https://github.com/goober/coordinate-transformation-library  
+Both libraries (in the two above URL's) are based on the C#.NET library at the below URL:   
+https://github.com/bjornsallarp/MightyLittleGeodesy  
+You can see the similarity in the C# class [GaussKreuger.cs](https://github.com/bjornsallarp/MightyLittleGeodesy/blob/master/MightyLittleGeodesy/Classes/GaussKreuger.cs)  
+The methods 'geodetic_to_grid' and 'grid_to_geodetic' are corresponding to methods with the same name in the below two classes     
+[TomasJohansson/sweden_crs_transformations_4jvm/GaussKreuger.java](https://github.com/TomasJohansson/sweden_crs_transformations_4jvm/blob/java_SwedenCrsTransformations/lib/src/main/java/com/programmerare/sweden_crs_transformations_4jvm/mighty_little_geodesy/GaussKreuger.java)  
+[goober/coordinate-transformation-library/GaussKreuger.java](https://github.com/goober/coordinate-transformation-library/blob/master/src/main/java/com/github/goober/coordinatetransformation/GaussKreuger.java)   
+Since the same mathematics are the same for the above two libraries, there should be no difference in the results.  
+However, there is a significant difference in the API for you to use.  
+When you use this 'sweden_crs_transformations_4jvm' library you only need to use the enum 'CrsProjection' and the class 'CrsCoordinate'.  
+When you use the 'goober' library there are three classes (WGS84Position, SWEREF99Position, RT90Position) and two enums (SWEREFProjection, RT90Projection) to use.  
+See the code example below.
+```java
+import com.github.goober.coordinatetransformation.positions.WGS84Position;
+import com.github.goober.coordinatetransformation.positions.SWEREF99Position;
+import com.github.goober.coordinatetransformation.positions.RT90Position;
+import com.github.goober.coordinatetransformation.positions.SWEREF99Position.SWEREFProjection;
+import com.github.goober.coordinatetransformation.positions.RT90Position.RT90Projection;
+
+import com.programmerare.sweden_crs_transformations_4jvm.CrsCoordinate;
+import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
+
+public class ExampleComparingWithGooberLibrary {
+    public static void main(String[] args) {
+        final double x_RT90_2_5_GON_V = 1627546;
+        final double y_RT90_2_5_GON_V = 6583050;
+
+        transform_to_SWEREF99TM_using_sweden_crs_transformations_4jvm(y_RT90_2_5_GON_V, x_RT90_2_5_GON_V);
+
+        transform_to_SWEREF99TM_using_goober_coordinate_transformation_library(y_RT90_2_5_GON_V, x_RT90_2_5_GON_V);
+    }
+
+    private static void transform_to_SWEREF99TM_using_sweden_crs_transformations_4jvm(
+        double y_rt90_2_5_gon_v,
+        double x_rt90_2_5_gon_v
+    )
+    {
+        // This method uses the library at this URL for transforming from "RT90 2,5 gon v" to SWEREF99TM:
+        // https://github.com/TomasJohansson/sweden_crs_transformations_4jvm
+        // These two types are the only types needed:
+        //import com.programmerare.sweden_crs_transformations_4jvm.CrsCoordinate;
+        //import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;        
+
+        CrsCoordinate coordinate_RT90_2_5_GON_V = CrsProjection.RT90_2_5_GON_V.createCoordinate(y_rt90_2_5_gon_v, x_rt90_2_5_gon_v);
+        CrsCoordinate coordinate_sweref99tm = coordinate_RT90_2_5_GON_V.transform(CrsProjection.SWEREF_99_TM);
+        System.out.println("coordinate_sweref99tm.getLongitudeX() " + coordinate_sweref99tm.getLongitudeX());
+        System.out.println("coordinate_sweref99tm.getLatitudeY() " + coordinate_sweref99tm.getLatitudeY());
+
+        // Of course it is not necessary to store intermediate variable as above, but you might 
+        // choose to do as below instead, if you would prefer that:
+        CrsCoordinate coordinate_sweref99tm_alternative =
+            CrsProjection.RT90_2_5_GON_V.createCoordinate(y_rt90_2_5_gon_v, x_rt90_2_5_gon_v)
+                .transform(CrsProjection.SWEREF_99_TM);
+        System.out.println("coordinate_sweref99tm_alternative.getLongitudeX() " + coordinate_sweref99tm_alternative.getLongitudeX());
+        System.out.println("coordinate_sweref99tm_alternative.getLatitudeY() " + coordinate_sweref99tm_alternative.getLatitudeY());
+
+
+        // Output printed by this method:
+        // coordinate_sweref99tm.getLongitudeX() 673259.81
+        // coordinate_sweref99tm.getLatitudeY() 6582868.119
+        // coordinate_sweref99tm_alternative.getLongitudeX() 673259.81
+        // coordinate_sweref99tm_alternative.getLatitudeY() 6582868.119        
+    }
+
+
+    // 'build.gradle' dependency which enables the below used types within 'com.github.goober': 
+    //      'com.github.goober:coordinate-transformation-library:1.1'
+    private static void transform_to_SWEREF99TM_using_goober_coordinate_transformation_library(
+        double y_rt90_2_5_gon_v,
+        double x_rt90_2_5_gon_v
+    )
+    {
+        // This method uses the library at the below URL for transforming from "RT90 2,5 gon v" to SWEREF99TM:
+        // https://github.com/goober/coordinate-transformation-library
+        // https://mvnrepository.com/artifact/com.github.goober/coordinate-transformation-library/1.1
+        // https://github.com/goober/coordinate-transformation-library/blob/master/src/test/java/com/github/goober/coordinatetransformation/CoordinateTransformationJUnit4Test.java
+        // These five types are used:        
+        //import com.github.goober.coordinatetransformation.positions.RT90Position;
+        //import com.github.goober.coordinatetransformation.positions.RT90Position.RT90Projection;
+        //import com.github.goober.coordinatetransformation.positions.SWEREF99Position;
+        //import com.github.goober.coordinatetransformation.positions.SWEREF99Position.SWEREFProjection;
+        //import com.github.goober.coordinatetransformation.positions.WGS84Position;
+
+        RT90Position position_rt90_2_5_gon_v = new RT90Position(y_rt90_2_5_gon_v, x_rt90_2_5_gon_v, RT90Projection.rt90_2_5_gon_v);
+        WGS84Position position_wgs84 = position_rt90_2_5_gon_v.toWGS84();
+        SWEREF99Position position_sweref_99_tm = new SWEREF99Position(position_wgs84, SWEREFProjection.sweref_99_tm);
+
+        System.out.println("position_sweref_99_tm.getLongitude() " + position_sweref_99_tm.getLongitude());
+        System.out.println("position_sweref_99_tm.getLatitude() " + position_sweref_99_tm.getLatitude());
+
+        // Of course it is not necessary to store intermediate variable as above, but you might 
+        // choose to do as below instead, if you would prefer that:
+        SWEREF99Position position_sweref_99_tm_alternative = new SWEREF99Position(
+            (new RT90Position(y_rt90_2_5_gon_v, x_rt90_2_5_gon_v, RT90Position.RT90Projection.rt90_2_5_gon_v)).toWGS84(),
+            SWEREF99Position.SWEREFProjection.sweref_99_tm
+        );
+        System.out.println("position_sweref_99_tm_alternative.getLongitude() " + position_sweref_99_tm_alternative.getLongitude());
+        System.out.println("position_sweref_99_tm_alternative.getLatitude() " + position_sweref_99_tm_alternative.getLatitude());
+
+        // Output printed by this method:
+        // position_sweref_99_tm.getLongitude() 673259.81
+        // position_sweref_99_tm.getLatitude() 6582868.119
+        // position_sweref_99_tm_alternative.getLongitude() 673259.81
+        // position_sweref_99_tm_alternative.getLatitude() 6582868.119
     }
 }
 ```
