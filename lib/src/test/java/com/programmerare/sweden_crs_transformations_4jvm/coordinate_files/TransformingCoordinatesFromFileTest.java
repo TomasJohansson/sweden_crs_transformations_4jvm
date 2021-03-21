@@ -9,8 +9,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.*;
-//import java.util.stream.Collectors; // Java8
-
 import static org.junit.Assert.*;
     
 public class TransformingCoordinatesFromFileTest {

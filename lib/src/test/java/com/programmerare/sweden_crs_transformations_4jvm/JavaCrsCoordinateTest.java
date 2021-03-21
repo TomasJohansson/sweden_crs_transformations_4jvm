@@ -178,17 +178,6 @@ public class JavaCrsCoordinateTest
             expectedDefaultToStringResultForCoordinate2 ,
             coordinate2.toString()
         );
-        // Has removed the previous (below tested) feature to customize the toString output. 
-//        CrsCoordinate.setToStringImplementation(this::myCustomToStringMethod); // Java8
-//        assertEquals(
-//            "18.059196 , 59.330231",
-//            coordinate2.toString()
-//        );
-//        CrsCoordinate.setToStringImplementationDefault(); // restores the default 'toString' implementation
-//        assertEquals(
-//            expectedDefaultToStringResultForCoordinate2 ,
-//            coordinate2.toString()
-//        );
     }
     private String myCustomToStringMethod(CrsCoordinate coordinate) {
         return String.format(

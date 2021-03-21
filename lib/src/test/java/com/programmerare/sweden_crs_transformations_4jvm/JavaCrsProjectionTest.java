@@ -165,7 +165,6 @@ public class JavaCrsProjectionTest
         assertEquals(
             numberOfSweref99projections,
             
-
             // Java8:
             // getNumberOfProjections(CrsProjection::isSweref) // crs -> crs.isSweref()
             // Java6:
@@ -219,13 +218,6 @@ public class JavaCrsProjectionTest
             ||
             p == ProjectionToCount.RT90 && c.isRT90()
         );
-        //    boolean b = false;
-        //    switch(projectionToCount) {
-        //        case WGS: if(crsProjection.isWgs84()) b=true;
-        //        case SWEREF: if(crsProjection.isSweref()) b=true;
-        //        case RT90: if(crsProjection.isRT90()) b=true;
-        //    }
-        //    return b;        
     }
 
     @Test

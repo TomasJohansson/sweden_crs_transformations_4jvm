@@ -12,8 +12,6 @@
 package com.programmerare.sweden_crs_transformations_4jvm;
 
 import com.programmerare.sweden_crs_transformations_4jvm.transformation.Transformer;
-//import java.util.Objects; // Java7
-//import java.util.function.Function; // Java8
 
 /**
  * Coordinate, defined by the three parameters for the factory methods. 
@@ -158,19 +156,4 @@ public class CrsCoordinate {
         );
     }
 
-    // 
-    // Disabled the Java8 code below:
-    // (and of course it could easily be replaced with instead using a Java6 interface, but the feature customizing the output result of 'toString' is actually not very necessary to provide)  
-    // private static Function<CrsCoordinate, String> _toStringImplementation = CrsCoordinate::defaultToStringImplementation; // Java8
-    
-    // * Sets a custom method to be used for rendering an instance when the 'toString' method is used. 
-    // * @param toStringImplementation a method/function with 'CrsCoordinate' as parameter, and returning a String
-    //public static void setToStringImplementation(Function<CrsCoordinate, String> toStringImplementation) {
-    //    _toStringImplementation = toStringImplementation;
-    //}
-
-    // * Sets the default method to be used for rendering an instance when the 'toString' method is used.
-    //public static void setToStringImplementationDefault() { 
-    //    _toStringImplementation = CrsCoordinate::defaultToStringImplementation;
-    //}
 }
