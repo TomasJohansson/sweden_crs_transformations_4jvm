@@ -144,22 +144,17 @@ public class CrsCoordinate {
      */
     @Override
     public String toString() {
-        // return _toStringImplementation.apply(this); // Java8
-        return defaultToStringImplementation(this);
-    }
-    
-    private static String defaultToStringImplementation(CrsCoordinate coordinate) {
-        String crs = coordinate.getCrsProjection().toString().toUpperCase();
-        boolean isWgs84 =  coordinate.getCrsProjection().isWgs84();
+        String crs = getCrsProjection().toString().toUpperCase();
+        boolean isWgs84 =  getCrsProjection().isWgs84();
         String yOrLatitude = isWgs84 ? "Latitude" : "Y";
         String xOrLongitude = isWgs84 ? "Longitude" : "X";
         return String.format(
             "CrsCoordinate [ %s: %s , %s: %s , CRS: %s ]",
-                yOrLatitude,
-                coordinate.getLatitudeY(),
-                xOrLongitude,
-                coordinate.getLongitudeX(),
-                crs
+            yOrLatitude,
+            getLatitudeY(),
+            xOrLongitude,
+            getLongitudeX(),
+            crs
         );
     }
 
