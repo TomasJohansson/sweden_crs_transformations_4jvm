@@ -215,22 +215,22 @@ class KotlinCrsCoordinateTest {
             expectedDefaultToStringResultForCoordinate2,
             coordinate2.toString()
         )
-        
-        // now testing the same coordinate as above but with a custom 'toString' implementation
-        CrsCoordinate.setToStringImplementation(java.util.function.Function<CrsCoordinate?, kotlin.String?> { coordinate: CrsCoordinate? ->
-            this.myCustomToStringMethod(coordinate!!)
-        })
-        assertEquals(
-            "18.059196 , 59.330231",
-            coordinate2.toString()
-        )
-        CrsCoordinate.setToStringImplementationDefault() // restores the default 'toString' implementation
-        assertEquals(
-            expectedDefaultToStringResultForCoordinate2,
-            coordinate2.toString()
-        )
+        // TODO some example with a Kotlin extension method customizing a String representation
+        // Has removed the previous (below tested) feature to customize the toString output.
+//        CrsCoordinate.setToStringImplementation(java.util.function.Function<CrsCoordinate?, kotlin.String?> { coordinate: CrsCoordinate? ->
+//            this.myCustomToStringMethod(coordinate!!)
+//        })
+        // "java.util.function.Function" above is Java8
+//        assertEquals(
+//            "18.059196 , 59.330231",
+//            coordinate2.toString()
+//        )
+//        CrsCoordinate.setToStringImplementationDefault() // restores the default 'toString' implementation
+//        assertEquals(
+//            expectedDefaultToStringResultForCoordinate2,
+//            coordinate2.toString()
+//        )
     }
-
     private fun myCustomToStringMethod(coordinate: CrsCoordinate): String {
         return "${coordinate.longitudeX} , ${coordinate.latitudeY}"
     }

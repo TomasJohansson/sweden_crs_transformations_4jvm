@@ -12,6 +12,10 @@ plugins {
 group 'com.programmerare.crs-transformation'
 version '0.1-SNAPSHOT'
 
+def theJavaVersion = JavaVersion.VERSION_1_6
+sourceCompatibility=theJavaVersion
+targetCompatibility=theJavaVersion
+
 repositories {
     jcenter()
     mavenCentral()

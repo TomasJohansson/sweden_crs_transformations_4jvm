@@ -151,13 +151,13 @@ class ScalaCrsCoordinateTest {
       expectedDefaultToStringResultForCoordinate2,
       coordinate2.toString
     )
-    // now testing the same coordinate as above but with a custom 'toString' implementation
-    CrsCoordinate.setToStringImplementation(this.myCustomToStringMethod)
-    assertEquals("18.059196 , 59.330231", coordinate2.toString)
-    CrsCoordinate.setToStringImplementationDefault() // restores the default 'toString' implementation
-    assertEquals(expectedDefaultToStringResultForCoordinate2, coordinate2.toString)
+    // TODO some example with a Scala extension method (implicit conversion) customizing a String representation
+    // Has removed the previous (below tested) feature to customize the toString output.
+//    CrsCoordinate.setToStringImplementation(this.myCustomToStringMethod)
+//    assertEquals("18.059196 , 59.330231", coordinate2.toString)
+//    CrsCoordinate.setToStringImplementationDefault() // restores the default 'toString' implementation
+//    assertEquals(expectedDefaultToStringResultForCoordinate2, coordinate2.toString)
   }
-
   private def myCustomToStringMethod(coordinate: CrsCoordinate): String = {
     s"${coordinate.getLongitudeX} , ${coordinate.getLatitudeY}"
     // String.format("%s , %s", coordinate.getLongitudeX, coordinate.getLatitudeY)

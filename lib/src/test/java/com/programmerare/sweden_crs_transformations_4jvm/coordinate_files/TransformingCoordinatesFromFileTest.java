@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.*;
-import java.util.stream.Collectors;
+//import java.util.stream.Collectors; // Java8
 
 import static org.junit.Assert.*;
     
@@ -25,7 +25,7 @@ public class TransformingCoordinatesFromFileTest {
     @Test
     public void assertThatTransformationsDoNotDifferTooMuchFromExpectedResultInFile() {
         List<String> problemTransformationResults = new ArrayList<String>();
-        List<String> lines = this.readAllLinesFromResourceFile(relativePathForFileWith_swedish_crs_transformations);
+        List<String> linesFromCsvFile = this.readAllLinesFromResourceFile(relativePathForFileWith_swedish_crs_transformations);
         // The first two lines of the input file (the header row, and a data row):
             // EPSG 4326 (WGS84)Longitude for WGS84 (EPSG 4326)|Latitude for WGS84 (EPSG 4326)|EPSG 3006|X for EPSG 3006|Y for EPSG 3006|EPSG 3007-3024|X for EPSG 3007-3024|Y for EPSG 3007-3024|Implementation count for EPSG 3006 transformation|Implementation count for EPSG 3007-3024 transformation
             // 4326|12.146151472138385|58.46573396912418|3006|333538.2957000149|6484098.2550872|3007|158529.85136620898|6483166.205771873|6|6
@@ -39,10 +39,7 @@ public class TransformingCoordinatesFromFileTest {
         // and verifies the expected result according to the file, and asserts with an error if the difference is too big.
         // Note that the expected coordinates have been calculated in another project, by using a median value for 6 different implementations.
         // (and the number 6 is actually what the last columns means i.e. how many implementations were used to create the data file)
-        List<Coordinates> listOfCoordinates = lines.stream() //line => new Coordinates(line)).Skip(1).ToList();
-            .skip(1)
-            .map(line -> new Coordinates(line))
-            .collect(Collectors.toList());
+        List<Coordinates> listOfCoordinates = getCoordinates(linesFromCsvFile);
         assertEquals(18, listOfCoordinates.size());
         int numberOfTransformations = 0;
         for (Coordinates listOfCoordinatesWhichRepresentTheSameLocation : listOfCoordinates) {
@@ -116,6 +113,22 @@ public class TransformingCoordinatesFromFileTest {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    private List<Coordinates> getCoordinates(List<String> linesFromCsvFile) {
+        // Java8 implementation:
+        //    List<Coordinates> listOfCoordinates = lines.stream() //line => new Coordinates(line)).Skip(1).ToList();
+        //        .skip(1)
+        //        .map(line -> new Coordinates(line))
+        //        .collect(Collectors.toList());
+        
+        // Java6 implementation:
+        final List<Coordinates> listOfCoordinates = new ArrayList<Coordinates>();
+        for (int i = 1; i <linesFromCsvFile.size(); i++) { // skipping the first line i.e. starting at index 1
+            String line = linesFromCsvFile.get(i);
+            listOfCoordinates.add(new Coordinates(line));
+        }
+        return listOfCoordinates;
     }
 }
 

@@ -6,7 +6,7 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.function.Predicate;
+
 import static org.junit.Assert.*;
     
 public class JavaCrsProjectionTest
@@ -153,30 +153,79 @@ public class JavaCrsProjectionTest
     public void verifyNumberOfWgs84Projections() {
         assertEquals(
             numberOfWgs84Projections,
-            getNumberOfProjections(CrsProjection::isWgs84) //  crs -> crs.isWgs84()
+
+            // Java8:
+            // getNumberOfProjections(CrsProjection::isWgs84) //  crs -> crs.isWgs84()
+            // Java6:
+            getNumberOfProjections(ProjectionToCount.WGS)
         );
     }
     @Test
     public void verifyNumberOfSweref99Projections() {
         assertEquals(
             numberOfSweref99projections,
-            getNumberOfProjections(CrsProjection::isSweref) // crs -> crs.isSweref()
+            
+
+            // Java8:
+            // getNumberOfProjections(CrsProjection::isSweref) // crs -> crs.isSweref()
+            // Java6:
+            getNumberOfProjections(ProjectionToCount.SWEREF)            
         );
     }
     @Test
     public void verifyNumberOfRT90Projections() {
         assertEquals(
             numberOfRT90projections,
-            getNumberOfProjections(CrsProjection::isRT90) // crs -> crs.isRT90()
+            
+            // Java8:
+            // getNumberOfProjections(CrsProjection::isRT90) // crs -> crs.isRT90()
+            // Java6:
+            getNumberOfProjections(ProjectionToCount.RT90)
         );
     }
-    private int getNumberOfProjections(Predicate<CrsProjection> predicate) {
-        //    return _allCrsProjections.stream()
-        //        .filter(predicate) // .filter(predicate::test)  or  .filter(crs -> predicate.test(crs))
-        //        .collect(Collectors.toList())
-        //        .size();
-        // The below row is a shorter alternative to the above implementation
-        return (int) _allCrsProjections.stream().filter(predicate).count();
+    // Java8:
+//    private int getNumberOfProjections(Predicate<CrsProjection> predicate) {
+//        //    return _allCrsProjections.stream()
+//        //        .filter(predicate) // .filter(predicate::test)  or  .filter(crs -> predicate.test(crs))
+//        //        .collect(Collectors.toList())
+//        //        .size();
+//        // The below row is a shorter alternative to the above implementation
+//        return (int) _allCrsProjections.stream().filter(predicate).count();
+//    }
+    // Java6:    
+    enum ProjectionToCount { WGS, RT90, SWEREF }
+    private int getNumberOfProjections(ProjectionToCount projectionToCount) {
+        // Java6 implementation i.e. without Java8 Predicate and lambda features
+        int count = 0;
+        for (CrsProjection crsProjection: _allCrsProjections) {
+            if(shouldBeCounted(projectionToCount, crsProjection)) {
+                count++;
+            }
+        }
+        return count;
+    }
+    // helper method used within a loop
+    private boolean shouldBeCounted(
+        ProjectionToCount projectionToCount,
+        CrsProjection crsProjection
+    ) {
+        // Java6 implementation i.e. without Java8 Predicate and lambda features
+        final ProjectionToCount p = projectionToCount;
+        final CrsProjection c = crsProjection;
+        return (
+            p == ProjectionToCount.WGS && c.isWgs84()
+            ||
+            p == ProjectionToCount.SWEREF && c.isSweref()
+            ||
+            p == ProjectionToCount.RT90 && c.isRT90()
+        );
+        //    boolean b = false;
+        //    switch(projectionToCount) {
+        //        case WGS: if(crsProjection.isWgs84()) b=true;
+        //        case SWEREF: if(crsProjection.isSweref()) b=true;
+        //        case RT90: if(crsProjection.isRT90()) b=true;
+        //    }
+        //    return b;        
     }
 
     @Test
