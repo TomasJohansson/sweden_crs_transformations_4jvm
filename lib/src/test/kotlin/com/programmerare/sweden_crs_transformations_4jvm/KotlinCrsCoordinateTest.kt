@@ -203,14 +203,14 @@ class KotlinCrsCoordinateTest {
         val coordinate: CrsCoordinate =
             CrsCoordinate.createCoordinate(CrsProjection.SWEREF_99_18_00, 6579457.649, 153369.673)
         assertEquals(
-            "CrsCoordinate [ Y: 6579457.649 , X: 153369.673 , CRS: SWEREF_99_18_00 ]",
+            "CrsCoordinate [ Y: 6579457.649 , X: 153369.673 , CRS: SWEREF_99_18_00(EPSG:3011) ]",
             coordinate.toString()
         )
         
         val coordinate2: CrsCoordinate =
             CrsCoordinate.createCoordinate(CrsProjection.WGS84, 59.330231, 18.059196)
         val expectedDefaultToStringResultForCoordinate2 =
-            "CrsCoordinate [ Latitude: 59.330231 , Longitude: 18.059196 , CRS: WGS84 ]"
+            "CrsCoordinate [ Latitude: 59.330231 , Longitude: 18.059196 , CRS: WGS84(EPSG:4326) ]"
         assertEquals(
             expectedDefaultToStringResultForCoordinate2,
             coordinate2.toString()

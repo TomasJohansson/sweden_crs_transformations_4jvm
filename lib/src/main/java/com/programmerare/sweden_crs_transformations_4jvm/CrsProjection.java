@@ -131,11 +131,17 @@ public enum CrsProjection {
 
     /**
      * @return a string representation of the enum.
-     * For example "WGS84" or "SWEREF_99_TM" or "RT90_0_0_GON_V" 
+     * For example "WGS84(EPSG:4326)" or "SWEREF_99_TM(EPSG:3006)" or "RT90_0_0_GON_V(EPSG:3022)"
+     * If you want just the name without the EPSG suffix then you can use the method 'name()'
+     * to return strings such as for example "WGS84" or "SWEREF_99_TM" 
      */
     @Override
-    public String toString()  {
-        return this.name();
+    public String toString() {
+        return String.format(
+            "%s(EPSG:%s)",
+                this.name(),
+                this.getEpsgNumber()
+        );
     }
     
     private final static Map<Integer, CrsProjection>
