@@ -1,5 +1,5 @@
 # sweden_crs_transformations_4jvm
-'sweden_crs_transformations_4jvm' is a JVM (Scala/Java) library ported from the
+'sweden_crs_transformations_4jvm' is a Java/JVM library (with Java, Scala and Kotlin tests) ported from the
 [C#.NET library 'sweden_crs_transformations_4net'](https://github.com/TomasJohansson/sweden_crs_transformations_4net/)
 for transforming geographic coordinates between the following three kind of CRS (Coordinate Reference Systems): WGS84, SWEREF99 and RT90.
 (13 versions of SWEREF99, and 6 versions of RT90)
@@ -7,82 +7,82 @@ for transforming geographic coordinates between the following three kind of CRS 
 That C#.NET library ('sweden_crs_transformations_4net') is
 based on [C# library MightyLittleGeodesy](https://github.com/bjornsallarp/MightyLittleGeodesy/) which in turn is based on a [javascript library by Arnold Andreasson](https://latlong.mellifica.se/).
 
-The main part of 'MightyLittleGeodesy' which has been kept (to the C# library 'sweden_crs_transformations_4net') is the mathematical calculations in the class 'GaussKreuger.cs'.  
-Regarding the port to this 'sweden_crs_transformations_4jvm' then of course there had to be more modifications since Scala/Java has differences in syntax compared with C#, although
+The main part of 'MightyLittleGeodesy' which has been at least partially kept (in the C# library 'sweden_crs_transformations_4net') is the mathematical calculations in the class 'GaussKreuger.cs'.  
+Regarding the port to this 'sweden_crs_transformations_4jvm' then of course there had to be more modifications since Java has differences in syntax compared with C#, although
 the mathematical logic has still been kept from the original 'MightyLittleGeodesy' class 'GaussKreuger.cs'.
 
 # Maven/Gradle release
 
-No, at least not yet.
+No, not yet.
 
 # Implementations in other programming languages
-Currently I have implemented this JVM (Scala/Java) library also with the following programming languages and github repositories:   
+Currently I have implemented this JVM library also with the following programming languages and github repositories:   
 C#.NET: [sweden_crs_transformations_4net](https://github.com/TomasJohansson/sweden_crs_transformations_4net)   
-TypeScript: [sweden_crs_transformations_4typescript](https://github.com/TomasJohansson/sweden_crs_transformations_4typescript)
-Dart: [sweden_crs_transformations_4net](https://github.com/TomasJohansson/sweden_crs_transformations_4dart)
+TypeScript: [sweden_crs_transformations_4typescript](https://github.com/TomasJohansson/sweden_crs_transformations_4typescript)   
+Dart: [sweden_crs_transformations_4net](https://github.com/TomasJohansson/sweden_crs_transformations_4dart)   
 
-# Code example (TODO: Scala/Java)
-```dart
-import 'package:sweden_crs_transformations_4jvm/sweden_crs_transformations_4jvm.dart';
+# Code example for Java
+```java
+import com.programmerare.sweden_crs_transformations_4jvm.CrsCoordinate;
+import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
+import java.util.List;
 
-void main() {
-  // The location of Stockholm Central Station, according to Eniro:
-  // https://kartor.eniro.se/m/XRCfh
-      //WGS84 decimal (lat, lon)        59.330231, 18.059196
-      //RT90 (northing, easting)        6580994, 1628294
-      //SWEREF99 TM (northing, easting) 6580822, 674032
-  const stockholmCentralStation_WGS84_latitude = 59.330231;
-  const stockholmCentralStation_WGS84_longitude = 18.059196;
+public class JavaExample  {
+    public static void main(String[] args) {
 
-  final CrsCoordinate stockholmWGS84 = CrsCoordinate.createCoordinate(
-    CrsProjection.wgs84,
-    stockholmCentralStation_WGS84_latitude,      
-    stockholmCentralStation_WGS84_longitude
-  );
+        final double stockholmCentralStation_WGS84_latitude = 59.330231;
+        final double stockholmCentralStation_WGS84_longitude = 18.059196;
 
-  final CrsCoordinate stockholmSweref99tm = stockholmWGS84.transform(CrsProjection.sweref_99_tm);
-  print('stockholmSweref99tm X: ${stockholmSweref99tm.xLongitude}');
-  print('stockholmSweref99tm Y: ${stockholmSweref99tm.yLatitude}');
-  print('stockholmSweref99tm ToString: ${stockholmSweref99tm.toString()}');
-  // Output from the above:
-  // stockholmSweref99tm X: 674032.357
-  // stockholmSweref99tm Y: 6580821.991
-  // stockholmSweref99tm ToString: CrsCoordinate [ Y: 6580821.991 , X: 674032.357 , CRS: SWEREF_99_TM ]
+        final CrsCoordinate stockholmWGS84 = CrsCoordinate.createCoordinate(
+            CrsProjection.WGS84,
+            stockholmCentralStation_WGS84_latitude,
+            stockholmCentralStation_WGS84_longitude
+        );
 
-  final List<CrsProjection> allProjections = CrsProjectionFactory.getAllCrsProjections();
-  for(final crsProjection in allProjections) {
-    print(stockholmWGS84.transform(crsProjection));
-  }
-  // Output from the above loop:
-  // CrsCoordinate [ Latitude: 59.330231 , Longitude: 18.059196 , CRS: WGS84 ]
-  // CrsCoordinate [ Y: 6580821.991 , X: 674032.357 , CRS: SWEREF_99_TM ]
-  // CrsCoordinate [ Y: 6595151.116 , X: 494604.69 , CRS: SWEREF_99_12_00 ]
-  // CrsCoordinate [ Y: 6588340.147 , X: 409396.217 , CRS: SWEREF_99_13_30 ]
-  // CrsCoordinate [ Y: 6583455.373 , X: 324101.998 , CRS: SWEREF_99_15_00 ]
-  // CrsCoordinate [ Y: 6580494.921 , X: 238750.424 , CRS: SWEREF_99_16_30 ]
-  // CrsCoordinate [ Y: 6579457.649 , X: 153369.673 , CRS: SWEREF_99_18_00 ]
-  // CrsCoordinate [ Y: 6585657.12 , X: 366758.045 , CRS: SWEREF_99_14_15 ]
-  // CrsCoordinate [ Y: 6581734.696 , X: 281431.616 , CRS: SWEREF_99_15_45 ]
-  // CrsCoordinate [ Y: 6579735.93 , X: 196061.94 , CRS: SWEREF_99_17_15 ]
-  // CrsCoordinate [ Y: 6579660.051 , X: 110677.129 , CRS: SWEREF_99_18_45 ]
-  // CrsCoordinate [ Y: 6581507.028 , X: 25305.238 , CRS: SWEREF_99_20_15 ]
-  // CrsCoordinate [ Y: 6585277.577 , X: -60025.629 , CRS: SWEREF_99_21_45 ]
-  // CrsCoordinate [ Y: 6590973.148 , X: -145287.219 , CRS: SWEREF_99_23_15 ]
-  // CrsCoordinate [ Y: 6598325.639 , X: 1884004.1 , CRS: RT90_7_5_GON_V ]
-  // CrsCoordinate [ Y: 6587493.237 , X: 1756244.287 , CRS: RT90_5_0_GON_V ]
-  // CrsCoordinate [ Y: 6580994.18 , X: 1628293.886 , CRS: RT90_2_5_GON_V ]
-  // CrsCoordinate [ Y: 6578822.84 , X: 1500248.374 , CRS: RT90_0_0_GON_V ]
-  // CrsCoordinate [ Y: 6580977.349 , X: 1372202.721 , CRS: RT90_2_5_GON_O ]
-  // CrsCoordinate [ Y: 6587459.595 , X: 1244251.702 , CRS: RT90_5_0_GON_O ]
+        final CrsCoordinate stockholmSweref99tm = stockholmWGS84.transform(CrsProjection.SWEREF_99_TM);
+        System.out.println("stockholmSweref99tm X: " + stockholmSweref99tm.getLongitudeX());
+        System.out.println("stockholmSweref99tm Y: " + stockholmSweref99tm.getLatitudeY());
+        System.out.println("stockholmSweref99tm 'ToString': " + stockholmSweref99tm.toString());
+        // Output from the above:
+        //stockholmSweref99tm X: 674032.357
+        //stockholmSweref99tm Y: 6580821.991
+        //stockholmSweref99tm 'ToString': CrsCoordinate [ Y: 6580821.991 , X: 674032.357 , CRS: SWEREF_99_TM(EPSG:3006) ]
+
+        final List<CrsProjection> allProjections = CrsProjection.getAllCrsProjections();
+        for(final CrsProjection crsProjection : allProjections) {
+            System.out.println(stockholmWGS84.transform(crsProjection));
+        }
+        // Output from the above loop:
+        //CrsCoordinate [ Latitude: 59.330231 , Longitude: 18.059196 , CRS: WGS84(EPSG:4326) ]
+        //CrsCoordinate [ Y: 6580821.991 , X: 674032.357 , CRS: SWEREF_99_TM(EPSG:3006) ]
+        //CrsCoordinate [ Y: 6595151.116 , X: 494604.69 , CRS: SWEREF_99_12_00(EPSG:3007) ]
+        //CrsCoordinate [ Y: 6588340.147 , X: 409396.217 , CRS: SWEREF_99_13_30(EPSG:3008) ]
+        //CrsCoordinate [ Y: 6583455.373 , X: 324101.998 , CRS: SWEREF_99_15_00(EPSG:3009) ]
+        //CrsCoordinate [ Y: 6580494.921 , X: 238750.424 , CRS: SWEREF_99_16_30(EPSG:3010) ]
+        //CrsCoordinate [ Y: 6579457.649 , X: 153369.673 , CRS: SWEREF_99_18_00(EPSG:3011) ]
+        //CrsCoordinate [ Y: 6585657.12 , X: 366758.045 , CRS: SWEREF_99_14_15(EPSG:3012) ]
+        //CrsCoordinate [ Y: 6581734.696 , X: 281431.616 , CRS: SWEREF_99_15_45(EPSG:3013) ]
+        //CrsCoordinate [ Y: 6579735.93 , X: 196061.94 , CRS: SWEREF_99_17_15(EPSG:3014) ]
+        //CrsCoordinate [ Y: 6579660.051 , X: 110677.129 , CRS: SWEREF_99_18_45(EPSG:3015) ]
+        //CrsCoordinate [ Y: 6581507.028 , X: 25305.238 , CRS: SWEREF_99_20_15(EPSG:3016) ]
+        //CrsCoordinate [ Y: 6585277.577 , X: -60025.629 , CRS: SWEREF_99_21_45(EPSG:3017) ]
+        //CrsCoordinate [ Y: 6590973.148 , X: -145287.219 , CRS: SWEREF_99_23_15(EPSG:3018) ]
+        //CrsCoordinate [ Y: 6598325.639 , X: 1884004.1 , CRS: RT90_7_5_GON_V(EPSG:3019) ]
+        //CrsCoordinate [ Y: 6587493.237 , X: 1756244.287 , CRS: RT90_5_0_GON_V(EPSG:3020) ]
+        //CrsCoordinate [ Y: 6580994.18 , X: 1628293.886 , CRS: RT90_2_5_GON_V(EPSG:3021) ]
+        //CrsCoordinate [ Y: 6578822.84 , X: 1500248.374 , CRS: RT90_0_0_GON_V(EPSG:3022) ]
+        //CrsCoordinate [ Y: 6580977.349 , X: 1372202.721 , CRS: RT90_2_5_GON_O(EPSG:3023) ]
+        //CrsCoordinate [ Y: 6587459.595 , X: 1244251.702 , CRS: RT90_5_0_GON_O(EPSG:3024) ]
+    }
 }
 ```
 
 # Accuracy of the transformations
 
-This JVM (Scala/Java) library is a port of the [C#.NET library 'sweden_crs_transformations_4net'](https://github.com/TomasJohansson/sweden_crs_transformations_4net/) and therefore it is using the same file "swedish_crs_coordinates.csv" as the C# library, for the regression testing of the Scala/Java implementation.  
-There are 18 rows with coordinates in that file, and it will lead to 108 transformations being done when executing all Scala/Java tests, e.g. with the command 'pub run test'.  
+This JVM/Java library is a port of the [C#.NET library 'sweden_crs_transformations_4net'](https://github.com/TomasJohansson/sweden_crs_transformations_4net/) and therefore it is using the same file "swedish_crs_coordinates.csv" as the C# library, for the regression testing of the Java implementation.  
+There are 18 rows with coordinates in that file, and it will lead to 108 transformations being done when executing all Java/Scala/Kotlin tests, e.g. with the command 'gradlew test'.  
 The coordinate values in the file have been created as median values from six different Java implementations of CRS transformations.  
-For more information about the origin of the data file being used, please see the webpage linked above for the C# library 'sweden_crs_transformations_4net'.
+For more information about the origin of the data file being used, please see the webpage linked above for the C# library 'sweden_crs_transformations_4net'.  
 
 # License
 
