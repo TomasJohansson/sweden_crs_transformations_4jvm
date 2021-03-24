@@ -35,7 +35,7 @@ public class TransformStrategyTest  {
     @Test
     public void assertException__ForStrategy__From_Sweref99OrRT90__to_Sweref99OrRT90() {
         final TransformStrategy transformStrategy_From_Sweref99OrRT90__to_Sweref99OrRT90 =
-            TransFormStrategy_From_Sweref99OrRT90_to_WGS84_andThenToRealTarget.getInstance();
+            TransFormStrategy_From_Sweref99orRT90_to_WGS84_andThenToSweref99orRT90_asFinalTarget.getInstance();
         
         assertIllegalArgumentException(
             transformStrategy_From_Sweref99OrRT90__to_Sweref99OrRT90,

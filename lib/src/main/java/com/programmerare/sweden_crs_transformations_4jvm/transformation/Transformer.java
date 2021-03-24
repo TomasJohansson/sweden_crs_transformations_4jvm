@@ -68,7 +68,7 @@ public class Transformer {
             ( targetCrsProjection.isSweRef99() || targetCrsProjection.isRT90() )
         ) {
             // the only direct transform supported is to/from WGS84, so therefore first transform to wgs84
-            return TransFormStrategy_From_Sweref99OrRT90_to_WGS84_andThenToRealTarget.getInstance();
+            return TransFormStrategy_From_Sweref99orRT90_to_WGS84_andThenToSweref99orRT90_asFinalTarget.getInstance();
         }
         throw new IllegalArgumentException(String.format("Unhandled source/target projection transformation: %s ==> %s", sourceProjection, targetCrsProjection));        
     }
