@@ -11,8 +11,6 @@
  */
 package com.programmerare.sweden_crs_transformations_4jvm;
 
-import com.programmerare.sweden_crs_transformations_4jvm.transformation.Transformer;
-
 /**
  * Coordinate, defined by the three parameters for the factory methods. 
  */

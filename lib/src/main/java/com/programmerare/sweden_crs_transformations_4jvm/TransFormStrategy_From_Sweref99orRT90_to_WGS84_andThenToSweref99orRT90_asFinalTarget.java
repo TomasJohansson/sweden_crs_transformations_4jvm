@@ -9,10 +9,7 @@
  * For more information see the webpage below.
  * https://github.com/TomasJohansson/sweden_crs_transformations_4jvm
  */
-package com.programmerare.sweden_crs_transformations_4jvm.transformation;
-
-import com.programmerare.sweden_crs_transformations_4jvm.CrsCoordinate;
-import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
+package com.programmerare.sweden_crs_transformations_4jvm;
 
 /**
  * TransformStrategy implementation that should be used when transforming 

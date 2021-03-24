@@ -1,7 +1,6 @@
-package com.programmerare.sweden_crs_transformations_4jvm.transformation;
+package com.programmerare.sweden_crs_transformations_4jvm;
 
-import com.programmerare.sweden_crs_transformations_4jvm.CrsCoordinate;
-import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
+import com.programmerare.sweden_crs_transformations_4jvm.*;
 import org.junit.*;
 import org.junit.function.ThrowingRunnable;
 

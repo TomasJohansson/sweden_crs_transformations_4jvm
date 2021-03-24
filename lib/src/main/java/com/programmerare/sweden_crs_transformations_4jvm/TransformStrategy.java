@@ -9,7 +9,7 @@
  * For more information see the webpage below.
  * https://github.com/TomasJohansson/sweden_crs_transformations_4jvm
  */
-package com.programmerare.sweden_crs_transformations_4jvm.transformation;
+package com.programmerare.sweden_crs_transformations_4jvm;
 
 import com.programmerare.sweden_crs_transformations_4jvm.CrsCoordinate;
 import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;

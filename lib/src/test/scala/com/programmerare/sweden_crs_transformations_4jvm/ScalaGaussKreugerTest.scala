@@ -1,6 +1,6 @@
-package com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy
+package com.programmerare.sweden_crs_transformations_4jvm
 
-import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection
+import com.programmerare.sweden_crs_transformations_4jvm.{CrsProjection, GaussKreugerFactory}
 import org.junit.Before
 import org.junit.Test
 import org.junit.Assert.assertEquals

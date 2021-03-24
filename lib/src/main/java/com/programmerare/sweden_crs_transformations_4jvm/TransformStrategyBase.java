@@ -1,6 +1,4 @@
-package com.programmerare.sweden_crs_transformations_4jvm.transformation;
-
-import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
+package com.programmerare.sweden_crs_transformations_4jvm;
 
 /**
  * Base class for TransformStrategy implementations, providing a helper method to enforce preconditions.

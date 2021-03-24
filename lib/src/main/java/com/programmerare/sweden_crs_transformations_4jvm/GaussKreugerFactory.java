@@ -9,16 +9,15 @@
  * For more information see the webpage below.
  * https://github.com/TomasJohansson/sweden_crs_transformations_4jvm
  */
-package com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy;
+package com.programmerare.sweden_crs_transformations_4jvm;
 
-import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * This class 'GaussKreugerFactory' was not part of the original 'MightyLittleGeodesy' library. 
  */
-public class GaussKreugerFactory {
+class GaussKreugerFactory {
     private final static GaussKreugerFactory _gaussKreugerFactory = new GaussKreugerFactory();
     
     public static GaussKreugerFactory getInstance() {

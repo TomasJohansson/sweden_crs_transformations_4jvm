@@ -66,7 +66,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 // ------------------------------------------------------------------------------------------
-package com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy;
+package com.programmerare.sweden_crs_transformations_4jvm;
 
 /*
      * .NET-implementation of "Gauss Conformal Projection 
@@ -83,7 +83,7 @@ package com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy;
      * Some modifications in this file were made 2021 by Tomas Johansson.
      * For details about changes, you should be able to use the github repository to see the git history where you found this source code file.
      */
-public class GaussKreuger
+class GaussKreuger
 {
     // Immutable class with all fields 'final'
     private final double axis; // Semi-major axis of the ellipsoid.

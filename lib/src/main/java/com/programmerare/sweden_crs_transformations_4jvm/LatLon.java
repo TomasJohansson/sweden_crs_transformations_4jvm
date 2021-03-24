@@ -9,12 +9,12 @@
  * For more information see the webpage below.
  * https://github.com/TomasJohansson/sweden_crs_transformations_4jvm
  */
-package com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy;
+package com.programmerare.sweden_crs_transformations_4jvm;
 /**
  * This class was not part of the original 'MightyLittleGeodesy' library, 
  * but some of the class 'GaussKreuger' methods have later been changed to return this 'LatLon' instead of array 'double[]' 
  */
-public class LatLon {
+class LatLon {
     public final double LongitudeX;
     public final double LatitudeY;
     public LatLon(double yLatitude, double xLongitude) {

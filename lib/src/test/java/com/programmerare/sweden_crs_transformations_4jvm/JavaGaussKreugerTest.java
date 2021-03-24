@@ -1,6 +1,9 @@
-package com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy;
+package com.programmerare.sweden_crs_transformations_4jvm;
 
 import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
+import com.programmerare.sweden_crs_transformations_4jvm.GaussKreuger;
+import com.programmerare.sweden_crs_transformations_4jvm.GaussKreugerFactory;
+import com.programmerare.sweden_crs_transformations_4jvm.LatLon;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;

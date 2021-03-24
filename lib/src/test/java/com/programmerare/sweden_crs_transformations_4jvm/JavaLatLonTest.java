@@ -1,5 +1,6 @@
-package com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy;
+package com.programmerare.sweden_crs_transformations_4jvm;
 
+import com.programmerare.sweden_crs_transformations_4jvm.LatLon;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
