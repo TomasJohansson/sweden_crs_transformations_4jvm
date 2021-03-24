@@ -14,6 +14,11 @@ package com.programmerare.sweden_crs_transformations_4jvm.transformation;
 import com.programmerare.sweden_crs_transformations_4jvm.CrsCoordinate;
 import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
 
+/**
+ * TransformStrategy implementation that should be used when transforming 
+ * from SWEREF99 or RT90 to either SWEREF99 or RT90.
+ * In other words, neither the source CRS nor the target CRS is allowed to be WGS84. 
+ */
 final class TransFormStrategy_From_Sweref99orRT90_to_WGS84_andThenToSweref99orRT90_asFinalTarget
     extends TransformStrategyBase
     implements TransformStrategy

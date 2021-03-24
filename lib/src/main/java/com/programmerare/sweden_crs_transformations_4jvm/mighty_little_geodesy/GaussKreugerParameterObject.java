@@ -16,7 +16,14 @@ import static com.programmerare.sweden_crs_transformations_4jvm.CrsProjection.*;
 
 /**
  * This class 'GaussKreugerParameterObject' was not part of the original 'MightyLittleGeodesy' library,
- * but most of the code in this class has been moved here from the class 'GaussKreuger'.
+ * but most of the code in this class has been moved here from the class 'GaussKreuger'
+ * when it was refactored to become immutable i.e. with only readonly fields.
+ * To do that refactoring, this class was created.
+ * It has the same fields as GaussKreuger and also the same methods that mutates 
+ * those fields.
+ * But then when it is finished with the initialization of the fields, 
+ * the object is used as parameter to the GaussKreuger constructor and the values of the fields
+ * are copied into the corresponding readonly fields of the GaussKreuger class. 
  */
 class GaussKreugerParameterObject {
     GaussKreugerParameterObject(CrsProjection crsProjection)

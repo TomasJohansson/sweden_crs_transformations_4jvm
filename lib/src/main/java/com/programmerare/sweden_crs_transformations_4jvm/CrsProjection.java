@@ -22,9 +22,9 @@ import java.util.Map;
  *  The integer values used as constructor parameters for this enum 'CrsProjection'
  *  are the EPSG numbers for the corresponding coordinate reference systems.
  *  There are three kind of coordinate systems supported and defined in this enum type below:
- *      WGS84
- *      SWEREF99 (the new Swedish grid, 13 versions, one national grid and 12 local projection zones)
- *      RT90 (the old Swedish grid, 6 local projection zones)
+ *      WGS84 
+ *      SWEREF99 (the new Swedish grid, 13 versions, one national grid and 12 local projection zones) 
+ *      RT90 (the old Swedish grid, 6 local projection zones) 
  *
  * Regarding the mentioned EPSG numbers (the enum constructor parameter values), 
  * at the links below you may find some more information about "EPSG".
@@ -35,6 +35,7 @@ import java.util.Map;
  */
 public enum CrsProjection {
     /**
+     * EPSG 4326
      * @see <a href="https://epsg.org/crs_4326/WGS-84.html">https://epsg.org/crs_4326/WGS-84.html</a>
      * @see <a href="https://epsg.io/4326">https://epsg.io/4326</a>
      * @see <a href="https://spatialreference.org/ref/epsg/4326/">https://spatialreference.org/ref/epsg/4326/</a>
@@ -47,6 +48,7 @@ public enum CrsProjection {
     // There is also a test method implemented for this specified return order. 
 
     /**
+     * EPSG 3006
      * "SWEREF 99 TM" (with EPSG code 3006) is the new national projection.
      * @see <a href="https://www.lantmateriet.se/sv/Kartor-och-geografisk-information/gps-geodesi-och-swepos/referenssystem/tvadimensionella-system/sweref-99-projektioner/">https://www.lantmateriet.se/sv/Kartor-och-geografisk-information/gps-geodesi-och-swepos/referenssystem/tvadimensionella-system/sweref-99-projektioner/</a>
      * @see <a href="https://epsg.org/crs_3006/SWEREF99-TM.html">https://epsg.org/crs_3006/SWEREF99-TM.html</a>
@@ -56,34 +58,101 @@ public enum CrsProjection {
     SWEREF_99_TM(3006), // national sweref99 CRS
 
     // local sweref99 systems (the new swedish national system):
+    /**
+     * EPSG 3007
+     */
     SWEREF_99_12_00(3007),
+
+    /**
+     * EPSG 3008
+     */    
     SWEREF_99_13_30(3008),
+
+    /**
+     * EPSG 3009
+     */    
     SWEREF_99_15_00(3009),
+
+    /**
+     * EPSG 3010
+     */    
     SWEREF_99_16_30(3010),
+
+    /**
+     * EPSG 3011
+     */    
     SWEREF_99_18_00(3011),
+
+    /**
+     * EPSG 3012
+     */    
     SWEREF_99_14_15(3012),
+
+    /**
+     * EPSG 3013
+     */
     SWEREF_99_15_45(3013),
+
+    /**
+     * EPSG 3014
+     */    
     SWEREF_99_17_15(3014),
+
+    /**
+     * EPSG 3015
+     */    
     SWEREF_99_18_45(3015),
+
+    /**
+     * EPSG 3016
+     */    
     SWEREF_99_20_15(3016),
+
+    /**
+     * EPSG 3017
+     */
     SWEREF_99_21_45(3017),
+
+    /**
+     * EPSG 3018
+     */    
     SWEREF_99_23_15(3018),
 
     
     // local RT90 systems (the old swedish national system):
+    /**
+     * EPSG 3019
+     */    
     RT90_7_5_GON_V(3019),
+
+    /**
+     * EPSG 3020
+     */
     RT90_5_0_GON_V(3020),
 
     /**
+     * EPSG 3021
      * @see <a href="https://epsg.org/crs_3021/RT90-2-5-gon-V.html">https://epsg.org/crs_3021/RT90-2-5-gon-V.html</a>
      * @see <a href="https://epsg.io/3021">https://epsg.io/3021</a>
      * @see <a href="https://spatialreference.org/ref/epsg/3021/">https://spatialreference.org/ref/epsg/3021/</a>
      */
     RT90_2_5_GON_V(3021),
 
+    /**
+     * EPSG 3022
+     */    
     RT90_0_0_GON_V(3022),
+
+    /**
+     * EPSG 3023
+     */    
     RT90_2_5_GON_O(3023),
+
+    /**
+     * EPSG 3024
+     */    
     RT90_5_0_GON_O(3024);
+
 
     private final int epsg;
     private CrsProjection(final int epsg) {
@@ -123,12 +192,18 @@ public enum CrsProjection {
     }
 
     /**
-     * @return true if the coordinate reference system is SWEREF9RT90. Otherwise false.
+     * @return true if the coordinate reference system is RT90. Otherwise false.
      */    
     public boolean isRT90() {
         return epsgLowerValueForRT90 <= epsg && epsg <= epsgUpperValueForRT90;
     }
-    
+
+    /**
+     * Factory method creating a coordinate with the projection represented by the enum instance. 
+     * @param yLatitude the coordinate value representing the latitude or Y or Northing. 
+     * @param xLongitude the coordinate value representing the longitude or X or Easting.
+     * @return an instance of CrsCoordinate
+     */
     public CrsCoordinate createCoordinate(
         double yLatitude,
         double xLongitude

@@ -16,9 +16,12 @@ import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
 import com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy.GaussKreuger;
 import com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy.GaussKreugerFactory;
 import com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy.LatLon;
-import static com.programmerare.sweden_crs_transformations_4jvm.transformation.TransformStrategyBase.SourceOrTargetProjection.SourceProjection;
-import static com.programmerare.sweden_crs_transformations_4jvm.transformation.TransformStrategyBase.SourceOrTargetProjection.TargetProjection;
 
+
+/**
+ * TransformStrategy implementation that should be used when transforming 
+ * from WGS84 to either SWEREF99 or RT90. 
+ */
 final class TransformStrategy_from_WGS84_to_SWEREF99_or_RT90 
     extends TransformStrategyBase
     implements TransformStrategy

@@ -17,6 +17,10 @@ import com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy.G
 import com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy.GaussKreugerFactory;
 import com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy.LatLon;
 
+/**
+ * TransformStrategy implementation that should be used when transforming 
+ * from either SWEREF99 or RT90, to WGS84. 
+ */
 final class TransformStrategy_from_SWEREF99_or_RT90_to_WGS84
     extends TransformStrategyBase
     implements TransformStrategy
