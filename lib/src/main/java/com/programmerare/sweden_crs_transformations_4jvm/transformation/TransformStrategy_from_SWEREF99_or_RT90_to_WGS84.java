@@ -17,7 +17,15 @@ import com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy.G
 import com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy.GaussKreugerFactory;
 import com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy.LatLon;
 
-class TransformStrategy_from_SWEREF99_or_RT90_to_WGS84 implements TransformStrategy {
+final class TransformStrategy_from_SWEREF99_or_RT90_to_WGS84 implements TransformStrategy {
+    private final static TransformStrategy _transformStrategy = new TransformStrategy_from_SWEREF99_or_RT90_to_WGS84();
+
+    public static TransformStrategy getInstance() {
+        return _transformStrategy;
+    }
+
+    private TransformStrategy_from_SWEREF99_or_RT90_to_WGS84() {}
+    
     // Precondition: sourceCoordinate must be CRS SWEREF99 or RT90
     @Override
     public CrsCoordinate transform(

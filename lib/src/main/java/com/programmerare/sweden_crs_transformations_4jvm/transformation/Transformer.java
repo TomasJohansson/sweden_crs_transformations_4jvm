@@ -17,14 +17,14 @@ import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
 public class Transformer {
 
     // Implementations of transformations from WGS84:
-    private static final TransformStrategy _transformStrategy_from_WGS84_to_SWEREF99_or_RT90 = new TransformStrategy_from_WGS84_to_SWEREF99_or_RT90();
+    private static final TransformStrategy _transformStrategy_from_WGS84_to_SWEREF99_or_RT90 = TransformStrategy_from_WGS84_to_SWEREF99_or_RT90.getInstance();
 
     // Implementations of transformations to WGS84:
-    private static final TransformStrategy _transformStrategy_from_SWEREF99_or_RT90_to_WGS84 = new TransformStrategy_from_SWEREF99_or_RT90_to_WGS84();
+    private static final TransformStrategy _transformStrategy_from_SWEREF99_or_RT90_to_WGS84 = TransformStrategy_from_SWEREF99_or_RT90_to_WGS84.getInstance();
 
     // Implementation first transforming to WGS84 and then to the real target:
-    private static final TransformStrategy _transFormStrategy_From_Sweref99OrRT90_to_WGS84_andThenToRealTarget  = new TransFormStrategy_From_Sweref99OrRT90_to_WGS84_andThenToRealTarget();
-
+    private static final TransformStrategy _transFormStrategy_From_Sweref99OrRT90_to_WGS84_andThenToRealTarget  = TransFormStrategy_From_Sweref99OrRT90_to_WGS84_andThenToRealTarget.getInstance();
+    
     /**
      * Transforms a coordinate from one CRS (Coordinate Reference System) to another CRS.
      * @param sourceCoordinate the source coordinate, i.e. X/Y values and a CRS.
