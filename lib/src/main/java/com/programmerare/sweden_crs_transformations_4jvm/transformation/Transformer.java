@@ -16,15 +16,6 @@ import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
 
 public class Transformer {
 
-    // Implementations of transformations from WGS84:
-    private static final TransformStrategy _transformStrategy_from_WGS84_to_SWEREF99_or_RT90 = TransformStrategy_from_WGS84_to_SWEREF99_or_RT90.getInstance();
-
-    // Implementations of transformations to WGS84:
-    private static final TransformStrategy _transformStrategy_from_SWEREF99_or_RT90_to_WGS84 = TransformStrategy_from_SWEREF99_or_RT90_to_WGS84.getInstance();
-
-    // Implementation first transforming to WGS84 and then to the real target:
-    private static final TransformStrategy _transFormStrategy_From_Sweref99OrRT90_to_WGS84_andThenToRealTarget  = TransFormStrategy_From_Sweref99OrRT90_to_WGS84_andThenToRealTarget.getInstance();
-    
     /**
      * Transforms a coordinate from one CRS (Coordinate Reference System) to another CRS.
      * @param sourceCoordinate the source coordinate, i.e. X/Y values and a CRS.
@@ -35,41 +26,51 @@ public class Transformer {
     public static CrsCoordinate transform(CrsCoordinate sourceCoordinate, CrsProjection targetCrsProjection) {
         if(sourceCoordinate.getCrsProjection() == targetCrsProjection) return sourceCoordinate;
 
-        TransformStrategy _transFormStrategy = null;
+        final TransformStrategy _transFormStrategy = getTransformStrategyImplementation(
+            sourceCoordinate.getCrsProjection(),
+            targetCrsProjection
+        );
+        // the above method might throw an exception but never returns null i.e. no need for null check here         
+        return _transFormStrategy.transform(sourceCoordinate, targetCrsProjection);
+    }
 
+    /**
+     * @param sourceProjection
+     * @param targetCrsProjection
+     * @return never null (but rather an exception) i.e. no need for client code to check for null
+     */
+    private static TransformStrategy getTransformStrategyImplementation(
+        CrsProjection sourceProjection,
+        CrsProjection targetCrsProjection
+    ) {
         // Transform FROM wgs84:
         if(
-            sourceCoordinate.getCrsProjection().isWgs84()
-            &&
+            sourceProjection.isWgs84()
+                &&
             ( targetCrsProjection.isSweRef99() || targetCrsProjection.isRT90() )
         ) {
-            _transFormStrategy = _transformStrategy_from_WGS84_to_SWEREF99_or_RT90;
+            return TransformStrategy_from_WGS84_to_SWEREF99_or_RT90.getInstance();
         }
 
         // Transform TO wgs84:
         else if(
             targetCrsProjection.isWgs84()
-            &&
-            ( sourceCoordinate.getCrsProjection().isSweRef99() || sourceCoordinate.getCrsProjection().isRT90() )
+                &&
+            ( sourceProjection.isSweRef99() || sourceProjection.isRT90() )
         ) {
-            _transFormStrategy = _transformStrategy_from_SWEREF99_or_RT90_to_WGS84;
+            return TransformStrategy_from_SWEREF99_or_RT90_to_WGS84.getInstance();
         }
 
         // Transform between two non-wgs84:
         else if(
-            ( sourceCoordinate.getCrsProjection().isSweRef99() || sourceCoordinate.getCrsProjection().isRT90() )
-            &&
+            ( sourceProjection.isSweRef99() || sourceProjection.isRT90() )
+                &&
             ( targetCrsProjection.isSweRef99() || targetCrsProjection.isRT90() )
         ) {
             // the only direct transform supported is to/from WGS84, so therefore first transform to wgs84
-            _transFormStrategy = _transFormStrategy_From_Sweref99OrRT90_to_WGS84_andThenToRealTarget;
+            return TransFormStrategy_From_Sweref99OrRT90_to_WGS84_andThenToRealTarget.getInstance();
         }
-        
-        if(_transFormStrategy != null) {
-            return _transFormStrategy.transform(sourceCoordinate, targetCrsProjection);
-        }
-
-        throw new IllegalArgumentException(String.format("Unhandled source/target projection transformation: %s ==> %s", sourceCoordinate.getCrsProjection(), targetCrsProjection));
+        throw new IllegalArgumentException(String.format("Unhandled source/target projection transformation: %s ==> %s", sourceProjection, targetCrsProjection));        
     }
 
 }
