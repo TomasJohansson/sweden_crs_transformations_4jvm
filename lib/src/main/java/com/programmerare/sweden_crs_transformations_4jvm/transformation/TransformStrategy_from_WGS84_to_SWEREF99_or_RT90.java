@@ -16,8 +16,14 @@ import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
 import com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy.GaussKreuger;
 import com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy.GaussKreugerFactory;
 import com.programmerare.sweden_crs_transformations_4jvm.mighty_little_geodesy.LatLon;
+import static com.programmerare.sweden_crs_transformations_4jvm.transformation.TransformStrategyBase.SourceOrTargetProjection.SourceProjection;
+import static com.programmerare.sweden_crs_transformations_4jvm.transformation.TransformStrategyBase.SourceOrTargetProjection.TargetProjection;
 
-final class TransformStrategy_from_WGS84_to_SWEREF99_or_RT90 implements TransformStrategy {
+final class TransformStrategy_from_WGS84_to_SWEREF99_or_RT90 
+    extends TransformStrategyBase
+    implements TransformStrategy
+{
+
     private final static TransformStrategy _transformStrategy = new TransformStrategy_from_WGS84_to_SWEREF99_or_RT90();
     
     public static TransformStrategy getInstance() {
@@ -26,14 +32,26 @@ final class TransformStrategy_from_WGS84_to_SWEREF99_or_RT90 implements Transfor
 
     private TransformStrategy_from_WGS84_to_SWEREF99_or_RT90() {}
     
-    // Precondition: sourceCoordinate must be CRS WGS84
+    // Preconditions:
+    // sourceProjection must be CRS WGS84
+    // targetProjection must be CRS SWEREF99 or RT90
     @Override            
     public CrsCoordinate transform(
         CrsCoordinate sourceCoordinate,
         CrsProjection targetCrsProjection
     ) {
-        GaussKreuger gkProjection = GaussKreugerFactory.getInstance().getGaussKreuger(targetCrsProjection);
-        LatLon latLon = gkProjection.geodetic_to_grid(sourceCoordinate.getLatitudeY(), sourceCoordinate.getLongitudeX());
+        final CrsProjection sourceCoordinateProjection = sourceCoordinate.getCrsProjection();
+        
+        super.assertCoordinateProjections(
+            sourceCoordinateProjection,
+            sourceCoordinateProjection.isWgs84(),
+            _transformStrategy,
+            targetCrsProjection,
+            targetCrsProjection.isRT90() || targetCrsProjection.isSweRef99()
+        );
+
+        final GaussKreuger gkProjection = GaussKreugerFactory.getInstance().getGaussKreuger(targetCrsProjection);
+        final LatLon latLon = gkProjection.geodetic_to_grid(sourceCoordinate.getLatitudeY(), sourceCoordinate.getLongitudeX());
         return CrsCoordinate.createCoordinate(targetCrsProjection, latLon.LatitudeY, latLon.LongitudeX);
     }
 }
