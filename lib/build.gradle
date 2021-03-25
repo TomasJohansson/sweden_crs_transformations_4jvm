@@ -6,15 +6,38 @@ plugins {
     id 'java-library'
 
     // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
-    id 'org.jetbrains.kotlin.jvm' version '1.4.31'
+    //id 'org.jetbrains.kotlin.jvm' version '1.4.31'
+
+    id 'signing'
+    id 'maven'
 }
 
-group 'com.programmerare.crs-transformation'
-version '0.1-SNAPSHOT'
+group = 'com.programmerare.sweden-crs-transformations-4jvm' // maven groupId
+archivesBaseName = rootProject.name // defined in settings.gradle 'sweden-crs-transformations-4jvm'
+version = '1.0.0'
+def isReleaseVersion = !version.endsWith("-SNAPSHOT")
 
 def theJavaVersion = JavaVersion.VERSION_1_6
 sourceCompatibility=theJavaVersion
 targetCompatibility=theJavaVersion
+
+// ----------------------------------------------
+// https://docs.gradle.org/current/userguide/maven_plugin.html
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+artifacts {
+    archives javadocJar, sourcesJar
+}
+configurations {
+    deployerJars
+}
+// ----------------------------------------------
 
 repositories {
     jcenter()
@@ -22,8 +45,10 @@ repositories {
 }
 
 dependencies {
+    deployerJars "org.apache.maven.wagon:wagon-ssh:2.2" // https://docs.gradle.org/current/userguide/maven_plugin.html
+/*
     // https://mvnrepository.com/artifact/org.scala-lang/scala-library
-    implementation 'org.scala-lang:scala-library:2.13.5'
+    testImplementation 'org.scala-lang:scala-library:2.13.5'
 
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     // https://mvnrepository.com/artifact/com.google.guava/guava
@@ -52,8 +77,8 @@ dependencies {
     // The below dependency was generated when using Intellij IDEA to generate a gradle/Kotlin project:
     //      implementation "org.jetbrains.kotlin:kotlin-stdlib"
     // But those below was generated when instead using "gradle init" 
-    implementation platform('org.jetbrains.kotlin:kotlin-bom') // Align versions of all Kotlin components
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+    testImplementation platform('org.jetbrains.kotlin:kotlin-bom') // Align versions of all Kotlin components
+    testImplementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
     testImplementation 'org.jetbrains.kotlin:kotlin-test-junit'
     // ------------------------------------------------------
@@ -62,4 +87,51 @@ dependencies {
     // This 'goober' library is used from the example class: 
     // lib/src/test/java/com/programmerare/sweden_crs_transformations_4jvm/example/ExampleComparingWithGooberLibrary.java
     testImplementation 'com.github.goober:coordinate-transformation-library:1.1'
+    */
+}
+
+tasks.withType(Sign) {
+    onlyIf { isReleaseVersion }
+}
+
+signing {
+    required { isReleaseVersion }
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            configuration = configurations.deployerJars
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: s01MavenUser, password: s01MavenPassword)
+            }
+            snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: s01MavenUser, password: s01MavenPassword)
+            }
+
+            pom.project {
+                name = 'sweden_crs_transformations_4jvm'
+                description = 'Java/JVM library for transformation of geographic coordinates between WGS84 and the Swedish coordinate reference systems SWEREF99 and RT90'
+                url = "https://github.com/TomasJohansson/sweden_crs_transformations_4jvm"
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = "https://github.com/TomasJohansson/sweden_crs_transformations_4jvm"
+                    }
+                }
+                developers {
+                    developer {
+                        name = "Tomas Johansson"
+                        organizationUrl = "https://programmerare.com"
+                    }
+                }
+                scm {
+                    url = "https://github.com/TomasJohansson/sweden_crs_transformations_4jvm"
+                }        
+            }
+        }
+    }
 }
