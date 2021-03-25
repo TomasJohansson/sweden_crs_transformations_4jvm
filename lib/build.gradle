@@ -12,7 +12,7 @@ plugins {
 group 'com.programmerare.crs-transformation'
 version '0.1-SNAPSHOT'
 
-def theJavaVersion = JavaVersion.VERSION_1_6
+def theJavaVersion = JavaVersion.VERSION_1_8
 sourceCompatibility=theJavaVersion
 targetCompatibility=theJavaVersion
 
