@@ -16,6 +16,20 @@ def theJavaVersion = JavaVersion.VERSION_1_8
 sourceCompatibility=theJavaVersion
 targetCompatibility=theJavaVersion
 
+// "cannot find symbol" when using Scala code from Java code.
+// Solution: 'sourceSets' configuration as below
+// https://stackoverflow.com/questions/23261075/compiling-scala-before-alongside-java-with-gradle
+sourceSets {
+    main {
+        scala {
+            srcDirs = ['src/main/scala', 'src/main/java']
+        }
+        java {
+            srcDirs = []
+        }
+    }
+}
+
 repositories {
     jcenter()
     mavenCentral()
