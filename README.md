@@ -27,8 +27,8 @@ Gradle Groovy DSL configuration:
 ```groovy
 implementation 'com.programmerare.sweden-crs-transformations-4jvm:sweden-crs-transformations-4jvm:1.0.0'
 ```
-https://search.maven.org/artifact/com.programmerare.sweden-crs-transformations-4jvm/sweden-crs-transformations-4jvm
-https://mvnrepository.com/artifact/com.programmerare.sweden-crs-transformations-4jvm/sweden-crs-transformations-4jvm
+https://search.maven.org/artifact/com.programmerare.sweden-crs-transformations-4jvm/sweden-crs-transformations-4jvm   
+https://mvnrepository.com/artifact/com.programmerare.sweden-crs-transformations-4jvm/sweden-crs-transformations-4jvm   
 
 
 # Implementations in other programming languages
