@@ -33,7 +33,7 @@ public class JavaExample  {
             CrsProjection.SWEREF_99_TM.getEpsgNumber() // 3006
         );
 
-        // The 'toString' method renders as the name of the enum instance plus a an EPSG suffix
+        // The 'toString' method renders as the name of the enum instance plus an EPSG suffix
         // as illustrated in the below test assertion
         assertEquals(
             "SWEREF_99_TM(EPSG:3006)",
