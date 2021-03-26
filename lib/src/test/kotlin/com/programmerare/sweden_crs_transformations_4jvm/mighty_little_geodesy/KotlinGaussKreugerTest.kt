@@ -34,12 +34,12 @@ class KotlinGaussKreugerTest {
         val delta = 0.4 // max diff below is around 0.357
         assertEquals(
             stockholmCentralStation_SWEREF99TM_northing,
-            resultSweref99.LatitudeY,
+            resultSweref99.LatitudeY(),
             delta
         )
         assertEquals(
             stockholmCentralStation_SWEREF99TM_easting,
-            resultSweref99.LongitudeX,
+            resultSweref99.LongitudeX(),
             delta
         )
     }
@@ -58,12 +58,12 @@ class KotlinGaussKreugerTest {
         // println("x " + (stockholmCentralStation_WGS84_longitude-resultWGS84.LongitudeX))  
         assertEquals(
             stockholmCentralStation_WGS84_latitude,
-            resultWGS84.LatitudeY,
+            resultWGS84.LatitudeY(),
             delta
         )
         assertEquals(
             stockholmCentralStation_WGS84_longitude,
-            resultWGS84.LongitudeX,
+            resultWGS84.LongitudeX(),
             delta
         )
     }

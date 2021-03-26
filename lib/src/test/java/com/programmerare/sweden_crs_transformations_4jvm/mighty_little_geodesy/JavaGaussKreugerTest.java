@@ -29,8 +29,8 @@ public class JavaGaussKreugerTest {
         // Expected: 6580822
         // Received: 6580821.991
         final double delta = 0.4; // max diff below is around 0.357
-        assertEquals(stockholmCentralStation_SWEREF99TM_northing, resultSweref99.LatitudeY, delta);
-        assertEquals(stockholmCentralStation_SWEREF99TM_easting, resultSweref99.LongitudeX, delta);
+        assertEquals(stockholmCentralStation_SWEREF99TM_northing, resultSweref99.LatitudeY(), delta);
+        assertEquals(stockholmCentralStation_SWEREF99TM_easting, resultSweref99.LongitudeX(), delta);
     }
   
     @Test
@@ -42,7 +42,7 @@ public class JavaGaussKreugerTest {
         final double delta = 0.00001; // // max diff below is around 6.26E-6
         //  System.out.println("y " + (stockholmCentralStation_WGS84_latitude-resultWGS84.LatitudeY));
         //  System.out.println("x " + (stockholmCentralStation_WGS84_longitude-resultWGS84.LongitudeX));  
-        assertEquals(stockholmCentralStation_WGS84_latitude, resultWGS84.LatitudeY, delta);
-        assertEquals(stockholmCentralStation_WGS84_longitude, resultWGS84.LongitudeX, delta);
+        assertEquals(stockholmCentralStation_WGS84_latitude, resultWGS84.LatitudeY(), delta);
+        assertEquals(stockholmCentralStation_WGS84_longitude, resultWGS84.LongitudeX(), delta);
     }
 }

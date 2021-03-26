@@ -55,6 +55,6 @@ final class TransformStrategy_from_WGS84_to_SWEREF99_or_RT90
 
         final GaussKreuger gkProjection = GaussKreugerFactory.getInstance().getGaussKreuger(targetCrsProjection);
         final LatLon latLon = gkProjection.geodetic_to_grid(sourceCoordinate.getLatitudeY(), sourceCoordinate.getLongitudeX());
-        return CrsCoordinate.createCoordinate(targetCrsProjection, latLon.LatitudeY, latLon.LongitudeX);
+        return CrsCoordinate.createCoordinate(targetCrsProjection, latLon.LatitudeY(), latLon.LongitudeX());
     }
 }

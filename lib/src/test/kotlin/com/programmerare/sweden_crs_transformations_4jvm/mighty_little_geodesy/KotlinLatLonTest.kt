@@ -9,8 +9,8 @@ class KotlinLatLonTest {
     @Test
     fun latLon() {
         val latLon = LatLon(12.34, 56.78)
-        assertEquals(latLon.LatitudeY, 12.34, delta)
-        assertEquals(latLon.LongitudeX, 56.78, delta)
+        assertEquals(latLon.LatitudeY(), 12.34, delta)
+        assertEquals(latLon.LongitudeX(), 56.78, delta)
     }
 
 }
