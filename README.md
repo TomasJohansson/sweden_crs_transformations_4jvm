@@ -1,7 +1,8 @@
 # sweden_crs_transformations_4jvm
 'sweden_crs_transformations_4jvm' is a Java/JVM library (with Java, Scala and Kotlin tests) ported from the
 [C#.NET library 'sweden_crs_transformations_4net'](https://github.com/TomasJohansson/sweden_crs_transformations_4net/)
-for transforming geographic coordinates between the following three kind of CRS (Coordinate Reference Systems): WGS84, SWEREF99 and RT90.
+for transforming geographic coordinates between the following three kind of CRS (Coordinate Reference Systems):  
+WGS84, SWEREF99 and RT90.
 (13 versions of SWEREF99, and 6 versions of RT90)
 
 That C#.NET library ('sweden_crs_transformations_4net') is
@@ -13,10 +14,25 @@ the mathematical logic has still been kept from the original 'MightyLittleGeodes
 
 # Maven/Gradle release
 
-No, not yet.
+Maven dependency configuration:  
+```xml
+<dependency>
+  <groupId>com.programmerare.sweden-crs-transformations-4jvm</groupId>
+  <artifactId>sweden-crs-transformations-4jvm</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+
+Gradle Groovy DSL configuration:  
+```groovy
+implementation 'com.programmerare.sweden-crs-transformations-4jvm:sweden-crs-transformations-4jvm:1.0.0'
+```
+https://search.maven.org/artifact/com.programmerare.sweden-crs-transformations-4jvm/sweden-crs-transformations-4jvm   
+https://mvnrepository.com/artifact/com.programmerare.sweden-crs-transformations-4jvm/sweden-crs-transformations-4jvm   
+
 
 # Implementations in other programming languages
-Currently I have implemented this JVM library also with the following programming languages and github repositories:   
+Currently I have implemented this Java/JVM library also with the following programming languages and github repositories:   
 C#.NET: [sweden_crs_transformations_4net](https://github.com/TomasJohansson/sweden_crs_transformations_4net)   
 TypeScript: [sweden_crs_transformations_4typescript](https://github.com/TomasJohansson/sweden_crs_transformations_4typescript)   
 Dart: [sweden_crs_transformations_4net](https://github.com/TomasJohansson/sweden_crs_transformations_4dart)   
@@ -53,7 +69,7 @@ public class JavaExample  {
             CrsProjection.SWEREF_99_TM.getEpsgNumber() // 3006
         );
 
-        // The 'toString' method renders as the name of the enum instance plus a an EPSG suffix
+        // The 'toString' method renders as the name of the enum instance plus an EPSG suffix
         // as illustrated in the below test assertion
         assertEquals(
             "SWEREF_99_TM(EPSG:3006)",
