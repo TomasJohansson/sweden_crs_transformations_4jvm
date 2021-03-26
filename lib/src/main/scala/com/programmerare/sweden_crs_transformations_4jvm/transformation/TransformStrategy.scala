@@ -9,28 +9,28 @@
  * For more information see the webpage below.
  * https://github.com/TomasJohansson/sweden_crs_transformations_4jvm
  */
-package com.programmerare.sweden_crs_transformations_4jvm.transformation;
+package com.programmerare.sweden_crs_transformations_4jvm.transformation
 
-import com.programmerare.sweden_crs_transformations_4jvm.CrsCoordinate;
-import com.programmerare.sweden_crs_transformations_4jvm.CrsProjection;
+import com.programmerare.sweden_crs_transformations_4jvm.{CrsCoordinate, CrsProjection}
 
 /**
  * Defines a method for transforming a coordinate to another coordinate reference system.
+ *
  * @see CrsCoordinate
  * @see CrsProjection
  */
-interface TransformStrategy {
-
-    /**
-     * Transforms a coordinate from one CRS (Coordinate Reference System) to another CRS.
-     * @param sourceCoordinate the source coordinate, i.e. X/Y values and a CRS.
-     * @param targetCrsProjection the target CRS
-     * @return a new coordinate instance representing the source coordinate in the target CRS 
-     * @see CrsCoordinate
-     * @see CrsProjection
-     */
-    CrsCoordinate transform(
-        CrsCoordinate sourceCoordinate,
-        CrsProjection targetCrsProjection
-    );
+trait TransformStrategy {
+  /**
+   * Transforms a coordinate from one CRS (Coordinate Reference System) to another CRS.
+   *
+   * @param sourceCoordinate    the source coordinate, i.e. X/Y values and a CRS.
+   * @param targetCrsProjection the target CRS
+   * @return a new coordinate instance representing the source coordinate in the target CRS 
+   * @see CrsCoordinate
+   * @see CrsProjection
+   */
+  def transform(
+    sourceCoordinate: CrsCoordinate,
+    targetCrsProjection: CrsProjection
+  ): CrsCoordinate
 }
